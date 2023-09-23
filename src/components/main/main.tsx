@@ -8,7 +8,6 @@ import {addNewTodoAC} from "../../store/reducers/todos-reducer/todo-actions";
 import {AddItemForm} from "../AddItemForm/AddItemForm";
 
 export const Main = () => {
-    console.log('main')
     const [drawerOpen,setDrawerOpen] = useState(false)
     const {taskReducer:{tasks},todoReducer:{todoList}} = useAppSelector(state => state)
     const dispatch = useAppDispatch()

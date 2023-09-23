@@ -10,7 +10,6 @@ type PropsType = {
 }
 
 export const AddItemForm: FC<PropsType> = React.memo(({callback,maxLengthValue}) => {
-    console.log('add item form')
     const [value, setValue] = useState('')
     const [lengthError,setLengthError] = useState(false)
     const [error,setError] = useState(false)

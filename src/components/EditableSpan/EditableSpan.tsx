@@ -7,7 +7,6 @@ interface PropsType {
 }
 
 export const EditableSpan: React.FC<PropsType> = React.memo(({updateItem, title}) => {
-    console.log('editable span')
     const [edit, setEdit] = useState(false)
     const [value, setValue] = useState(title)
     const handleChange = (e:ChangeEvent<HTMLInputElement>) => setValue(e.currentTarget.value)

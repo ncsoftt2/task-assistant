@@ -19,7 +19,6 @@ type PropsType = {
 }
 
 export const TodoList:FC<PropsType> = React.memo(({todoId,tasks,title,filter}) => {
-    console.log("todo list", todoId)
     const dispatch = useAppDispatch()
     const handleDeleteTodoList = () => dispatch(removeTodoAC(todoId))
     const handleAddNewTask = useCallback((newTitle:string) => dispatch(addNewTaskAC(todoId,newTitle)),[todoId])
