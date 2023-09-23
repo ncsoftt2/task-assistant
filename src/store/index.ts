@@ -8,9 +8,9 @@ declare global {
     }
 }
 
-const reducers = combineReducers({
-    todoReducer,
-    taskReducer
+export const reducers = combineReducers({
+    todoList:todoReducer,
+    tasks:taskReducer
 })
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose

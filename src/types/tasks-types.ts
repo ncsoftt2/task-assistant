@@ -5,7 +5,5 @@ export type TaskType = {
 }
 
 export type TaskStateType = {
-    tasks: {
-        [key:string]: TaskType[]
-    }
+    [key:string]: TaskType[]
 }

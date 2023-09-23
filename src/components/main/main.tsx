@@ -2,14 +2,19 @@ import React, {useCallback, useState} from "react";
 import { Header } from "../header/header"
 import {AppDrawer} from "../drawer/drawer";
 import {Container, Grid, Paper} from "@mui/material";
-import {useAppDispatch, useAppSelector} from "../../store/hooks";
+import {useAppDispatch} from "../../store/hooks";
 import { TodoList } from "../todo-list/todo-list";
 import {addNewTodoAC} from "../../store/reducers/todos-reducer/todo-actions";
 import {AddItemForm} from "../AddItemForm/AddItemForm";
+import {useSelector} from "react-redux";
+import {AppState} from "../../store";
+import {TodoListType} from "../../types/todos-types";
+import {TaskStateType} from "../../types/tasks-types";
 
 export const Main = () => {
     const [drawerOpen,setDrawerOpen] = useState(false)
-    const {taskReducer:{tasks},todoReducer:{todoList}} = useAppSelector(state => state)
+    const todoList = useSelector<AppState,TodoListType[]>(state => state.todoList)
+    const tasks = useSelector<AppState,TaskStateType>(state => state.tasks)
     const dispatch = useAppDispatch()
     const addNewTodo = useCallback((title:string) => dispatch(addNewTodoAC(title)),[dispatch])
     const todoListRender = todoList.map(todo => {
