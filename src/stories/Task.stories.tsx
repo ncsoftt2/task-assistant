@@ -1,6 +1,6 @@
 import React from "react";
-import {Task} from "./Task";
-import {MainStoreDecorators} from "../../stories/MainStoreDecorators";
+import {Task} from "../components/task/Task";
+import {MainStoreDecorators} from "./MainStoreDecorators";
 
 export default {
     title: "Single task",

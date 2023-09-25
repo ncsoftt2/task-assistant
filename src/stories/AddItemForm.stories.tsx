@@ -1,6 +1,6 @@
-import {AddItemForm} from "./AddItemForm";
+import {AddItemForm} from "../components/AddItemForm/AddItemForm";
 import {action} from "@storybook/addon-actions";
-import {MainStoreDecorators} from "../../stories/MainStoreDecorators";
+import {MainStoreDecorators} from "./MainStoreDecorators";
 
 export default {
     title:"Add item form component",

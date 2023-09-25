@@ -1,5 +1,6 @@
-import {Main} from "./main";
-import {MainStoreDecorators} from "../../stories/MainStoreDecorators";
+import { Main } from "../components/main/main"
+import {MainStoreDecorators} from "./MainStoreDecorators";
+
 
 export default {
     title: "main component",
