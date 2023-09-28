@@ -9,12 +9,10 @@ import {AddItemForm} from "../AddItemForm/AddItemForm";
 import {useSelector} from "react-redux";
 import {AppState} from "../../store";
 import {TodoListType} from "../../types/todos-types";
-import {TaskStateType} from "../../types/tasks-types";
 
 export const Main = () => {
     const [drawerOpen,setDrawerOpen] = useState(false)
     const todoList = useSelector<AppState,TodoListType[]>(state => state.todoList)
-    const tasks = useSelector<AppState,TaskStateType>(state => state.tasks)
     const dispatch = useAppDispatch()
     const addNewTodo = useCallback((title:string) => dispatch(addNewTodoAC(title)),[dispatch])
     const todoListRender = todoList.map(todo => {
@@ -23,10 +21,7 @@ export const Main = () => {
                 <Paper elevation={5} sx={{p: 1,margin:"0 auto"}}>
                     <TodoList
                         key={todo.id}
-                        todoId={todo.id}
-                        title={todo.title}
-                        tasks={tasks[todo.id]}
-                        filter={todo.filter}
+                        todoList={todo}
                     />
                 </Paper>
             </Grid>

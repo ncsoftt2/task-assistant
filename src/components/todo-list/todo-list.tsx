@@ -9,20 +9,21 @@ import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from '@mui/icons-material/Delete';
 import {changeTodoFilterAC, removeTodoAC} from "../../store/reducers/todos-reducer/todo-actions";
-import {FilterType} from "../../types/todos-types";
+import {FilterType, TodoListType} from "../../types/todos-types";
+import {useSelector} from "react-redux";
+import {AppState} from "../../store";
 
 type PropsType = {
-    todoId:string
-    tasks: TaskType[]
-    title:string
-    filter:FilterType
+    todoList: TodoListType
 }
 
-export const TodoList:FC<PropsType> = React.memo(({todoId,tasks,title,filter}) => {
+export const TodoList:FC<PropsType> = React.memo(({todoList:{id,title,filter}}) => {
+    const tasks = useSelector<AppState,TaskType[]>(state => state.tasks[id])
     const dispatch = useAppDispatch()
-    const handleDeleteTodoList = () => dispatch(removeTodoAC(todoId))
-    const handleAddNewTask = useCallback((newTitle:string) => dispatch(addNewTaskAC(todoId,newTitle)),[todoId])
-    const handleChangeFilter = (filter:FilterType) => () => dispatch(changeTodoFilterAC(todoId,filter))
+    const handleDeleteTodoList = () => dispatch(removeTodoAC(id))
+    const handleAddNewTask = useCallback((newTitle:string) => dispatch(addNewTaskAC(id,newTitle)),[id])
+    const handleChangeFilter = (filter:FilterType) => () => dispatch(changeTodoFilterAC(id,filter))
+
     const filterTask = (task:TaskType[],filter:FilterType) => {
         switch (filter){
             case "active":
@@ -34,10 +35,9 @@ export const TodoList:FC<PropsType> = React.memo(({todoId,tasks,title,filter}) =
     }
     const filteredTasks = filterTask(tasks,filter)
     const tasksRender = filteredTasks.map(task => {
-        return <Task
-            key={task.id}
-            todoId={todoId}
-            tasks={task}
+        return <Task key={task.id}
+                     todoId={id}
+                     tasks={task}
         />
     })
     return (
