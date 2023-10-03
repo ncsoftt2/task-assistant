@@ -7,12 +7,11 @@ import { TodoList } from "../todo-list/todo-list";
 import {addNewTodoAC} from "../../store/reducers/todos-reducer/todo-actions";
 import {AddItemForm} from "../AddItemForm/AddItemForm";
 import {useSelector} from "react-redux";
-import {AppState} from "../../store";
-import {TodoListType} from "../../types/todos-types";
+import {todoListSelector} from "../../store/selectors/selectors";
 
 export const Main = () => {
     const [drawerOpen,setDrawerOpen] = useState(false)
-    const todoList = useSelector<AppState,TodoListType[]>(state => state.todoList)
+    const todoList = useSelector(todoListSelector)
     const dispatch = useAppDispatch()
     const addNewTodo = useCallback((title:string) => dispatch(addNewTodoAC(title)),[dispatch])
     const todoListRender = todoList.map(todo => {

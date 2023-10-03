@@ -11,14 +11,15 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import {changeTodoFilterAC, removeTodoAC} from "../../store/reducers/todos-reducer/todo-actions";
 import {FilterType, TodoListType} from "../../types/todos-types";
 import {useSelector} from "react-redux";
-import {AppState} from "../../store";
+import {tasksSelector} from "../../store/selectors/tasks-selector";
 
 type PropsType = {
     todoList: TodoListType
 }
 
 export const TodoList:FC<PropsType> = React.memo(({todoList:{id,title,filter}}) => {
-    const tasks = useSelector<AppState,TaskType[]>(state => state.tasks[id])
+    const tasks = useSelector(tasksSelector)
+    const newTasks = tasks[id]
     const dispatch = useAppDispatch()
     const handleDeleteTodoList = () => dispatch(removeTodoAC(id))
     const handleAddNewTask = useCallback((newTitle:string) => dispatch(addNewTaskAC(id,newTitle)),[id])
@@ -33,7 +34,7 @@ export const TodoList:FC<PropsType> = React.memo(({todoList:{id,title,filter}}) 
             default: return task
         }
     }
-    const filteredTasks = filterTask(tasks,filter)
+    const filteredTasks = filterTask(newTasks,filter)
     const tasksRender = filteredTasks.map(task => {
         return <Task key={task.id}
                      todoId={id}
@@ -60,7 +61,7 @@ export const TodoList:FC<PropsType> = React.memo(({todoList:{id,title,filter}}) 
             <List sx={{gap:2}}>
                 {tasksRender}
             </List>
-            {tasks.length > 0 && (
+            {newTasks.length > 0 && (
                 <ButtonGroup variant="contained" sx={{width:"100%"}}>
                     <Button
                     variant={filter === 'all' ? 'contained' : "outlined"}
