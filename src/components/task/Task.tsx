@@ -5,7 +5,8 @@ import IconButton from "@mui/material/IconButton";
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import {changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from "../../store/reducers/task-reducer/task-actions";
 import {useAppDispatch} from "../../store/hooks";
-import { EditableSpan } from "../EditableSpan/EditableSpan";
+import {EditableSpan} from "../EditableSpan/EditableSpan";
+import {useWindowSize} from "../useWindowSize/useWindowSize";
 
 
 type PropsType = {
@@ -21,22 +22,39 @@ export const Task: FC<PropsType> = React.memo(({tasks: {id, title, isDone}, todo
     }
     const handleChangeTaskTitle = useCallback((newTitle: string) => {
         dispatch(changeTaskTitleAC(todoId, id, newTitle))
-    },[todoId,id])
+    }, [todoId, id])
+    const size = useWindowSize()
     return (
-        <ListItem sx={{m: '10px 0', p: 0, gap: 2,display:'flex',justifyContent:'space-between'}}>
-            <Box>
-                <Checkbox
-                    sx={{p: 0}}
-                    color={'success'}
-                    size={'small'}
-                    checked={isDone}
-                    onChange={(e) => handleChangeStatus(e.currentTarget.checked)}
-                />
-                <EditableSpan title={title} updateItem={handleChangeTaskTitle}/>
-            </Box>
-            <IconButton sx={{padding: 0}} onClick={handleRemoveTask}>
-                <DeleteOutlineIcon color='error'/>
-            </IconButton>
-        </ListItem>
+        size > 1000
+            ? <ListItem sx={{m: '10px 0', p: 0, gap: 2, display: 'flex', justifyContent: 'space-between'}}>
+                <Box>
+                    <Checkbox
+                        sx={{p: 0}}
+                        color={'success'}
+                        size={'small'}
+                        checked={isDone}
+                        onChange={(e) => handleChangeStatus(e.currentTarget.checked)}
+                    />
+                    <EditableSpan title={title} updateItem={handleChangeTaskTitle}/>
+                </Box>
+                <IconButton sx={{padding: 0}} onClick={handleRemoveTask}>
+                    <DeleteOutlineIcon color='error'/>
+                </IconButton>
+            </ListItem>
+            : <ListItem sx={{m: '10px 0', p: 0, gap: 2, display: 'flex', justifyContent: 'space-between'}}>
+                <Box>
+                    <Checkbox
+                        sx={{p: 0}}
+                        color={'success'}
+                        size={'small'}
+                        checked={isDone}
+                        onChange={(e) => handleChangeStatus(e.currentTarget.checked)}
+                    />
+                    <EditableSpan title={title} updateItem={handleChangeTaskTitle}/>
+                </Box>
+                <IconButton sx={{padding: 0}} onClick={handleRemoveTask}>
+                    <DeleteOutlineIcon color='error' fontSize={'small'}/>
+                </IconButton>
+            </ListItem>
     )
 })

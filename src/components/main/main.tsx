@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import { Header } from "../header/header"
 import {AppDrawer} from "../drawer/drawer";
 import {Container, Grid, Paper} from "@mui/material";
@@ -8,22 +8,34 @@ import {addNewTodoAC} from "../../store/reducers/todos-reducer/todo-actions";
 import {AddItemForm} from "../AddItemForm/AddItemForm";
 import {useSelector} from "react-redux";
 import {todoListSelector} from "../../store/selectors/selectors";
+import {useWindowSize} from "../useWindowSize/useWindowSize";
 
 export const Main = () => {
     const [drawerOpen,setDrawerOpen] = useState(false)
     const todoList = useSelector(todoListSelector)
     const dispatch = useAppDispatch()
     const addNewTodo = useCallback((title:string) => dispatch(addNewTodoAC(title)),[dispatch])
+    const size = useWindowSize()
     const todoListRender = todoList.map(todo => {
         return (
-            <Grid item sx={{p:1}} xs={3} key={todo.id}>
-                <Paper elevation={5} sx={{p: 1,margin:"0 auto"}}>
-                    <TodoList
-                        key={todo.id}
-                        todoList={todo}
-                    />
-                </Paper>
-            </Grid>
+            size > 1000 ? (
+                <Grid item sx={{p:1}} xs={3} key={todo.id}>
+                    <Paper elevation={5} sx={{p: 1,margin:"0 auto"}}>
+                        <TodoList
+                            key={todo.id}
+                            todoList={todo}
+                        />
+                    </Paper>
+                </Grid>
+            )
+                : <Grid item sx={{p:1}} xs={12} key={todo.id}>
+                    <Paper elevation={5} sx={{p: 1,margin:"0 auto"}}>
+                        <TodoList
+                            key={todo.id}
+                            todoList={todo}
+                        />
+                    </Paper>
+                </Grid>
         )
     })
     return (
