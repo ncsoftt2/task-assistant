@@ -20,6 +20,7 @@ type PropsType = {
 }
 
 export const TodoList: FC<PropsType> = React.memo(({todoList: {id, title, filter}}) => {
+    console.log('TodoList')
     const tasks = useSelector(tasksSelector)
     const newTasks = tasks[id]
     const dispatch = useAppDispatch()

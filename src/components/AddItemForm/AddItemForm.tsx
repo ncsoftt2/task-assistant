@@ -6,12 +6,12 @@ import React from "react";
 import {useAddItemForm} from "./hooks/useAddItemForm";
 import {useWindowSize} from "../useWindowSize/useWindowSize";
 
-type PropsType = {
+export type FormPropsType = {
     callback: (title: string) => void
     maxLengthValue: number
 }
 
-export const AddItemForm: FC<PropsType> = React.memo(({callback, maxLengthValue}) => {
+export const AddItemForm: FC<FormPropsType> = React.memo(({callback, maxLengthValue}) => {
     const {
         value, handleChange, lengthError, error,
         addItemOnEnter, handleAddItem

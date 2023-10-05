@@ -3,6 +3,7 @@ import {AppState, reducers} from "../store";
 import {ThemeProvider} from "@mui/material";
 import {theme} from "../styles/GlobalTheme";
 import {legacy_createStore} from "redux";
+import React from "react";
 
 const initialState = {
     todoList: [
@@ -28,11 +29,11 @@ const initialState = {
 
 export const storyBookStore = legacy_createStore(reducers, initialState as AppState)
 
-export const MainStoreDecorators = (story: any) => {
+export const MainStoreDecorators = (storyFn: () => React.ReactNode) => {
     return (
         <Provider store={storyBookStore}>
             <ThemeProvider theme={theme}>
-                {story()}
+                {storyFn()}
             </ThemeProvider>
         </Provider>
     )
