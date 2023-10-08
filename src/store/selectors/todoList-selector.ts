@@ -1,4 +1,4 @@
 import {AppState} from "../index";
-import {TodoListType} from "../../types/todos-types";
+import {TodoListReducerType} from "../../types/todolists-types";
 
-export const todoListSelector = (state:AppState):TodoListType[] => state.todoList
+export const todoListSelector = (state:AppState):TodoListReducerType[] => state.todoList

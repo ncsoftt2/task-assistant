@@ -4,30 +4,43 @@ import {ThemeProvider} from "@mui/material";
 import {theme} from "../styles/GlobalTheme";
 import {legacy_createStore} from "redux";
 import React from "react";
+import {TaskStatus, TodoTaskPriority} from "../api/tasks-api";
 
-const initialState = {
+const initialState:AppState = {
     todoList: [
-        {id:'1',title:'what to learn',filter:'all'},
-        {id:'2',title:'what to buy',filter:'active'},
-        {id:'3',title:'what to eat',filter:'completed'},
+        {id: '1', addedDate: '', order: 0, title: 'What to learn',filter: "all"},
+        {id: '2', addedDate: '', order: 0, title: 'What to buy',filter: "active"},
+        {id: '3', addedDate: '', order: 0, title: 'What to eat',filter: "completed"},
     ],
     tasks: {
         ['1']: [
-            {id:'1',title:'new title',isDone:true},
-            {id:'2',title:'new title',isDone:false},
+            {description: '', title: 'new title', status: TaskStatus.New, priority: TodoTaskPriority.Low,
+                startDate: '', deadline: '', id: '1', todoListId: '1', order: 0, addedDate: '',
+            },
+            {description: '', title: 'new title', status: TaskStatus.New, priority: TodoTaskPriority.Low,
+                startDate: '', deadline: '', id: '2', todoListId: '1', order: 0, addedDate: '',
+            },
         ],
         ['2']: [
-            {id:'1',title:'new title',isDone:false},
-            {id:'2',title:'new title',isDone:true},
+            {description: '', title: 'new title', status: TaskStatus.New, priority: TodoTaskPriority.Low,
+                startDate: '', deadline: '', id: '1', todoListId: '2', order: 0, addedDate: '',
+            },
+            {description: '', title: 'new title', status: TaskStatus.New, priority: TodoTaskPriority.Low,
+                startDate: '', deadline: '', id: '2', todoListId: '2', order: 0, addedDate: '',
+            },
         ],
         ['3']: [
-            {id:'1',title:'new title',isDone:true},
-            {id:'2',title:'new title',isDone:false},
+            {description: '', title: 'new title', status: TaskStatus.New, priority: TodoTaskPriority.Low,
+                startDate: '', deadline: '', id: '3', todoListId: '3', order: 0, addedDate: '',
+            },
+            {description: '', title: 'new title', status: TaskStatus.New, priority: TodoTaskPriority.Low,
+                startDate: '', deadline: '', id: '3', todoListId: '3', order: 0, addedDate: '',
+            },
         ],
     }
 }
 
-export const storyBookStore = legacy_createStore(reducers, initialState as AppState)
+export const storyBookStore = legacy_createStore(reducers, initialState)
 
 export const MainStoreDecorators = (storyFn: () => React.ReactNode) => {
     return (

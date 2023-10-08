@@ -1,4 +1,5 @@
 import {AddNewTodoType, RemoveTodoType} from "../todos-reducer/todo-actions";
+import {TaskStatus} from "../../../api/tasks-api";
 
 export type RemoveTaskType = ReturnType<typeof removeTaskAC>
 export type AddNewTaskType = ReturnType<typeof addNewTaskAC>
@@ -11,6 +12,6 @@ export const addNewTaskAC = (todoId:string,title:string) => ({type:"ADD-NEW-TASK
 export const changeTaskTitleAC = (todoId:string,taskId:string,title:string) => (
     {type:"CHANGE-TASK-TITLE",todoId,taskId,title} as const
 )
-export const changeTaskStatusAC = (todoId:string,taskId:string,isDone:boolean) => (
-    {type:"CHANGE-TASK-STATUS",todoId,taskId,isDone} as const
+export const changeTaskStatusAC = (todoId:string,taskId:string,status:TaskStatus) => (
+    {type:"CHANGE-TASK-STATUS",todoId,taskId,status} as const
 )

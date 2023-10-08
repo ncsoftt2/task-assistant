@@ -1,6 +1,7 @@
-import {TaskStateType, TaskType} from "../../../types/tasks-types";
+import {TaskStateType} from "../../../types/tasks-types";
 import {v1} from "uuid";
 import {TaskActionType} from "./task-actions";
+import {TaskStatus, TaskType, TodoTaskPriority} from "../../../api/tasks-api";
 
 const initialState: TaskStateType = {}
 
@@ -12,7 +13,18 @@ export const taskReducer = (state: TaskStateType = initialState, action: TaskAct
                 [action.todoId]: state[action.todoId].filter(t => t.id !== action.taskId)
             }
         case "ADD-NEW-TASK":
-            const newTask: TaskType = {id: v1(), title: action.title, isDone: false}
+            const newTask: TaskType = {
+                id: v1(),
+                title: action.title,
+                status: TaskStatus.New,
+                priority: TodoTaskPriority.Low,
+                addedDate: "",
+                deadline: "",
+                description:"",
+                order: 0,
+                startDate: "",
+                todoListId: action.todoId
+            }
             return {
                 ...state,
                 [action.todoId]: [...state[action.todoId], newTask]
@@ -28,7 +40,7 @@ export const taskReducer = (state: TaskStateType = initialState, action: TaskAct
             return {
                 ...state,
                 [action.todoId]: state[action.todoId].map(t => t.id === action.taskId ? {
-                    ...t, isDone: action.isDone
+                    ...t, status: action.status
                 } : t)
             }
         case "ADD-NEW-TODO":

@@ -1,39 +1,37 @@
-import {TaskType} from "../../types/tasks-types";
 import React, {FC, useCallback} from "react";
 import {Box, Button, ButtonGroup, List} from "@mui/material";
 import {Task} from "../task/Task";
 import {AddItemForm} from "../AddItemForm/AddItemForm";
 import {useAppDispatch} from "../../store/hooks";
 import {addNewTaskAC} from "../../store/reducers/task-reducer/task-actions";
-import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from '@mui/icons-material/Delete';
 import {changeTodoFilterAC, changeTodoTitleAC, removeTodoAC} from "../../store/reducers/todos-reducer/todo-actions";
-import {FilterType, TodoListType} from "../../types/todos-types";
 import {useSelector} from "react-redux";
 import {tasksSelector} from "../../store/selectors/tasks-selector";
 import {EditableSpan} from "../EditableSpan/EditableSpan";
 import {useWindowSize} from "../useWindowSize/useWindowSize";
+import {TaskStatus, TaskType} from "../../api/tasks-api";
+import {TodoFilterType, TodoListReducerType} from "../../types/todolists-types";
 
 type PropsType = {
-    todoList: TodoListType
+    todoList: TodoListReducerType
 }
 
 export const TodoList: FC<PropsType> = React.memo(({todoList: {id, title, filter}}) => {
-    console.log('TodoList')
     const tasks = useSelector(tasksSelector)
     const newTasks = tasks[id]
     const dispatch = useAppDispatch()
     const handleDeleteTodoList = () => dispatch(removeTodoAC(id))
     const handleAddNewTask = useCallback((newTitle: string) => dispatch(addNewTaskAC(id, newTitle)), [id])
-    const handleChangeFilter = (filter: FilterType) => () => dispatch(changeTodoFilterAC(id, filter))
+    const handleChangeFilter = (filter: TodoFilterType) => () => dispatch(changeTodoFilterAC(id, filter))
     const handleChangeTodoListTitle = (newTitle: string) => dispatch(changeTodoTitleAC(id, newTitle))
-    const filterTask = (task: TaskType[], filter: FilterType) => {
+    const filterTask = (task: TaskType[], filter: TodoFilterType) => {
         switch (filter) {
             case "active":
-                return task.filter(({isDone}) => !isDone)
+                return task.filter(({status}) => status === TaskStatus.New)
             case "completed":
-                return task.filter(({isDone}) => isDone)
+                return task.filter(({status}) => status === TaskStatus.Completed)
             default:
                 return task
         }

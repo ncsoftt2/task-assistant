@@ -2,21 +2,39 @@ import {TaskStateType} from "../../../types/tasks-types";
 import {taskReducer} from "./task-reducer";
 import {addNewTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from "./task-actions";
 import {addNewTodoAC, removeTodoAC} from "../todos-reducer/todo-actions";
-import {TodoListType} from "../../../types/todos-types";
 import {todoReducer} from "../todos-reducer/todo-reducer";
+import {TodoListReducerType} from "../../../types/todolists-types";
+import {TaskStatus, TodoTaskPriority} from "../../../api/tasks-api";
 
-let startState:TaskStateType
-let title:string
+let startState: TaskStateType
+let title: string
 
 beforeEach(() => {
     startState = {
         '1': [
-            {id: '1', title: 'Typescript', isDone: false},
-            {id: '2', title: 'React', isDone: false},
+            {
+                id: '1', title: 'Typescript',
+                todoListId: '', startDate: '', order: 0, addedDate: '', description: "",
+                deadline: "", priority: TodoTaskPriority.Low, status: TaskStatus.New
+            },
+            {
+                id: '2', title: 'React',
+                todoListId: '', startDate: '', order: 0, addedDate: '', description: "",
+                deadline: "", priority: TodoTaskPriority.Low, status: TaskStatus.New
+            },
         ],
         '2': [
-            {id: '1', title: 'Redux', isDone: false},
-            {id: '2', title: 'Javascript', isDone: false},
+            {
+                id: '1', title: 'Redux',
+                todoListId: '', startDate: '', order: 0, addedDate: '', description: "",
+                deadline: "", priority: TodoTaskPriority.Low, status: TaskStatus.New
+            },
+            {
+                id: '2', title: 'Javascript',
+                todoListId: '', startDate: '', order: 0, addedDate: '', description: "",
+                deadline: "", priority: TodoTaskPriority.Low, status: TaskStatus.New
+
+            },
         ],
     }
     title = 'new task title'
@@ -38,8 +56,8 @@ describe('task-reducer', () => {
         expect(endState['1'][0].title).toBe(title)
     })
     test('correct task status should be changed', () => {
-        const endState = taskReducer(startState, changeTaskStatusAC('1', '1', true))
-        expect(endState['1'][0].isDone).toBe(true)
+        const endState = taskReducer(startState, changeTaskStatusAC('1', '1', TaskStatus.New))
+        expect(endState['1'][0].status).toBe(TaskStatus.New)
     })
     test('add new todo', () => {
         const endState = taskReducer(startState, addNewTodoAC(title))
@@ -57,7 +75,7 @@ describe('task-reducer', () => {
     })
     test('added new todo should be same key like task', () => {
         const startStateTask: TaskStateType = {}
-        const startStateTodo: TodoListType[] = []
+        const startStateTodo: TodoListReducerType[] = []
         const action = addNewTodoAC(title)
         const endTaskState = taskReducer(startStateTask, action)
         const endTodoState = todoReducer(startStateTodo, action)
@@ -67,4 +85,4 @@ describe('task-reducer', () => {
         expect(keyOfTask).toBe(action.todoId)
         expect(keyOfTodo).toBe(action.todoId)
     })
-});
+})

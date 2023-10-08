@@ -1,34 +1,30 @@
 import {instance} from "./api";
 
-export type TodoListType = {
-    id:string
-    title:string
+
+export type TodoListApiType = {
+    id: string
     addedDate: string
     order: number
+    title: string
 }
 
-export type ResponseType<D> = {
+type ResponseTodoListType<D = {}> = {
     resultCode: number
     messages: string[],
     data: D
 }
 
-
 export const todoListAPI = {
     async getTodoLists(){
-        return await instance.get<TodoListType[]>(`/todo-lists`)
-            .then(res => res.data)
+        return await instance.get<TodoListApiType[]>(`/todo-lists`)
     },
-    async createTodoList(title:string) {
-        return await instance.post<ResponseType<{ item: TodoListType }>>(`/todo-lists`, {title})
-            .then(res => res.data.data.item)
+    async createTodoList(title:string){
+        return await instance.post<ResponseTodoListType>(`/todo-lists`,{title})
     },
-    async deleteTodoList(id:string) {
-        return await instance.delete<ResponseType<{}>>(`/todo-lists/${id}`)
-            .then(res => res.data)
+    async deleteTodoList(todoId:string){
+        return await instance.delete<ResponseTodoListType>(`/todo-lists/${todoId}`)
     },
-    async updateTodoList(id:string,title:string) {
-        return await instance.put<ResponseType<{}>>(`/todo-lists/${id}`,{title})
-            .then(res => res.data)
-    },
+    async updateTodoList(todoId:string,title:string){
+        return await instance.put<ResponseTodoListType<{item: TodoListApiType}>>(`todo-lists/${todoId}`, {title})
+    }
 }

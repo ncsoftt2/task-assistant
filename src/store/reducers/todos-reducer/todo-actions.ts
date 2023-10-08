@@ -1,5 +1,5 @@
 import {v1} from "uuid";
-import {FilterType} from "../../../types/todos-types";
+import {TodoFilterType} from "../../../types/todolists-types";
 
 export type RemoveTodoType = ReturnType<typeof removeTodoAC>
 export type AddNewTodoType = ReturnType<typeof addNewTodoAC>
@@ -12,6 +12,6 @@ export const addNewTodoAC = (title:string) => ({type:"ADD-NEW-TODO",title,todoId
 export const changeTodoTitleAC = (todoId:string,title:string) => (
     {type:"CHANGE-TODO-TITLE",title,todoId} as const
 )
-export const changeTodoFilterAC = (todoId:string,filter:FilterType) => (
+export const changeTodoFilterAC = (todoId:string,filter:TodoFilterType) => (
     {type:"CHANGE-TODO-FILTER",filter,todoId} as const
 )

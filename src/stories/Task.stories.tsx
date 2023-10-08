@@ -3,9 +3,8 @@ import {Task} from "../components/task/Task";
 import {MainStoreDecorators} from "./MainStoreDecorators";
 import {Meta, StoryObj} from "@storybook/react";
 import {useSelector} from "react-redux";
-import {tasksSelector} from "../store/selectors/selectors";
 import {AppState} from "../store";
-import {TaskType} from "../types/tasks-types";
+import {TaskStatus, TaskType, TodoTaskPriority} from "../api/tasks-api";
 
 const meta: Meta<typeof Task> = {
     title: "TODOLISTS/Task",
@@ -22,7 +21,18 @@ type Story = StoryObj<typeof Task>
 
 const TaskRedux = () => {
     let task = useSelector<AppState,TaskType>(state => state.tasks['1'][0])
-    if(!task) task ={id: '1',title:'unknown',isDone:true}
+    if(!task) task ={
+        id: '1',
+        title:'unknown',
+        status:TaskStatus.New,
+        todoListId: '',
+        addedDate: '',
+        priority:TodoTaskPriority.Low,
+        deadline:'',
+        description:'',
+        order:0,
+        startDate: ''
+    }
     return <Task tasks={task} todoId={'1'} />
 }
 

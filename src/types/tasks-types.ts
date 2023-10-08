@@ -1,8 +1,5 @@
-export type TaskType = {
-    id:string
-    title:string
-    isDone:boolean
-}
+import {TaskType} from "../api/tasks-api";
+
 
 export type TaskStateType = {
     [key:string]: TaskType[]

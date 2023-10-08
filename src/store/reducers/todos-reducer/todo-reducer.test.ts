@@ -1,15 +1,16 @@
-import {TodoListType} from "../../../types/todos-types";
+
 import {todoReducer} from "./todo-reducer";
 import {addNewTodoAC, changeTodoFilterAC, changeTodoTitleAC, removeTodoAC} from "./todo-actions";
+import {TodoListReducerType} from "../../../types/todolists-types";
 
-let startState:TodoListType[]
+let startState:TodoListReducerType[]
 let title:string
 
 beforeEach(() => {
     startState = [
-        {id:"1",title:"what to learn",filter:"all"},
-        {id:"2",title:"what to buy",filter:"all"},
-        {id:"3",title:"what to ear",filter:"all"},
+        {id:"1",title:"what to learn",filter:"all",addedDate:'',order:0},
+        {id:"2",title:"what to buy",filter:"all",addedDate:'',order:0},
+        {id:"3",title:"what to eat",filter:"all",addedDate:'',order:0},
     ]
     title = 'new todo title'
 })
