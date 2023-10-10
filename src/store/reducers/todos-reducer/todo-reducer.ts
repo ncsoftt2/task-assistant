@@ -21,6 +21,14 @@ export const todoReducer = (state: TodoListReducerType[] = initialState, action:
             return state.map(t => t.id === action.todoId ? {...t, title: action.title} : t)
         case "CHANGE-TODO-FILTER":
             return state.map(t => t.id === action.todoId ? {...t, filter: action.filter} : t)
+
+        case "SET-TODOLIST":
+            return action.todoList.map(tl => {
+                return {
+                    ...tl,
+                    filter:'all'
+                }
+            })
         default:
             return state
     }

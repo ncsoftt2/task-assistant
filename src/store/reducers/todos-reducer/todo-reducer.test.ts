@@ -1,7 +1,8 @@
 
 import {todoReducer} from "./todo-reducer";
-import {addNewTodoAC, changeTodoFilterAC, changeTodoTitleAC, removeTodoAC} from "./todo-actions";
+import {addNewTodoAC, changeTodoFilterAC, changeTodoTitleAC, removeTodoAC, setTodoListAC} from "./todo-actions";
 import {TodoListReducerType} from "../../../types/todolists-types";
+import {TodoListApiType} from "../../../api/todolist-api";
 
 let startState:TodoListReducerType[]
 let title:string
@@ -33,4 +34,15 @@ describe('todo-reducer',() => {
         const endState = todoReducer(startState,changeTodoFilterAC('1','active'))
         expect(endState[0].filter).toBe('active')
     })
-});
+
+    test('todolist should be added to the state',() => {
+        const startTodoListState:TodoListReducerType[] = []
+        const dataTodoListState:TodoListApiType[] = [
+            {id:"1",title:"what to learn",addedDate:'',order:0},
+            {id:"2",title:"what to buy",addedDate:'',order:0},
+            {id:"3",title:"what to eat",addedDate:'',order:0}
+        ]
+        const endState = todoReducer(startTodoListState,setTodoListAC(dataTodoListState))
+        expect(endState.length).toBe(3)
+    })
+})

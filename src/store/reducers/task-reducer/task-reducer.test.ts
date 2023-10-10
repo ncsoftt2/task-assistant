@@ -1,7 +1,7 @@
 import {TaskStateType} from "../../../types/tasks-types";
 import {taskReducer} from "./task-reducer";
-import {addNewTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from "./task-actions";
-import {addNewTodoAC, removeTodoAC} from "../todos-reducer/todo-actions";
+import {addNewTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, setTaskAC} from "./task-actions";
+import {addNewTodoAC, removeTodoAC, setTodoListAC} from "../todos-reducer/todo-actions";
 import {todoReducer} from "../todos-reducer/todo-reducer";
 import {TodoListReducerType} from "../../../types/todolists-types";
 import {TaskStatus, TodoTaskPriority} from "../../../api/tasks-api";
@@ -84,5 +84,29 @@ describe('task-reducer', () => {
         const keyOfTodo = endTodoState[0].id
         expect(keyOfTask).toBe(action.todoId)
         expect(keyOfTodo).toBe(action.todoId)
+    })
+
+    test('empty array of task should be added when we set todolist',() => {
+        const startTodoListState:TodoListReducerType[] = [
+            {id:"1",title:"what to learn",filter:'all',addedDate:'',order:0},
+            {id:"2",title:"what to buy",filter:'all',addedDate:'',order:0},
+            {id:"3",title:"what to eat",filter:'all',addedDate:'',order:0}
+        ]
+        const endState = taskReducer({},setTodoListAC(startTodoListState))
+        const keys = Object.keys(endState)
+        expect(keys.length).toBe(3)
+        expect(endState['1']).toEqual([])
+        expect(endState['2']).toEqual([])
+        expect(endState['3']).toEqual([])
+    })
+
+    test('set tasks for todolist',() => {
+        const action = setTaskAC('1',startState['1'])
+        const endState = taskReducer({
+            ['1']:[],
+            ['2']:[]
+        },action)
+        expect(endState['1'].length).toBe(2)
+        expect(endState['2'].length).toBe(0)
     })
 })
