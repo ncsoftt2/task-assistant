@@ -1,9 +1,9 @@
-import React, {FC, useCallback} from "react";
+import React, {FC, useCallback, useEffect} from "react";
 import {Box, Button, ButtonGroup, List} from "@mui/material";
 import {Task} from "../task/Task";
 import {AddItemForm} from "../AddItemForm/AddItemForm";
 import {useAppDispatch, useAppSelector} from "../../store/hooks";
-import {addNewTaskAC} from "../../store/reducers/task-reducer/task-actions";
+import {addNewTaskAC, getTaskThunk} from "../../store/reducers/task-reducer/task-actions";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from '@mui/icons-material/Delete';
 import {changeTodoFilterAC, changeTodoTitleAC, removeTodoAC} from "../../store/reducers/todos-reducer/todo-actions";
@@ -17,6 +17,7 @@ type PropsType = {
 }
 
 export const TodoList: FC<PropsType> = React.memo(({todoList: {id, title, filter}}) => {
+
     const tasks = useAppSelector(state => state.tasks[id])
     const dispatch = useAppDispatch()
     const handleDeleteTodoList = () => dispatch(removeTodoAC(id))
@@ -41,6 +42,11 @@ export const TodoList: FC<PropsType> = React.memo(({todoList: {id, title, filter
         />
     })
     const size = useWindowSize()
+
+    useEffect(() => {
+        dispatch(getTaskThunk(id))
+    }, [tasks.length]);
+
     return (
         size > 1000
             ? (

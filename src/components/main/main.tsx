@@ -1,10 +1,10 @@
-import React, {useCallback, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import { Header } from "../header/header"
 import {AppDrawer} from "../drawer/drawer";
 import {Container, Grid, Paper} from "@mui/material";
 import {useAppDispatch, useAppSelector} from "../../store/hooks";
 import { TodoList } from "../todo-list/todo-list";
-import {addNewTodoAC} from "../../store/reducers/todos-reducer/todo-actions";
+import {addNewTodoAC, getTodoListThunk} from "../../store/reducers/todos-reducer/todo-actions";
 import {AddItemForm} from "../AddItemForm/AddItemForm";
 import {todoListSelector} from "../../store/selectors/selectors";
 import {useWindowSize} from "../useWindowSize/useWindowSize";
@@ -15,6 +15,11 @@ export const Main = () => {
     const dispatch = useAppDispatch()
     const addNewTodo = useCallback((title:string) => dispatch(addNewTodoAC(title)),[dispatch])
     const size = useWindowSize()
+
+    useEffect(() => {
+        dispatch(getTodoListThunk())
+    }, [todoList.length])
+
     const todoListRender = todoList.map(todo => {
         return (
             size > 1000 ? (
