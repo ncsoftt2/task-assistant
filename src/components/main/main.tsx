@@ -2,17 +2,16 @@ import React, {useCallback, useState} from "react";
 import { Header } from "../header/header"
 import {AppDrawer} from "../drawer/drawer";
 import {Container, Grid, Paper} from "@mui/material";
-import {useAppDispatch} from "../../store/hooks";
+import {useAppDispatch, useAppSelector} from "../../store/hooks";
 import { TodoList } from "../todo-list/todo-list";
 import {addNewTodoAC} from "../../store/reducers/todos-reducer/todo-actions";
 import {AddItemForm} from "../AddItemForm/AddItemForm";
-import {useSelector} from "react-redux";
 import {todoListSelector} from "../../store/selectors/selectors";
 import {useWindowSize} from "../useWindowSize/useWindowSize";
 
 export const Main = () => {
     const [drawerOpen,setDrawerOpen] = useState(false)
-    const todoList = useSelector(todoListSelector)
+    const todoList = useAppSelector(todoListSelector)
     const dispatch = useAppDispatch()
     const addNewTodo = useCallback((title:string) => dispatch(addNewTodoAC(title)),[dispatch])
     const size = useWindowSize()
