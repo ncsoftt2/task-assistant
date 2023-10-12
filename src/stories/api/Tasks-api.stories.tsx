@@ -1,6 +1,6 @@
 import {ChangeEvent, useState} from "react";
 import {TodoListApiType} from "../../api/todolist-api";
-import {tasksAPI, TaskType} from "../../api/tasks-api";
+import {tasksAPI, TaskStatus, TodoTaskPriority} from "../../api/tasks-api";
 
 export default {
     title: 'API/Tasks'
@@ -71,11 +71,17 @@ export const UpdateTaskTitle = () => {
     const [todoId,setTodoId] = useState<string>('')
     const [taskId,setTaskId] = useState<string>('')
     const [title,setTitle] = useState<string>('')
+    const [description,setDescription] = useState<string>('')
+    const [status,setStatus] = useState<TaskStatus>(TaskStatus.New)
+    const [priority,setPriority] = useState<TodoTaskPriority>(TodoTaskPriority.Low)
+    const [startDate,setStartDate] = useState<string>('')
+    const [deadline,setDeadline] = useState<string>('')
     const handleChangeTodoId = (e:ChangeEvent<HTMLInputElement>) => setTodoId(e.currentTarget.value)
     const handleChangeTaskId = (e:ChangeEvent<HTMLInputElement>) => setTaskId(e.currentTarget.value)
     const handleChangeTaskTitle = (e:ChangeEvent<HTMLInputElement>) => setTitle(e.currentTarget.value)
     const handleClick = () => {
-        tasksAPI.updateTask(todoId,taskId,title)
+        const model = {description,title,status,priority,startDate,deadline}
+        tasksAPI.updateTask(todoId,taskId,model)
             .then(res => setState(res.data))
     }
     return (

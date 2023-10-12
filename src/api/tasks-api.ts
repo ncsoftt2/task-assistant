@@ -40,6 +40,15 @@ type TaskTypeApi<D = {}> = {
     data: D
 }
 
+export type TaskModelType = {
+    title: string
+    description: string
+    status: TaskStatus
+    priority: TodoTaskPriority
+    startDate: string
+    deadline: string
+}
+
 export const tasksAPI = {
     async getTasks(todoId:string){
         return await instance.get<ResponseTaskType>(`/todo-lists/${todoId}/tasks`)
@@ -50,7 +59,7 @@ export const tasksAPI = {
     async deleteTask(todoId:string,taskId:string) {
         return await instance.delete<TaskTypeApi>(`/todo-lists/${todoId}/tasks/${taskId}`)
     },
-    async updateTask(todoId:string,taskId:string,title:string) {
-        return await instance.put<TaskTypeApi<{item:TaskType}>>(`/todo-lists/${todoId}/tasks/${taskId}`,{title})
+    async updateTask(todoId:string,taskId:string,model:TaskModelType) {
+        return await instance.put<TaskTypeApi<{item:TaskType}>>(`/todo-lists/${todoId}/tasks/${taskId}`, model)
     }
 }
