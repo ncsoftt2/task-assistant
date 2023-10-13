@@ -1,11 +1,12 @@
 
 import {todoReducer} from "./todo-reducer";
-import {addNewTodoAC, changeTodoFilterAC, changeTodoTitleAC, removeTodoAC, setTodoListAC} from "./todo-actions";
+import {createTodoAC, changeTodoFilterAC, changeTodoTitleAC, deleteTodoAC, setTodoListAC} from "./todo-actions";
 import {TodoListReducerType} from "../../../types/todolists-types";
 import {TodoListApiType} from "../../../api/todolist-api";
 
 let startState:TodoListReducerType[]
 let title:string
+let newTodoList: TodoListReducerType
 
 beforeEach(() => {
     startState = [
@@ -14,17 +15,20 @@ beforeEach(() => {
         {id:"3",title:"what to eat",filter:"all",addedDate:'',order:0},
     ]
     title = 'new todo title'
+    newTodoList = {
+        filter:"all",addedDate:'',order:0,title:title,id:'1'
+    }
 })
 
 describe('todo-reducer',() => {
     test('correct todo should be removed',() => {
-        const endState = todoReducer(startState,removeTodoAC('1'))
+        const endState = todoReducer(startState,deleteTodoAC('1'))
         expect(endState.length).toBe(2)
     })
     test('correct todo should be added',() => {
-        const endState = todoReducer(startState,addNewTodoAC(title))
+        const endState = todoReducer(startState,createTodoAC(newTodoList))
         expect(endState.length).toBe(4)
-        expect(endState[3].title).toBe(title)
+        expect(endState[0].title).toBe(title)
     })
     test('correct todo title should be changed',() => {
         const endState = todoReducer(startState,changeTodoTitleAC('1',title))

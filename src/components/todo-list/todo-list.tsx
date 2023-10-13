@@ -3,10 +3,15 @@ import {Box, Button, ButtonGroup, List} from "@mui/material";
 import {Task} from "../task/Task";
 import {AddItemForm} from "../AddItemForm/AddItemForm";
 import {useAppDispatch, useAppSelector} from "../../store/hooks";
-import {addNewTaskAC, getTaskThunk} from "../../store/reducers/task-reducer/task-actions";
+import {createTaskThunk, getTaskThunk} from "../../store/reducers/task-reducer/task-actions";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from '@mui/icons-material/Delete';
-import {changeTodoFilterAC, changeTodoTitleAC, removeTodoAC} from "../../store/reducers/todos-reducer/todo-actions";
+import {
+    changeTodoFilterAC,
+    changeTodoTitleAC,
+    deleteTodoAC,
+    deleteTodoListThunk, updateTodoTitleThunk
+} from "../../store/reducers/todos-reducer/todo-actions";
 import {EditableSpan} from "../EditableSpan/EditableSpan";
 import {useWindowSize} from "../useWindowSize/useWindowSize";
 import {TaskStatus, TaskType} from "../../api/tasks-api";
@@ -20,10 +25,10 @@ export const TodoList: FC<PropsType> = React.memo(({todoList: {id, title, filter
 
     const tasks = useAppSelector(state => state.tasks[id])
     const dispatch = useAppDispatch()
-    const handleDeleteTodoList = () => dispatch(removeTodoAC(id))
-    const handleAddNewTask = useCallback((newTitle: string) => dispatch(addNewTaskAC(id, newTitle)), [id])
+    const handleDeleteTodoList = () => dispatch(deleteTodoListThunk(id))
+    const handleAddNewTask = useCallback((newTitle: string) => dispatch(createTaskThunk(id, newTitle)), [id])
     const handleChangeFilter = (filter: TodoFilterType) => () => dispatch(changeTodoFilterAC(id, filter))
-    const handleChangeTodoListTitle = (newTitle: string) => dispatch(changeTodoTitleAC(id, newTitle))
+    const handleChangeTodoListTitle = (newTitle: string) => dispatch(updateTodoTitleThunk(id, newTitle))
     const filterTask = (task: TaskType[], filter: TodoFilterType) => {
         switch (filter) {
             case "active":
@@ -38,14 +43,14 @@ export const TodoList: FC<PropsType> = React.memo(({todoList: {id, title, filter
     const tasksRender = filteredTasks.map(task => {
         return <Task key={task.id}
                      todoId={id}
-                     tasks={task}
+                     task={task}
         />
     })
     const size = useWindowSize()
 
     useEffect(() => {
         dispatch(getTaskThunk(id))
-    }, [tasks.length]);
+    }, []);
 
     return (
         size > 1000

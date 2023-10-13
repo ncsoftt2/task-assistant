@@ -2,7 +2,12 @@ import {Box, Checkbox, ListItem} from "@mui/material";
 import React, {ChangeEvent, FC, useCallback} from "react";
 import IconButton from "@mui/material/IconButton";
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
-import {changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from "../../store/reducers/task-reducer/task-actions";
+import {
+    deleteTaskAC,
+    deleteTaskThunk,
+    updateTaskAC,
+    updateTaskThunk
+} from "../../store/reducers/task-reducer/task-actions";
 import {useAppDispatch} from "../../store/hooks";
 import {EditableSpan} from "../EditableSpan/EditableSpan";
 import {useWindowSize} from "../useWindowSize/useWindowSize";
@@ -10,20 +15,21 @@ import {TaskStatus, TaskType} from "../../api/tasks-api";
 
 
 type PropsType = {
-    tasks: TaskType
+    task: TaskType
     todoId: string
 }
 
-export const Task: FC<PropsType> = React.memo(({tasks: {id, title, status}, todoId}) => {
+export const Task: FC<PropsType> = React.memo(({task, todoId}) => {
     const dispatch = useAppDispatch()
-    const handleRemoveTask = () => dispatch(removeTaskAC(todoId, id))
+    const handleRemoveTask = () => dispatch(deleteTaskThunk(todoId, task.id))
     const handleChangeStatus = (e:ChangeEvent<HTMLInputElement>) => {
         const changeStatus = e.currentTarget.checked
-        dispatch(changeTaskStatusAC(todoId, id, changeStatus ? TaskStatus.Completed : TaskStatus.New))
+        const status = changeStatus ? TaskStatus.Completed : TaskStatus.New
+        dispatch(updateTaskThunk(todoId, task.id, {status}))
     }
-    const handleChangeTaskTitle = useCallback((newTitle: string) => {
-        dispatch(changeTaskTitleAC(todoId, id, newTitle))
-    }, [todoId, id])
+    const handleChangeTaskTitle = useCallback((title: string) => {
+        dispatch(updateTaskThunk(todoId, task.id, {title}))
+    }, [todoId, task.id])
     const size = useWindowSize()
     return (
         size > 1000
@@ -33,10 +39,10 @@ export const Task: FC<PropsType> = React.memo(({tasks: {id, title, status}, todo
                         sx={{p: 0}}
                         color={'success'}
                         size={'small'}
-                        checked={status === TaskStatus.Completed}
+                        checked={task.status === TaskStatus.Completed}
                         onChange={handleChangeStatus}
                     />
-                    <EditableSpan title={title} updateItem={handleChangeTaskTitle}/>
+                    <EditableSpan title={task.title} updateItem={handleChangeTaskTitle}/>
                 </Box>
                 <IconButton sx={{padding: 0}} onClick={handleRemoveTask}>
                     <DeleteOutlineIcon color='error'/>
@@ -48,10 +54,10 @@ export const Task: FC<PropsType> = React.memo(({tasks: {id, title, status}, todo
                         sx={{p: 0}}
                         color={'success'}
                         size={'small'}
-                        checked={status === TaskStatus.Completed}
+                        checked={task.status === TaskStatus.Completed}
                         onChange={handleChangeStatus}
                     />
-                    <EditableSpan title={title} updateItem={handleChangeTaskTitle}/>
+                    <EditableSpan title={task.title} updateItem={handleChangeTaskTitle}/>
                 </Box>
                 <IconButton sx={{padding: 0}} onClick={handleRemoveTask}>
                     <DeleteOutlineIcon color='error' fontSize={'small'}/>

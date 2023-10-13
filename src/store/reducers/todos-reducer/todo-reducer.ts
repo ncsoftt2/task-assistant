@@ -9,14 +9,8 @@ export const todoReducer = (state: TodoListReducerType[] = initialState, action:
         case "REMOVE-TODO":
             return state.filter(t => t.id !== action.todoId)
         case "ADD-NEW-TODO":
-            const newTodo:TodoListReducerType = {
-                id: action.todoId,
-                title: action.title,
-                filter: "all",
-                addedDate:"",
-                order:0
-            }
-            return [...state, newTodo]
+            const newTodo:TodoListReducerType = {...action.todoList,filter:'all'}
+            return [newTodo,...state]
         case "CHANGE-TODO-TITLE":
             return state.map(t => t.id === action.todoId ? {...t, title: action.title} : t)
         case "CHANGE-TODO-FILTER":

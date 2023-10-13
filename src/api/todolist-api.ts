@@ -12,6 +12,7 @@ type ResponseTodoListType<D = {}> = {
     resultCode: number
     messages: string[],
     data: D
+    fieldsErrors: string[]
 }
 
 export const todoListAPI = {
@@ -19,7 +20,7 @@ export const todoListAPI = {
         return await instance.get<TodoListApiType[]>(`/todo-lists`)
     },
     async createTodoList(title:string){
-        return await instance.post<ResponseTodoListType>(`/todo-lists`,{title})
+        return await instance.post<ResponseTodoListType<{item:TodoListApiType}>>(`/todo-lists`,{title})
     },
     async deleteTodoList(todoId:string){
         return await instance.delete<ResponseTodoListType>(`/todo-lists/${todoId}`)

@@ -4,7 +4,7 @@ import {AppDrawer} from "../drawer/drawer";
 import {Container, Grid, Paper} from "@mui/material";
 import {useAppDispatch, useAppSelector} from "../../store/hooks";
 import { TodoList } from "../todo-list/todo-list";
-import {addNewTodoAC, getTodoListThunk} from "../../store/reducers/todos-reducer/todo-actions";
+import {createTodoAC, createTodoListThunk, getTodoListThunk} from "../../store/reducers/todos-reducer/todo-actions";
 import {AddItemForm} from "../AddItemForm/AddItemForm";
 import {todoListSelector} from "../../store/selectors/selectors";
 import {useWindowSize} from "../useWindowSize/useWindowSize";
@@ -13,12 +13,12 @@ export const Main = () => {
     const [drawerOpen,setDrawerOpen] = useState(false)
     const todoList = useAppSelector(todoListSelector)
     const dispatch = useAppDispatch()
-    const addNewTodo = useCallback((title:string) => dispatch(addNewTodoAC(title)),[dispatch])
+    const addNewTodo = useCallback((title:string) => dispatch(createTodoListThunk(title)),[dispatch])
     const size = useWindowSize()
 
     useEffect(() => {
         dispatch(getTodoListThunk())
-    }, [todoList.length])
+    }, [])
 
     const todoListRender = todoList.map(todo => {
         return (

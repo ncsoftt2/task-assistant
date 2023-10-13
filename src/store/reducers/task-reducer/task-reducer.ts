@@ -7,46 +7,28 @@ const initialState: TaskStateType = {}
 
 export const taskReducer = (state: TaskStateType = initialState, action: TaskActionType): TaskStateType => {
     switch (action.type) {
-        case "REMOVE-TASK":
+        case "DELETE-TASK":
             return {
                 ...state,
                 [action.todoId]: state[action.todoId].filter(t => t.id !== action.taskId)
             }
-        case "ADD-NEW-TASK":
-            const newTask: TaskType = {
-                id: v1(),
-                title: action.title,
-                status: TaskStatus.New,
-                priority: TodoTaskPriority.Low,
-                addedDate: "",
-                deadline: "",
-                description:"",
-                order: 0,
-                startDate: "",
-                todoListId: action.todoId
-            }
+        case "CREATE-TASK":
+            const newTask: TaskType = action.task
             return {
                 ...state,
-                [action.todoId]: [...state[action.todoId], newTask]
+                [newTask.todoListId]: [newTask,...state[newTask.todoListId]]
             }
-        case "CHANGE-TASK-TITLE":
+        case "UPDATE-TASK":
             return {
                 ...state,
                 [action.todoId]: state[action.todoId].map(t => t.id === action.taskId ? {
-                    ...t, title: action.title
-                } : t)
-            }
-        case "CHANGE-TASK-STATUS":
-            return {
-                ...state,
-                [action.todoId]: state[action.todoId].map(t => t.id === action.taskId ? {
-                    ...t, status: action.status
+                    ...t, ...action.model
                 } : t)
             }
         case "ADD-NEW-TODO":
             return {
                 ...state,
-                [action.todoId]: []
+                [action.todoList.id]: []
             }
         case "REMOVE-TODO":
             delete state[action.todoId]

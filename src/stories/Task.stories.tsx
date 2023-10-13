@@ -33,7 +33,7 @@ const TaskRedux = () => {
         order:0,
         startDate: ''
     }
-    return <Task tasks={task} todoId={'1'} />
+    return <Task task={task} todoId={'1'} />
 }
 
 export const TaskReduxStory:Story = {
