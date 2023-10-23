@@ -1,11 +1,24 @@
 import { action } from "@storybook/addon-actions";
-import {EditableSpan} from "../components/EditableSpan/EditableSpan";
 import {Meta, StoryObj} from "@storybook/react";
 import {MainStoreDecorators} from "./MainStoreDecorators";
+import {EditableTask} from "../components/Task/EditableTask";
 
-const meta: Meta<typeof EditableSpan> = {
+const taskObj = {
+    title:'bla',
+    deadline:new Date(),
+    status:1,
+    startDate:new Date(),
+    id:'1',
+    addedDate:new Date,
+    priority:1,
+    order:0,
+    description:'desc',
+    todoListId:'1'
+}
+
+const meta: Meta<typeof EditableTask> = {
     title:"TODOLISTS/EditableSpan",
-    component: EditableSpan,
+    component: EditableTask,
     tags: ['autodocs'],
     // argTypes: {
     //     title: {
@@ -16,14 +29,14 @@ const meta: Meta<typeof EditableSpan> = {
     //     }
     // },
     args: {
-        title: "start value",
-        updateItem: action('value changed')
+        task: taskObj,
+        todoId: '1'
     },
     decorators: [MainStoreDecorators]
 }
 
 export default meta;
-type Story = StoryObj<typeof EditableSpan>
+type Story = StoryObj<typeof EditableTask>
 
 export const EditableSpanStory: Story = {
 }

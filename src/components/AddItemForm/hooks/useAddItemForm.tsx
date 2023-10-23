@@ -1,11 +1,11 @@
 import {ChangeEvent, KeyboardEvent, useState} from "react";
+import {RequestStatusType} from "../../../store/reducers/app/app-reducer";
 
-export const useAddItemForm = (maxLengthValue: number,callback: (title: string) => void) => {
+export const useAddItemForm = (callback: (title: string) => void,status:RequestStatusType) => {
     const [value, setValue] = useState('')
-    const [lengthError,setLengthError] = useState(false)
     const [error,setError] = useState(false)
     const handleAddItem = () => {
-        if (value.trim().length !== 0 && value.length <= maxLengthValue) {
+        if (value.trim().length) {
             callback(value)
             setValue('')
         } else {
@@ -17,11 +17,6 @@ export const useAddItemForm = (maxLengthValue: number,callback: (title: string) 
         if (error) {
             setError(false)
         }
-        if(target.length > maxLengthValue) {
-            setLengthError(true)
-        }else if(lengthError){
-            setLengthError(false)
-        }
         setValue(target)
     }
     const addItemOnEnter = (e:KeyboardEvent<HTMLInputElement>) => {
@@ -30,7 +25,6 @@ export const useAddItemForm = (maxLengthValue: number,callback: (title: string) 
     return {
         value,
         handleChange,
-        lengthError,
         error,
         addItemOnEnter,
         handleAddItem

@@ -1,17 +1,11 @@
+import {TaskStatus, TaskType} from "../../api/task-api";
+import React, {memo, useCallback} from "react";
+import {ChangeEvent, FC} from "react";
 import {Box, Checkbox, ListItem} from "@mui/material";
-import React, {ChangeEvent, FC, useCallback} from "react";
-import IconButton from "@mui/material/IconButton";
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
-import {
-    deleteTaskAC,
-    deleteTaskThunk,
-    updateTaskAC,
-    updateTaskThunk
-} from "../../store/reducers/task-reducer/task-actions";
+import {EditMenu} from "../Menu/EditMenu";
+import {deleteTaskThunk, updateTaskThunk} from "../../store/reducers/tasks/task-actions";
 import {useAppDispatch} from "../../store/hooks";
-import {EditableSpan} from "../EditableSpan/EditableSpan";
-import {useWindowSize} from "../useWindowSize/useWindowSize";
-import {TaskStatus, TaskType} from "../../api/tasks-api";
+import {utilsTask} from "../../utils/utilsTask";
 
 
 type PropsType = {
@@ -19,49 +13,66 @@ type PropsType = {
     todoId: string
 }
 
-export const Task: FC<PropsType> = React.memo(({task, todoId}) => {
+export const Task: FC<PropsType> = memo(({todoId, task}) => {
     const dispatch = useAppDispatch()
-    const handleRemoveTask = () => dispatch(deleteTaskThunk(todoId, task.id))
-    const handleChangeStatus = (e:ChangeEvent<HTMLInputElement>) => {
-        const changeStatus = e.currentTarget.checked
-        const status = changeStatus ? TaskStatus.Completed : TaskStatus.New
+    const handleDeleteTask = useCallback(() => dispatch(deleteTaskThunk(todoId, task.id)), [todoId, task.id])
+    const handleChangeStatus = (e: ChangeEvent<HTMLInputElement>) => {
+        const status = e.currentTarget.checked ? TaskStatus.Completed : TaskStatus.New
         dispatch(updateTaskThunk(todoId, task.id, {status}))
     }
-    const handleChangeTaskTitle = useCallback((title: string) => {
-        dispatch(updateTaskThunk(todoId, task.id, {title}))
-    }, [todoId, task.id])
-    const size = useWindowSize()
+    const {style,taskAddedDate} = utilsTask(task)
     return (
-        size > 1000
-            ? <ListItem sx={{m: '10px 0', p: 0, gap: 2, display: 'flex', justifyContent: 'space-between'}}>
-                <Box>
-                    <Checkbox
-                        sx={{p: 0}}
-                        color={'success'}
-                        size={'small'}
-                        checked={task.status === TaskStatus.Completed}
-                        onChange={handleChangeStatus}
-                    />
-                    <EditableSpan title={task.title} updateItem={handleChangeTaskTitle}/>
-                </Box>
-                <IconButton sx={{padding: 0}} onClick={handleRemoveTask}>
-                    <DeleteOutlineIcon color='error'/>
-                </IconButton>
-            </ListItem>
-            : <ListItem sx={{m: '10px 0', p: 0, gap: 2, display: 'flex', justifyContent: 'space-between'}}>
-                <Box>
-                    <Checkbox
-                        sx={{p: 0}}
-                        color={'success'}
-                        size={'small'}
-                        checked={task.status === TaskStatus.Completed}
-                        onChange={handleChangeStatus}
-                    />
-                    <EditableSpan title={task.title} updateItem={handleChangeTaskTitle}/>
-                </Box>
-                <IconButton sx={{padding: 0}} onClick={handleRemoveTask}>
-                    <DeleteOutlineIcon color='error' fontSize={'small'}/>
-                </IconButton>
-            </ListItem>
+        <ListItem sx={style}>
+            <Box sx={{display:'flex',justifyContent:'space-between',alignItems:'flex-start'}}>
+                <Checkbox
+                    sx={{p: 0, mr: '5px', zIndex: 0}}
+                    color={'default'}
+                    size={'small'}
+                    checked={task.status === TaskStatus.Completed}
+                    onChange={handleChangeStatus}
+                />
+                <Box sx={{wordBreak: 'break-all'}}>{task.title}</Box>
+            </Box>
+            <Box sx={{display:'flex',alignItems:'center'}}>
+                <Box>{taskAddedDate}</Box>
+                <EditMenu callback={handleDeleteTask} task={task} todoId={todoId}/>
+            </Box>
+        </ListItem>
     )
 })
+
+
+// export const Task: FC<PropsType> = ({todoId, task}) => {
+//     const dispatch = useAppDispatch()
+//     const handleDeleteTask = () => dispatch(deleteTaskThunk(todoId, task.id))
+//     const taskStatus = task.status === TaskStatus.InProgress
+//         ? "In progress"
+//         : task.status === TaskStatus.Completed
+//             ? 'Completed' : task.status === TaskStatus.Draft ? "Draft" : "New"
+//
+//
+//     let dateString = task.addedDate;
+//     let date = new Date(dateString);
+//     return (
+//         <div style={{margin: '5px 0'}}>
+//             <Accordion>
+//                 <AccordionSummary
+//                     expandIcon={<ExpandMoreIcon/>}
+//                     aria-controls="panel2a-content"
+//                     id="panel2a-header"
+//                 >
+//                     {/*<Typography>{taskStatus}</Typography>*/}
+//                     <Typography>{task.title}</Typography>
+//                 </AccordionSummary>
+//                 <AccordionDetails>
+//                     <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
+//                         <Box>{task.deadline === null ? taskDate : `${taskDate}/${task.deadline}`}</Box>
+//                         <EditMenu callback={handleDeleteTask}>
+//                             <EditableTask task={task} todoId={todoId}/>
+//                         </EditMenu>
+//                     </Box>
+//                 </AccordionDetails>
+//             </Accordion>
+//         </div>
+//     )
+// }

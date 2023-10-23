@@ -1,17 +1,15 @@
-import React, { FC } from 'react';
+import React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
+import {LinearProgress} from "@mui/material";
+import {useAppSelector} from "../../store/hooks";
 
-type PropsType = {
-    setDrawerOpen: (b: boolean) => void
-}
-
-export const Header:FC<PropsType> = ({setDrawerOpen}) => {
-    const openDrawer = () => setDrawerOpen(true)
+export const Header = () => {
+    const status = useAppSelector(state => state.app.status)
     return (
         <AppBar position="static" color={'primary'} elevation={0}>
             <Toolbar>
@@ -20,7 +18,6 @@ export const Header:FC<PropsType> = ({setDrawerOpen}) => {
                     edge="start"
                     color="inherit"
                     aria-label="menu"
-                    onClick={openDrawer}
                     sx={{mr: 2}}
                 >
                     <MenuIcon/>
@@ -28,6 +25,8 @@ export const Header:FC<PropsType> = ({setDrawerOpen}) => {
                 <Typography variant="h6" component="div" sx={{flexGrow: 1}}>ToDo</Typography>
                 <Button color="inherit">Login</Button>
             </Toolbar>
+            {status === 'loading' && <LinearProgress color="error"/>}
         </AppBar>
+
     )
 }

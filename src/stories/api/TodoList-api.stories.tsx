@@ -1,14 +1,14 @@
 import {ChangeEvent, useEffect, useState} from "react"
-import {todoListAPI, TodoListApiType} from "../../api/todolist-api";
+import {todoListAPI, TodoListType} from "../../api/todo-list-api";
 
 export default {
     title: 'API/Todolist'
 }
 
 export const GetTodoLists = () => {
-    const [state, setState] = useState<TodoListApiType[]>([])
+    const [state, setState] = useState<TodoListType[]>([])
     useEffect(() => {
-        todoListAPI.getTodoLists()
+        todoListAPI.getTodoList()
             .then(res => setState(res.data))
     },[])
     return (
@@ -64,7 +64,7 @@ export const UpdateTodolistTitle = () => {
     const handleChangeTodoId = (e:ChangeEvent<HTMLInputElement>) => setTodoId(e.currentTarget.value)
     const handleChangeTitle = (e:ChangeEvent<HTMLInputElement>) => setTitle(e.currentTarget.value)
     const handleClick = () => {
-        todoListAPI.updateTodoList(todoId,title)
+        todoListAPI.updateTodoListTitle(todoId,title)
             .then(res => setState(res.data))
     }
     return (

@@ -4,39 +4,43 @@ import {ThemeProvider} from "@mui/material";
 import {theme} from "../styles/GlobalTheme";
 import {legacy_createStore} from "redux";
 import React from "react";
-import {TaskStatus, TodoTaskPriority} from "../api/tasks-api";
+import {TaskPriority, TaskStatus} from "../api/task-api";
 
 const initialState:AppState = {
     todoList: [
-        {id: '1', addedDate: '', order: 0, title: 'What to learn',filter: "all"},
-        {id: '2', addedDate: '', order: 0, title: 'What to buy',filter: "active"},
-        {id: '3', addedDate: '', order: 0, title: 'What to eat',filter: "completed"},
+        {id: '1', addedDate: new Date(), order: 0, title: 'What to learn',filter: "all",entityStatus:'idle'},
+        {id: '2', addedDate: new Date(), order: 0, title: 'What to buy',filter: "active",entityStatus:'idle'},
+        {id: '3', addedDate: new Date(), order: 0, title: 'What to eat',filter: "completed",entityStatus:'idle'},
     ],
     tasks: {
         ['1']: [
-            {description: '', title: 'new title', status: TaskStatus.New, priority: TodoTaskPriority.Low,
-                startDate: '', deadline: '', id: '1', todoListId: '1', order: 0, addedDate: '',
+            {description: '', title: 'new title', status: TaskStatus.New, priority: TaskPriority.Low,
+                startDate: new Date(), deadline: new Date(), id: '1', todoListId: '1', order: 0, addedDate: new Date(),
             },
-            {description: '', title: 'new title', status: TaskStatus.New, priority: TodoTaskPriority.Low,
-                startDate: '', deadline: '', id: '2', todoListId: '1', order: 0, addedDate: '',
+            {description: '', title: 'new title', status: TaskStatus.New, priority: TaskPriority.Low,
+                startDate: new Date(), deadline: new Date(), id: '2', todoListId: '1', order: 0, addedDate: new Date(),
             },
         ],
         ['2']: [
-            {description: '', title: 'new title', status: TaskStatus.New, priority: TodoTaskPriority.Low,
-                startDate: '', deadline: '', id: '1', todoListId: '2', order: 0, addedDate: '',
+            {description: '', title: 'new title', status: TaskStatus.New, priority: TaskPriority.Low,
+                startDate: new Date(), deadline: new Date(), id: '1', todoListId: '2', order: 0, addedDate: new Date(),
             },
-            {description: '', title: 'new title', status: TaskStatus.New, priority: TodoTaskPriority.Low,
-                startDate: '', deadline: '', id: '2', todoListId: '2', order: 0, addedDate: '',
+            {description: '', title: 'new title', status: TaskStatus.New, priority: TaskPriority.Low,
+                startDate: new Date(), deadline: new Date(), id: '2', todoListId: '2', order: 0, addedDate: new Date(),
             },
         ],
         ['3']: [
-            {description: '', title: 'new title', status: TaskStatus.New, priority: TodoTaskPriority.Low,
-                startDate: '', deadline: '', id: '3', todoListId: '3', order: 0, addedDate: '',
+            {description: '', title: 'new title', status: TaskStatus.New, priority: TaskPriority.Low,
+                startDate: new Date(), deadline: new Date(), id: '3', todoListId: '3', order: 0, addedDate: new Date(),
             },
-            {description: '', title: 'new title', status: TaskStatus.New, priority: TodoTaskPriority.Low,
-                startDate: '', deadline: '', id: '3', todoListId: '3', order: 0, addedDate: '',
+            {description: '', title: 'new title', status: TaskStatus.New, priority: TaskPriority.Low,
+                startDate: new Date(), deadline: new Date(), id: '3', todoListId: '3', order: 0, addedDate: new Date(),
             },
         ],
+    },
+    app: {
+        status:'idle',
+        error: null
     }
 }
 

@@ -1,10 +1,11 @@
 import React from "react";
-import {Task} from "../components/task/Task";
+
 import {MainStoreDecorators} from "./MainStoreDecorators";
 import {Meta, StoryObj} from "@storybook/react";
 import {useSelector} from "react-redux";
 import {AppState} from "../store";
-import {TaskStatus, TaskType, TodoTaskPriority} from "../api/tasks-api";
+import { Task } from "../components/Task/Task";
+import {TaskPriority, TaskStatus, TaskType} from "../api/task-api";
 
 const meta: Meta<typeof Task> = {
     title: "TODOLISTS/Task",
@@ -26,12 +27,12 @@ const TaskRedux = () => {
         title:'unknown',
         status:TaskStatus.New,
         todoListId: '',
-        addedDate: '',
-        priority:TodoTaskPriority.Low,
-        deadline:'',
+        addedDate: new Date(),
+        priority:TaskPriority.Low,
+        deadline:new Date(),
         description:'',
         order:0,
-        startDate: ''
+        startDate: new Date()
     }
     return <Task task={task} todoId={'1'} />
 }

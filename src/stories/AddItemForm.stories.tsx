@@ -23,12 +23,12 @@ const meta: Meta<typeof AddItemForm> = {
 export default meta;
 
 type Story = StoryObj<typeof AddItemForm>
-const AddItemFormWithError = (props:FormPropsType) => {
+const AddItemFormWithError = (props: FormPropsType) => {
     const [value, setValue] = useState('')
     const [lengthError,setLengthError] = useState(false)
     const [error,setError] = useState(true)
     const handleAddItem = () => {
-        if (value.trim().length !== 0 && value.length <= props.maxLengthValue) {
+        if (value.trim().length !== 0) {
             props.callback(value)
             setValue('')
         } else {
@@ -39,11 +39,6 @@ const AddItemFormWithError = (props:FormPropsType) => {
         const target = e.currentTarget.value
         if (error) {
             setError(false)
-        }
-        if(target.length > props.maxLengthValue) {
-            setLengthError(true)
-        }else if(lengthError){
-            setLengthError(false)
         }
         setValue(target)
     }
@@ -77,9 +72,8 @@ const AddItemFormWithError = (props:FormPropsType) => {
 export const AddItemFormDefaultStory: Story = {
     args: {
         callback: action('Button clicked inside form'),
-        maxLengthValue: 10
-    },
+    }
 }
 export const AddItemFormWithErrorStory: Story = {
-    render: () => <AddItemFormWithError callback={action('')} maxLengthValue={10} />
+    render: () => <AddItemFormWithError callback={action('')} />
 }

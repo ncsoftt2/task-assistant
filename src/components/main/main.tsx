@@ -1,61 +1,42 @@
-import React, {useCallback, useEffect, useState} from "react";
-import { Header } from "../header/header"
-import {AppDrawer} from "../drawer/drawer";
-import {Container, Grid, Paper} from "@mui/material";
+import {Container, Grid, Paper } from "@mui/material"
+import { AddItemForm } from "../AddItemForm/AddItemForm"
 import {useAppDispatch, useAppSelector} from "../../store/hooks";
-import { TodoList } from "../todo-list/todo-list";
-import {createTodoAC, createTodoListThunk, getTodoListThunk} from "../../store/reducers/todos-reducer/todo-actions";
-import {AddItemForm} from "../AddItemForm/AddItemForm";
-import {todoListSelector} from "../../store/selectors/selectors";
-import {useWindowSize} from "../useWindowSize/useWindowSize";
+import {memo, useCallback, useEffect} from "react";
+import {createTodoThunk, getTodoThunk} from "../../store/reducers/todo-list/todo-list-actions";
+import { TodoList } from "../TodoList/TodoList";
+import * as React from "react";
 
-export const Main = () => {
-    const [drawerOpen,setDrawerOpen] = useState(false)
-    const todoList = useAppSelector(todoListSelector)
-    const dispatch = useAppDispatch()
-    const addNewTodo = useCallback((title:string) => dispatch(createTodoListThunk(title)),[dispatch])
-    const size = useWindowSize()
-
+export const Main = memo(() => {
     useEffect(() => {
-        dispatch(getTodoListThunk())
+        dispatch(getTodoThunk())
     }, [])
-
-    const todoListRender = todoList.map(todo => {
+    const todoList = useAppSelector(state => state.todoList)
+    const dispatch = useAppDispatch()
+    const addNewTodo = useCallback((title:string) => dispatch(createTodoThunk(title)),[dispatch])
+    const elements = todoList.map(todo => {
         return (
-            size > 1000 ? (
-                <Grid item sx={{p:1}} xs={3} key={todo.id}>
-                    <Paper elevation={5} sx={{p: 1,margin:"0 auto"}}>
-                        <TodoList
-                            key={todo.id}
-                            todoList={todo}
-                        />
-                    </Paper>
-                </Grid>
-            )
-                : <Grid item sx={{p:1}} xs={12} key={todo.id}>
-                    <Paper elevation={5} sx={{p: 1,margin:"0 auto"}}>
-                        <TodoList
-                            key={todo.id}
-                            todoList={todo}
-                        />
-                    </Paper>
-                </Grid>
+            <Grid item sx={{p:1}} md={6} lg={3} sm={6} xs={12} key={todo.id}>
+                <Paper elevation={5} sx={{p: 1,margin:"0 auto"}}>
+                    <TodoList
+                        key={todo.id}
+                        todoList={todo}
+                    />
+                </Paper>
+            </Grid>
         )
     })
+
     return (
         <>
-            <Header setDrawerOpen={setDrawerOpen}/>
-            <AppDrawer drawerOpen={drawerOpen} setDrawerOpen={setDrawerOpen}/>
             <Grid container sx={{p: '15px', justifyContent: 'center', alignItems: 'center'}}>
                 <AddItemForm callback={addNewTodo}
-                             maxLengthValue={10}
                 />
             </Grid>
             <Container>
                 <Grid container>
-                    {todoListRender}
+                    {elements}
                 </Grid>
             </Container>
         </>
     )
-}
+})
