@@ -1,7 +1,7 @@
 import {createNewTodoAC, deleteTodoAC, setTodoListAC,} from "../todo-list/todo-list-actions";
-import {TaskType, tasksAPI, TaskStatus, UpdateTaskModelType, TaskPriority} from "../../../api/task-api";
+import {TaskType, tasksAPI, UpdateTaskModelType, TaskPriority} from "../../../api/task-api";
 import {ThunkType} from "../../index";
-import {setAppErrorAC, setAppStatusAC} from "../app/app-actions";
+import {setAppStatusAC} from "../app/app-actions";
 import {handleNetworkErrorTask, handleServerErrorTask} from "../../../utils/handleErrorTask";
 
 export type TaskAction =
@@ -34,6 +34,9 @@ export const getTaskThunk = (id: string): ThunkType => dispatch => {
         .catch(e => {
             handleNetworkErrorTask(e,dispatch)
         })
+        .finally(() => {
+            dispatch(setAppStatusAC('idle'))
+        })
 }
 
 export const createTaskThunk = (id: string, title: string): ThunkType => dispatch => {
@@ -50,6 +53,9 @@ export const createTaskThunk = (id: string, title: string): ThunkType => dispatc
         .catch(e => {
             handleNetworkErrorTask(e,dispatch)
         })
+        .finally(() => {
+            dispatch(setAppStatusAC('idle'))
+        })
 }
 
 export const deleteTaskThunk = (todoListId: string, taskId: string): ThunkType => dispatch => {
@@ -65,6 +71,9 @@ export const deleteTaskThunk = (todoListId: string, taskId: string): ThunkType =
         })
         .catch(e => {
             handleNetworkErrorTask(e,dispatch)
+        })
+        .finally(() => {
+            dispatch(setAppStatusAC('idle'))
         })
 }
 
