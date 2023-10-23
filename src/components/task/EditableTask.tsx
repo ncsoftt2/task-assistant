@@ -8,6 +8,7 @@ import FormControl from '@mui/material/FormControl';
 import Select, {SelectChangeEvent} from '@mui/material/Select';
 import {useAppDispatch, useAppSelector} from "../../store/hooks";
 import {updateTaskThunk} from "../../store/reducers/tasks/task-actions";
+import {utilsEditableTask} from "../../utils/utilsEditableTask";
 
 
 type PropsType = {
@@ -21,7 +22,6 @@ const taskStatus = [
     {label: 'Completed', status: TaskStatus.Completed},
     {label: 'Draft', status: TaskStatus.Draft},
 ]
-
 const taskPriority = [
     {label: 'Low', priority: TaskPriority.Low},
     {label: 'Middle', priority: TaskPriority.Middle},
@@ -49,19 +49,12 @@ export const EditableTask:FC<PropsType> = ({task,todoId}) => {
     const handleChangePriority = (e: SelectChangeEvent<TaskPriority>) => {
         setPriority(+e.target.value)
     }
-
     const dispatch = useAppDispatch()
     const updateTask = () => {
-        dispatch(updateTaskThunk(todoId,task.id, {title,description,status,priority}))
+        const payload =  {title,description,status,priority}
+        dispatch(updateTaskThunk(todoId,task.id,payload))
     }
-    const styleTask = {
-        color:'white',
-        padding:'10px',
-        borderRadius:'20px',
-        backgroundColor:`${taskUpdateStatus === 'succeeded' ? "green" : "red"}`,
-        textAlign:'center',
-        margin:'10px 0'
-    }
+    const {styleTask} = utilsEditableTask(taskUpdateStatus)
     return (
         <Box sx={{display:'flex',justifyContent:'center'}}>
             <Box>
