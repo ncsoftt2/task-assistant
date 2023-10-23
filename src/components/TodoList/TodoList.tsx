@@ -1,4 +1,3 @@
-
 import {TodoFilterType, TodoListReducerType} from "../../store/reducers/todo-list/todo-list-reducer";
 import {FC, memo, useCallback, useEffect, useState} from "react";
 import {useAppDispatch, useAppSelector} from "../../store/hooks";
@@ -14,10 +13,12 @@ import Typography from "@mui/material/Typography";
 
 type PropsType = {
     todoList: TodoListReducerType
+    demo?: boolean
 }
 
-export const TodoList:FC<PropsType> = memo(({todoList: {title,filter,id,entityStatus}}) => {
+export const TodoList:FC<PropsType> = memo(({demo,todoList: {title,filter,id,entityStatus}}) => {
     useEffect(() => {
+        if(demo) return
         dispatch(getTaskThunk(id))
     }, [])
     const tasks = useAppSelector(state => state.tasks[id])

@@ -11,4 +11,7 @@ const meta: Meta<typeof Main> = {
 
 export default meta;
 type Story = StoryObj<typeof Main>
-export const MainStory: Story = {}
+
+export const MainStory:Story = {
+    render: () => <Main demo={true}/>
+}

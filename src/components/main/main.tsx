@@ -6,8 +6,14 @@ import {createTodoThunk, getTodoThunk} from "../../store/reducers/todo-list/todo
 import { TodoList } from "../TodoList/TodoList";
 import * as React from "react";
 
-export const Main = memo(() => {
+
+type PropsType = {
+    demo?: boolean
+}
+
+export const Main:React.FC<PropsType> = memo(({demo = false}) => {
     useEffect(() => {
+        if(demo) return
         dispatch(getTodoThunk())
     }, [])
     const todoList = useAppSelector(state => state.todoList)
@@ -20,6 +26,7 @@ export const Main = memo(() => {
                     <TodoList
                         key={todo.id}
                         todoList={todo}
+                        demo={demo}
                     />
                 </Paper>
             </Grid>
