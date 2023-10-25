@@ -1,8 +1,13 @@
 import {TaskAction} from "./task-actions";
-import {TaskPriority, TaskType} from "../../../api/task-api";
+import { TaskType} from "../../../api/task-api";
+import {RequestStatusType} from "../app/app-reducer";
+
+export type TaskDomainType = TaskType & {
+    taskStatus: RequestStatusType
+}
 
 export type TasksType = {
-    [key: string]: TaskType[]
+    [key: string]: TaskDomainType[]
 }
 
 const initialState: TasksType = {}
@@ -10,7 +15,7 @@ const initialState: TasksType = {}
 export const taskReducer = (state: TasksType = initialState, action: TaskAction): TasksType => {
     switch (action.type) {
         case "ADD-NEW-TASK":
-            const newTask:TaskType = action.task
+            const newTask:TaskDomainType = {...action.task,taskStatus: 'idle'}
             return {
                 ...state,
                 [newTask.todoListId]: [newTask,...state[newTask.todoListId]]
@@ -44,15 +49,13 @@ export const taskReducer = (state: TasksType = initialState, action: TaskAction)
         case "SET-TASKS":
             return {
                 ...state,
-                [action.todoListId]: action.tasks
+                [action.todoListId]: action.tasks.map(t => ({...t,taskStatus:'idle'}))
             }
-        // case "SORT-TASK":
-        //     return {
-        //         ...state,
-        //         [action.todoId]: action.priority > 1
-        //             ? [...action.tasks].sort((a,b) => a.priority - b.priority)
-        //             : [...action.tasks].sort((a,b) => b.priority - a.priority)
-        //     }
+        case "CHANGE-TASK-STATUS":
+            return {
+                ...state,
+                [action.todoListId]: state[action.todoListId].map(t => ({...t,taskStatus: action.taskStatus}))
+            }
         case "SORT-TASK":
             return {
                 ...state,

@@ -2,7 +2,7 @@ import {TodoFilterType, TodoListReducerType} from "../../store/reducers/todo-lis
 import {FC, memo, useCallback, useEffect, useState} from "react";
 import {useAppDispatch, useAppSelector} from "../../store/hooks";
 import {createTaskThunk, getTaskThunk, sortTasksAC} from "../../store/reducers/tasks/task-actions";
-import {TaskPriority, TaskStatus, TaskType} from "../../api/task-api";
+import {TaskPriority, TaskStatus} from "../../api/task-api";
 import {Task} from "../Task/Task";
 import {Box, Button, ButtonGroup, CircularProgress, FormControl, IconButton, InputLabel, List, MenuItem, Select} from "@mui/material";
 import {AddItemForm} from "../AddItemForm/AddItemForm";
@@ -10,6 +10,7 @@ import {changeTodoFilterAC, deleteTodoThunk} from "../../store/reducers/todo-lis
 import {SelectChangeEvent} from "@mui/material/Select";
 import DeleteIcon from '@mui/icons-material/Delete';
 import Typography from "@mui/material/Typography";
+import {TaskDomainType} from "../../store/reducers/tasks/task-reducer";
 
 type PropsType = {
     todoList: TodoListReducerType
@@ -32,7 +33,7 @@ export const TodoList:FC<PropsType> = memo(({demo,todoList: {title,filter,id,ent
         setPriority(+e.target.value)
         dispatch(sortTasksAC(tasks,priority,id))
     }
-    const filterTasks = (tasks:TaskType[],filter:TodoFilterType):TaskType[] => {
+    const filterTasks = (tasks:TaskDomainType[],filter:TodoFilterType):TaskDomainType[] => {
         switch (filter) {
             case "active":
                 return tasks.filter(({status}) => status !== TaskStatus.Completed)

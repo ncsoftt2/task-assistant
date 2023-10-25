@@ -1,10 +1,11 @@
-import { action } from "@storybook/addon-actions";
 import {Meta, StoryObj} from "@storybook/react";
 import {MainStoreDecorators} from "./MainStoreDecorators";
 import {EditableTask} from "../components/Task/EditableTask";
+import {TaskDomainType} from "../store/reducers/tasks/task-reducer";
 
-const taskObj = {
+const taskObj:TaskDomainType = {
     title:'bla',
+    taskStatus: 'idle',
     deadline:new Date(),
     status:1,
     startDate:new Date(),
@@ -13,7 +14,7 @@ const taskObj = {
     priority:1,
     order:0,
     description:'desc',
-    todoListId:'1'
+    todoListId:'1',
 }
 
 const meta: Meta<typeof EditableTask> = {

@@ -16,25 +16,31 @@ const initialState:AppState = {
         ['1']: [
             {description: '', title: 'new title', status: TaskStatus.New, priority: TaskPriority.Low,
                 startDate: new Date(), deadline: new Date(), id: '1', todoListId: '1', order: 0, addedDate: new Date(),
+                taskStatus:'idle'
             },
             {description: '', title: 'new title', status: TaskStatus.New, priority: TaskPriority.Low,
                 startDate: new Date(), deadline: new Date(), id: '2', todoListId: '1', order: 0, addedDate: new Date(),
+            taskStatus:'idle'
             },
         ],
         ['2']: [
             {description: '', title: 'new title', status: TaskStatus.New, priority: TaskPriority.Low,
                 startDate: new Date(), deadline: new Date(), id: '1', todoListId: '2', order: 0, addedDate: new Date(),
+                taskStatus:'idle'
             },
             {description: '', title: 'new title', status: TaskStatus.New, priority: TaskPriority.Low,
                 startDate: new Date(), deadline: new Date(), id: '2', todoListId: '2', order: 0, addedDate: new Date(),
+                taskStatus:'idle'
             },
         ],
         ['3']: [
             {description: '', title: 'new title', status: TaskStatus.New, priority: TaskPriority.Low,
                 startDate: new Date(), deadline: new Date(), id: '3', todoListId: '3', order: 0, addedDate: new Date(),
+                taskStatus:'idle'
             },
             {description: '', title: 'new title', status: TaskStatus.New, priority: TaskPriority.Low,
                 startDate: new Date(), deadline: new Date(), id: '3', todoListId: '3', order: 0, addedDate: new Date(),
+                taskStatus:'idle'
             },
         ],
     },

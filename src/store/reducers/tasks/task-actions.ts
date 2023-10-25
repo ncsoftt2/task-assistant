@@ -2,7 +2,9 @@ import {createNewTodoAC, deleteTodoAC, setTodoListAC,} from "../todo-list/todo-l
 import {TaskType, tasksAPI, UpdateTaskModelType, TaskPriority} from "../../../api/task-api";
 import {ThunkType} from "../../index";
 import {setAppStatusAC} from "../app/app-actions";
-import {handleNetworkErrorTask, handleServerErrorTask} from "../../../utils/handleErrorTask";
+import {handleNetworkError, handleServerError} from "../../../utils/handleError";
+import {RequestStatusType} from "../app/app-reducer";
+import {TaskDomainType} from "./task-reducer";
 
 export type TaskAction =
     | ReturnType<typeof createTaskAC>
@@ -13,15 +15,18 @@ export type TaskAction =
     | ReturnType<typeof deleteTodoAC>
     | ReturnType<typeof createNewTodoAC>
     | ReturnType<typeof sortTasksAC>
+    | ReturnType<typeof changeTaskStatusAC>
 
 export const createTaskAC = (task: TaskType) => ({type: "ADD-NEW-TASK", task} as const)
 export const deleteTaskAC = (todoId: string, taskId: string) => ({type: "REMOVE-TASK", todoId, taskId} as const)
 export const updateTaskAC = (todoId: string, taskId: string, model: UpdateTaskModelType) => (
     {type: "CHANGE-TASK-TITLE", todoId, taskId, model} as const
 )
-export const sortTasksAC = (tasks:TaskType[],priority:TaskPriority,todoId:string) => (
+export const sortTasksAC = (tasks:TaskDomainType[],priority:TaskPriority,todoId:string) => (
     {type:"SORT-TASK",tasks,priority,todoId} as const)
 export const setTaskAC = (todoListId: string, tasks: TaskType[]) => ({type: "SET-TASKS", todoListId, tasks} as const)
+export const changeTaskStatusAC = (todoListId:string,taskStatus:RequestStatusType) => (
+    {type: 'CHANGE-TASK-STATUS', todoListId, taskStatus} as const)
 
 
 export const getTaskThunk = (id: string): ThunkType => dispatch => {
@@ -32,7 +37,7 @@ export const getTaskThunk = (id: string): ThunkType => dispatch => {
             dispatch(setTaskAC(id, res.data.items))
         })
         .catch(e => {
-            handleNetworkErrorTask(e,dispatch)
+            handleNetworkError(e,dispatch)
         })
         .finally(() => {
             dispatch(setAppStatusAC('idle'))
@@ -47,11 +52,11 @@ export const createTaskThunk = (id: string, title: string): ThunkType => dispatc
                 dispatch(createTaskAC(res.data.data.item))
                 dispatch(setAppStatusAC('succeeded'))
             } else {
-                handleServerErrorTask(res.data,dispatch)
+                handleServerError(res.data,dispatch)
             }
         })
         .catch(e => {
-            handleNetworkErrorTask(e,dispatch)
+            handleNetworkError(e,dispatch)
         })
         .finally(() => {
             dispatch(setAppStatusAC('idle'))
@@ -66,11 +71,11 @@ export const deleteTaskThunk = (todoListId: string, taskId: string): ThunkType =
                 dispatch(deleteTaskAC(todoListId, taskId))
                 dispatch(setAppStatusAC('succeeded'))
             } else {
-                handleServerErrorTask(res.data,dispatch)
+                handleServerError(res.data,dispatch)
             }
         })
         .catch(e => {
-            handleNetworkErrorTask(e,dispatch)
+            handleNetworkError(e,dispatch)
         })
         .finally(() => {
             dispatch(setAppStatusAC('idle'))
@@ -86,22 +91,22 @@ export const updateTaskThunk = (todoId: string, taskId: string, model: Partial<U
             ...task,
             ...model
         }
-        dispatch(setAppStatusAC('loading'))
+        dispatch(changeTaskStatusAC(todoId,'loading'))
         tasksAPI.updateTask(todoId,taskId,apiModel)
             .then(res => {
                 if(res.data.resultCode === 0) {
                     dispatch(updateTaskAC(todoId,taskId,res.data.data.item))
-                    dispatch(setAppStatusAC('succeeded'))
+                    dispatch(changeTaskStatusAC(todoId,'succeeded'))
                 } else {
-                    handleServerErrorTask(res.data,dispatch)
+                    handleServerError(res.data,dispatch)
                 }
             })
             .catch(e => {
-                handleNetworkErrorTask(e,dispatch)
+                handleNetworkError(e,dispatch)
             })
             .finally(() => {
                 setTimeout(() => {
-                    dispatch(setAppStatusAC('idle'))
+                    dispatch(changeTaskStatusAC(todoId,'idle'))
                 },4000)
             })
 }

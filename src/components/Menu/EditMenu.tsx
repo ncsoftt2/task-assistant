@@ -6,16 +6,14 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import {UniversalModal} from "./UniversalModal";
-import {FC, memo, ReactNode} from 'react';
-import InfoIcon from '@mui/icons-material/Info';
-import {TaskType} from "../../api/task-api";
+import {FC, memo} from 'react';
 import {EditableTask} from "../Task/EditableTask";
-import {TaskInfo} from "../Task/TaskInfo";
+import {TaskDomainType} from "../../store/reducers/tasks/task-reducer";
 
 
 type PropsType = {
     callback: () => void
-    task:TaskType
+    task:TaskDomainType
     todoId:string
 }
 

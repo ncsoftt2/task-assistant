@@ -37,7 +37,6 @@ type TaskResponseType = {
 export type TaskApiType<D = {}> = {
     data: D
     resultCode: number
-    fieldsErrors: string[]
     messages: string[]
 }
 

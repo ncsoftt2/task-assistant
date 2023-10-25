@@ -15,24 +15,24 @@ beforeEach(() => {
             {
                 id: '1', title: "React", todoListId: "1", status: TaskStatus.New, order: 0,
                 startDate: new Date(), description: '', addedDate:new Date(), deadline:new Date(),
-                priority: TaskPriority.Low
+                priority: TaskPriority.Low,taskStatus:'idle'
             },
             {
                 id: '2', title: "React", todoListId: "1", status: TaskStatus.New, order: 0,
                 startDate: new Date(), description: '', addedDate: new Date(),
-                deadline: new Date(), priority: TaskPriority.Low
+                deadline: new Date(), priority: TaskPriority.Low,taskStatus:'idle'
             },
         ],
         '2': [
             {
                 id: '1', title: "React", todoListId: "2", status: TaskStatus.New, order: 0,
                 startDate: new Date(), description: '', addedDate: new Date(), deadline:new Date(),
-                priority: TaskPriority.Low
+                priority: TaskPriority.Low,taskStatus:'idle'
             },
             {
                 id: '2', title: "React", todoListId: "2", status: TaskStatus.New, order: 0,
                 startDate: new Date(), description: '', addedDate: new Date(),
-                deadline:new Date(), priority: TaskPriority.Low
+                deadline:new Date(), priority: TaskPriority.Low,taskStatus:'idle'
             },
         ],
     }
