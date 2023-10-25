@@ -1,4 +1,4 @@
-import {TaskStatus, TaskType} from "../../api/task-api";
+import {TaskStatus} from "../../api/task-api";
 import React, {memo, useCallback} from "react";
 import {ChangeEvent, FC} from "react";
 import {Box, Checkbox, ListItem} from "@mui/material";
@@ -6,10 +6,11 @@ import {EditMenu} from "../Menu/EditMenu";
 import {deleteTaskThunk, updateTaskThunk} from "../../store/reducers/tasks/task-actions";
 import {useAppDispatch} from "../../store/hooks";
 import {utilsTask} from "../../utils/utilsTask";
+import {TaskDomainType} from "../../store/reducers/tasks/task-reducer";
 
 
 type PropsType = {
-    task: TaskType
+    task: TaskDomainType
     todoId: string
 }
 

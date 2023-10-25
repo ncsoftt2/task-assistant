@@ -1,19 +1,18 @@
-import {TaskPriority, TaskStatus, TaskType} from "../../api/task-api";
+import {TaskPriority, TaskStatus} from "../../api/task-api";
 import * as React from "react";
-import {ChangeEvent, FC, useState} from "react";
-import {Box, Button, TextField} from "@mui/material";
+import {FC} from "react";
+import {Box, Button, Select, TextField} from "@mui/material";
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
-import Select, {SelectChangeEvent} from '@mui/material/Select';
-import {useAppDispatch, useAppSelector} from "../../store/hooks";
-import {updateTaskThunk} from "../../store/reducers/tasks/task-actions";
-import {utilsEditableTask} from "../../utils/utilsEditableTask";
+import {useAppSelector} from "../../store/hooks";
+import {useUtilsEditableTask} from "../../utils/utilsEditableTask";
+import {TaskDomainType} from "../../store/reducers/tasks/task-reducer";
 
 
 type PropsType = {
     todoId:string
-    task:TaskType
+    task:TaskDomainType
 }
 
 const taskStatus = [
@@ -31,30 +30,16 @@ const taskPriority = [
 ]
 
 export const EditableTask:FC<PropsType> = ({task,todoId}) => {
-    const taskUpdateStatus = useAppSelector(state => state.app.status)
     const errorMessage = useAppSelector(state => state.app.error)
-    const [title,setTitle] = useState(task.title)
-    const [description,setDescription] = useState(task.description)
-    const [status,setStatus] = useState(task.status)
-    const [priority,setPriority] = useState(task.priority)
-    const handleChangeDescription = (e:ChangeEvent<HTMLInputElement>) => {
-        setDescription(e.currentTarget.value)
-    }
-    const handleChangeTitle = (e:ChangeEvent<HTMLInputElement>) => {
-        setTitle(e.currentTarget.value)
-    }
-    const handleChangeStatus = (e: SelectChangeEvent<TaskStatus>) => {
-        setStatus(+e.target.value)
-    }
-    const handleChangePriority = (e: SelectChangeEvent<TaskPriority>) => {
-        setPriority(+e.target.value)
-    }
-    const dispatch = useAppDispatch()
-    const updateTask = () => {
-        const payload =  {title,description,status,priority}
-        dispatch(updateTaskThunk(todoId,task.id,payload))
-    }
-    const {styleTask} = utilsEditableTask(taskUpdateStatus)
+    const {styleTask,
+        updateStatus,
+        updateTask,
+        handleChangePriority,
+        handleChangeStatus,
+        handleChangeTitle,
+        handleChangeDescription,
+        title, status,priority,description
+    } = useUtilsEditableTask(task.taskStatus,task,todoId)
     return (
         <Box sx={{display:'flex',justifyContent:'center'}}>
             <Box>
@@ -114,8 +99,8 @@ export const EditableTask:FC<PropsType> = ({task,todoId}) => {
                 <Box sx={{textAlign:'center'}}>
                     <Button onClick={updateTask} variant={'contained'} color={'primary'}>save</Button>
                 </Box>
-                {taskUpdateStatus === 'succeeded' && <Box sx={styleTask}>update is success</Box>}
-                {taskUpdateStatus === 'failed' && <Box sx={styleTask}>{errorMessage}</Box>}
+                {updateStatus === 'succeeded' && <Box sx={styleTask}>update is success</Box>}
+                {updateStatus === 'failed' && <Box sx={styleTask}>{errorMessage}</Box>}
             </Box>
         </Box>
     )
