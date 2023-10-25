@@ -97,7 +97,9 @@ export const EditableTask:FC<PropsType> = ({task,todoId}) => {
                     </Box>
                 </Box>
                 <Box sx={{textAlign:'center'}}>
-                    <Button onClick={updateTask} variant={'contained'} color={'primary'}>save</Button>
+                    <Button onClick={updateTask} variant={'contained'} color={'primary'}
+                            disabled={updateStatus === 'loading'}
+                    >save</Button>
                 </Box>
                 {updateStatus === 'succeeded' && <Box sx={styleTask}>update is success</Box>}
                 {updateStatus === 'failed' && <Box sx={styleTask}>{errorMessage}</Box>}
