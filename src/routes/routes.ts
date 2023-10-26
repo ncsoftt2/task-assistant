@@ -1,5 +1,4 @@
 export const routes = {
-    main: '/',
-    login:'/login',
-    task: '/task/:id'
+    main: '/todo',
+    login:'/todo/login',
 }
