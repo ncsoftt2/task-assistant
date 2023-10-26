@@ -5,6 +5,8 @@ import {memo, useCallback, useEffect} from "react";
 import {createTodoThunk, getTodoThunk} from "../../store/reducers/todo-list/todo-list-actions";
 import { TodoList } from "../TodoList/TodoList";
 import * as React from "react";
+import {Navigate} from "react-router-dom";
+import { routes } from "../../routes/routes";
 
 
 type PropsType = {
@@ -12,6 +14,7 @@ type PropsType = {
 }
 
 export const Main:React.FC<PropsType> = memo(({demo = false}) => {
+    const {isAuth} = useAppSelector(({auth}) => auth)
     useEffect(() => {
         if(demo) return
         dispatch(getTodoThunk())
@@ -32,7 +35,7 @@ export const Main:React.FC<PropsType> = memo(({demo = false}) => {
             </Grid>
         )
     })
-
+    if(!isAuth) return <Navigate to={routes.login}/>
     return (
         <>
             <Grid container sx={{p: '15px', justifyContent: 'center', alignItems: 'center'}}>
