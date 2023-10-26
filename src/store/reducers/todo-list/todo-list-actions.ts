@@ -4,6 +4,7 @@ import {ThunkType} from "../../index";
 import {setAppErrorAC, setAppStatusAC} from "../app/app-actions";
 import {RequestStatusType} from "../app/app-reducer";
 import {handleNetworkError, handleServerError} from "../../../utils/handleError";
+import {getTaskThunk} from "../tasks/task-actions";
 
 export type TodoListAction =
     | ReturnType<typeof createNewTodoAC>
@@ -12,6 +13,7 @@ export type TodoListAction =
     | ReturnType<typeof changeTodoFilterAC>
     | ReturnType<typeof setTodoListAC>
     | ReturnType<typeof changeTodoStatusAC>
+    | ReturnType<typeof clearDataAC>
 
 export const createNewTodoAC = (todoList:TodoListType) => ({type: "ADD-NEW-TODO",todoList} as const)
 export const deleteTodoAC = (todoId: string) => ({type: "REMOVE-TODO", todoId} as const)
@@ -23,12 +25,17 @@ export const setTodoListAC = (todoList:TodoListType[]) => ({type:"SET-TODOLIST",
 export const changeTodoStatusAC = (todoId:string,entityStatus:RequestStatusType) => (
     {type:"CHANGE-TODO-STATUS",todoId,entityStatus} as const)
 
+export const clearDataAC = () => ({type:'CLEAR-DATA'} as const)
+
 export const getTodoThunk = ():ThunkType => async dispatch => {
     dispatch(setAppStatusAC('loading'))
     try {
         const response = await todoListAPI.getTodoList()
         dispatch(setTodoListAC(response.data))
         dispatch(setAppStatusAC('succeeded'))
+        response.data.forEach(tl => {
+            dispatch(getTaskThunk(tl.id))
+        })
     } catch (e: any) {
         dispatch(setAppErrorAC(e.message))
         dispatch(setAppStatusAC('failed'))

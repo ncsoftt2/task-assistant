@@ -63,6 +63,8 @@ export const taskReducer = (state: TasksType = initialState, action: TaskAction)
                     ? [...action.tasks].sort((a,b) => a.priority - b.priority)
                     : [...action.tasks].sort((a,b) => b.priority - a.priority)
             }
+        case "CLEAR-DATA":
+            return {}
         default:
             return state
     }

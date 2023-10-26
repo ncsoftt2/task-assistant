@@ -5,7 +5,8 @@ let startState:AppInitialStateType
 beforeEach(() => {
         startState = {
             status: 'loading',
-            error: null
+            error: null,
+            initialized: false
         }
 })
 

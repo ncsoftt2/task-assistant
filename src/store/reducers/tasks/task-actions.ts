@@ -1,4 +1,4 @@
-import {createNewTodoAC, deleteTodoAC, setTodoListAC,} from "../todo-list/todo-list-actions";
+import {clearDataAC, createNewTodoAC, deleteTodoAC, setTodoListAC,} from "../todo-list/todo-list-actions";
 import {TaskType, tasksAPI, UpdateTaskModelType, TaskPriority} from "../../../api/task-api";
 import {ThunkType} from "../../index";
 import {setAppStatusAC} from "../app/app-actions";
@@ -16,7 +16,7 @@ export type TaskAction =
     | ReturnType<typeof createNewTodoAC>
     | ReturnType<typeof sortTasksAC>
     | ReturnType<typeof changeTaskStatusAC>
-
+    | ReturnType<typeof clearDataAC>
 export const createTaskAC = (task: TaskType) => ({type: "ADD-NEW-TASK", task} as const)
 export const deleteTaskAC = (todoId: string, taskId: string) => ({type: "REMOVE-TASK", todoId, taskId} as const)
 export const updateTaskAC = (todoId: string, taskId: string, model: UpdateTaskModelType) => (

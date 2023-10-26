@@ -1,7 +1,7 @@
 import {TodoFilterType, TodoListReducerType} from "../../store/reducers/todo-list/todo-list-reducer";
-import {FC, memo, useCallback, useEffect, useState} from "react";
+import {FC, memo, useCallback, useState} from "react";
 import {useAppDispatch, useAppSelector} from "../../store/hooks";
-import {createTaskThunk, getTaskThunk, sortTasksAC} from "../../store/reducers/tasks/task-actions";
+import {createTaskThunk, sortTasksAC} from "../../store/reducers/tasks/task-actions";
 import {TaskPriority, TaskStatus} from "../../api/task-api";
 import {Task} from "../Task/Task";
 import {Box, Button, ButtonGroup, CircularProgress, FormControl, IconButton, InputLabel, List, MenuItem, Select} from "@mui/material";
@@ -17,11 +17,7 @@ type PropsType = {
     demo?: boolean
 }
 
-export const TodoList:FC<PropsType> = memo(({demo,todoList: {title,filter,id,entityStatus}}) => {
-    useEffect(() => {
-        if(demo) return
-        dispatch(getTaskThunk(id))
-    }, [])
+export const TodoList:FC<PropsType> = memo(({todoList: {title,filter,id,entityStatus}}) => {
     const tasks = useAppSelector(state => state.tasks[id])
     const disabled = entityStatus === 'loading'
     const [priority,setPriority] = useState<TaskPriority>(TaskPriority.Low)

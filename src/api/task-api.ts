@@ -1,5 +1,5 @@
 import {instance} from "./api";
-import {ResponseType} from "./api-types";
+import {ReturnResponseType} from "./api-types";
 
 export enum TaskStatus {
     New = 0,
@@ -46,12 +46,12 @@ export const tasksAPI = {
         return instance.get<TaskResponseType>(`/todo-lists/${todoListId}/tasks`)
     },
     createTask(todoListId:string,title:string) {
-        return instance.post<ResponseType<{item:TaskType}>>(`/todo-lists/${todoListId}/tasks`, {title})
+        return instance.post<ReturnResponseType<{item:TaskType}>>(`/todo-lists/${todoListId}/tasks`, {title})
     },
     deleteTask(todoListId:string,taskId:string) {
-        return instance.delete<ResponseType>(`/todo-lists/${todoListId}/tasks/${taskId}`)
+        return instance.delete<ReturnResponseType>(`/todo-lists/${todoListId}/tasks/${taskId}`)
     },
     updateTask(todoId:string,taskId:string,model:UpdateTaskModelType) {
-        return instance.put<ResponseType<{item:TaskType}>>(`/todo-lists/${todoId}/tasks/${taskId}`, model)
+        return instance.put<ReturnResponseType<{item:TaskType}>>(`/todo-lists/${todoId}/tasks/${taskId}`, model)
     }
 }

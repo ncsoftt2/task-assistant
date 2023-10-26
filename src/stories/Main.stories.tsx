@@ -1,6 +1,7 @@
 import {Meta, StoryObj} from "@storybook/react";
 import {MainStoreDecorators} from "./MainStoreDecorators";
-import {Main} from "../components/Main/Main";
+import {Main} from "../components/Main/main";
+
 
 const meta: Meta<typeof Main> = {
     title: "TODOLISTS/Main",

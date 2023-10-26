@@ -46,7 +46,11 @@ const initialState:AppState = {
     },
     app: {
         status:'idle',
-        error: null
+        error: null,
+        initialized:false
+    },
+    auth: {
+        isAuth: false
     }
 }
 
