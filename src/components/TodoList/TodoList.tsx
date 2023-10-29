@@ -1,16 +1,14 @@
-import {TodoFilterType, TodoListReducerType} from "../../store/reducers/todo-list/todo-list-reducer";
-import {FC, memo, useCallback, useState} from "react";
+import {changeTodoFilterAC, deleteTodoThunk, TodoFilterType, TodoListReducerType} from "../../store/reducers/todo-list/todo-list-reducer";
+import {FC, memo, useCallback, useEffect, useState} from "react";
 import {useAppDispatch, useAppSelector} from "../../store/hooks";
-import {createTaskThunk, sortTasksAC} from "../../store/reducers/tasks/task-actions";
 import {TaskPriority, TaskStatus} from "../../api/task-api";
 import {Task} from "../Task/Task";
 import {Box, Button, ButtonGroup, CircularProgress, FormControl, IconButton, InputLabel, List, MenuItem, Select} from "@mui/material";
 import {AddItemForm} from "../AddItemForm/AddItemForm";
-import {changeTodoFilterAC, deleteTodoThunk} from "../../store/reducers/todo-list/todo-list-actions";
 import {SelectChangeEvent} from "@mui/material/Select";
 import DeleteIcon from '@mui/icons-material/Delete';
 import Typography from "@mui/material/Typography";
-import {TaskDomainType} from "../../store/reducers/tasks/task-reducer";
+import {createTaskThunk, getTaskThunk, sortTasksAC, TaskDomainType} from "../../store/reducers/tasks/task-reducer";
 
 type PropsType = {
     todoList: TodoListReducerType
@@ -24,10 +22,10 @@ export const TodoList:FC<PropsType> = memo(({todoList: {title,filter,id,entitySt
     const dispatch = useAppDispatch()
     const handleAddTask = useCallback((newTitle:string) => dispatch(createTaskThunk(id,newTitle)),[id])
     const handleDeleteTodoList = () => dispatch(deleteTodoThunk(id))
-    const handleChangeFilter = (filter:TodoFilterType) => () => dispatch(changeTodoFilterAC(id,filter))
+    const handleChangeFilter = (filter:TodoFilterType) => () => dispatch(changeTodoFilterAC({todoId:id,filter:filter}))
     const handleChangePriority = (e: SelectChangeEvent<TaskPriority>) => {
         setPriority(+e.target.value)
-        dispatch(sortTasksAC(tasks,priority,id))
+        dispatch(sortTasksAC({tasks:tasks, priority:priority, todoId:id}))
     }
     const filterTasks = (tasks:TaskDomainType[],filter:TodoFilterType):TaskDomainType[] => {
         switch (filter) {
@@ -45,6 +43,9 @@ export const TodoList:FC<PropsType> = memo(({todoList: {title,filter,id,entitySt
                      task={task}
         />
     })
+    useEffect(() => {
+       dispatch(getTaskThunk(id))
+    },[])
     return (
         <>
             <Box sx={{textAlign: 'center', fontSize: '16px'}}>

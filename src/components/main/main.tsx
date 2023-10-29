@@ -2,11 +2,11 @@ import {Container, Grid, Paper } from "@mui/material"
 import { AddItemForm } from "../AddItemForm/AddItemForm"
 import {useAppDispatch, useAppSelector} from "../../store/hooks";
 import {memo, useCallback, useEffect} from "react";
-import {createTodoThunk, getTodoThunk} from "../../store/reducers/todo-list/todo-list-actions";
 import { TodoList } from "../TodoList/TodoList";
 import * as React from "react";
 import {Navigate} from "react-router-dom";
 import { routes } from "../../routes/routes";
+import {createTodoThunk, getTodoThunk} from "../../store/reducers/todo-list/todo-list-reducer";
 
 
 type PropsType = {

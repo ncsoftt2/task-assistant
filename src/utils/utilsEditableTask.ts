@@ -3,8 +3,7 @@ import {useAppDispatch} from "../store/hooks";
 import {ChangeEvent, useState} from "react";
 import {SelectChangeEvent} from "@mui/material/Select";
 import {TaskPriority, TaskStatus} from "../api/task-api";
-import {updateTaskThunk} from "../store/reducers/tasks/task-actions";
-import {TaskDomainType} from "../store/reducers/tasks/task-reducer";
+import {TaskDomainType, updateTaskThunk} from "../store/reducers/tasks/task-reducer";
 
 export const useUtilsEditableTask = (taskUpdateStatus:RequestStatusType,task:TaskDomainType,todoId:string) => {
     const updateStatus = task.taskStatus

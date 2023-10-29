@@ -4,8 +4,8 @@ import {AppRoutes} from "./AppRoutes";
 import {BrowserRouter} from "react-router-dom";
 import {useAppDispatch, useAppSelector} from "../../store/hooks";
 import {useEffect} from "react";
-import {initializedTC} from "../../store/reducers/app/app-actions";
 import { CircularProgress } from "@mui/material";
+import {initializedTC} from "../../store/reducers/app/app-reducer";
 
 export const App = () => {
     const {initialized} = useAppSelector(({app}) => app)
