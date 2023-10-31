@@ -57,7 +57,7 @@ beforeEach(() => {
 
 describe('todo-lists', () => {
     test('add task', () => {
-        const endState = taskReducer(startState, createTaskAC({task:newTaskState}))
+        const endState = taskReducer(startState, createTaskAC(newTaskState))
         expect(endState['1'].length).toBe(3)
         expect(endState['1'][0].title).toBe(title)
     })

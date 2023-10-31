@@ -1,18 +1,18 @@
 import {Meta, StoryObj} from "@storybook/react";
 import {MainStoreDecorators} from "./MainStoreDecorators";
-import {Main} from "../components/Main/main";
+import {App} from "../components/App/App";
 
 
-const meta: Meta<typeof Main> = {
-    title: "TODOLISTS/Main",
-    component: Main,
+const meta: Meta<typeof App> = {
+    title: "TODOLISTS/App",
+    component: App,
     tags: ['autodocs'],
     decorators: [MainStoreDecorators],
 }
 
 export default meta;
-type Story = StoryObj<typeof Main>
+type Story = StoryObj<typeof App>
 
-export const MainStory:Story = {
-    render: () => <Main demo={true}/>
+export const AppStory:Story = {
+    render: () => <App demo={true}/>
 }

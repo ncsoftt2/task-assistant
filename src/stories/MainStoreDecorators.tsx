@@ -2,9 +2,10 @@ import {Provider} from "react-redux";
 import {AppState, reducers} from "../store";
 import {ThemeProvider} from "@mui/material";
 import {theme} from "../styles/GlobalTheme";
-import {legacy_createStore} from "redux";
 import React from "react";
 import {TaskPriority, TaskStatus} from "../api/task-api";
+import thunk from "redux-thunk";
+import {configureStore} from "@reduxjs/toolkit";
 
 const initialState:AppState = {
     todoList: [
@@ -14,11 +15,11 @@ const initialState:AppState = {
     ],
     tasks: {
         ['1']: [
-            {description: '', title: 'new title', status: TaskStatus.New, priority: TaskPriority.Low,
+            {description: '', title: 'new title', status: TaskStatus.Completed, priority: TaskPriority.Low,
                 startDate: new Date(), deadline: new Date(), id: '1', todoListId: '1', order: 0, addedDate: new Date(),
                 taskStatus:'idle'
             },
-            {description: '', title: 'new title', status: TaskStatus.New, priority: TaskPriority.Low,
+            {description: '', title: 'new title', status: TaskStatus.New, priority: TaskPriority.Urgently,
                 startDate: new Date(), deadline: new Date(), id: '2', todoListId: '1', order: 0, addedDate: new Date(),
             taskStatus:'idle'
             },
@@ -38,7 +39,7 @@ const initialState:AppState = {
                 startDate: new Date(), deadline: new Date(), id: '3', todoListId: '3', order: 0, addedDate: new Date(),
                 taskStatus:'idle'
             },
-            {description: '', title: 'new title', status: TaskStatus.New, priority: TaskPriority.Low,
+            {description: '', title: 'new title', status: TaskStatus.New, priority: TaskPriority.Urgently,
                 startDate: new Date(), deadline: new Date(), id: '3', todoListId: '3', order: 0, addedDate: new Date(),
                 taskStatus:'idle'
             },
@@ -47,19 +48,24 @@ const initialState:AppState = {
     app: {
         status:'idle',
         error: null,
-        initialized:false,
+        initialized:true,
         userData: {
-            email:'',
+            email:'free@gmail.com',
             id:1,
-            login:''
+            login:'free-agent'
         }
     },
     auth: {
-        isAuth: false
+        isAuth: true
     }
 }
 
-export const storyBookStore = legacy_createStore(reducers, initialState)
+export const storyBookStore = configureStore({
+    reducer:reducers,
+    middleware: getDefaultMiddleware => getDefaultMiddleware().prepend(thunk),
+    preloadedState: initialState,
+    devTools:true
+})
 
 export const MainStoreDecorators = (storyFn: () => React.ReactNode) => {
     return (

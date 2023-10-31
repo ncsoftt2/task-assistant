@@ -20,6 +20,7 @@ export const store = configureStore({
     devTools: true
 })
 
+
 export type AppState = ReturnType<typeof reducers>
 export type AppDispatch = ThunkDispatch<AppState, unknown, AnyAction>
 export type ThunkType = ThunkAction<void, AppState, unknown, AnyAction>

@@ -15,7 +15,7 @@ type PropsType = {
     demo?: boolean
 }
 
-export const TodoList:FC<PropsType> = memo(({todoList: {title,filter,id,entityStatus}}) => {
+export const TodoList:FC<PropsType> = memo(({demo,todoList: {title,filter,id,entityStatus}}) => {
     const tasks = useAppSelector(state => state.tasks[id])
     const disabled = entityStatus === 'loading'
     const [priority,setPriority] = useState<TaskPriority>(TaskPriority.Low)
@@ -41,9 +41,11 @@ export const TodoList:FC<PropsType> = memo(({todoList: {title,filter,id,entitySt
         return <Task key={task.id}
                      todoId={id}
                      task={task}
+                     demo={demo}
         />
     })
     useEffect(() => {
+        if(demo) return
        dispatch(getTaskThunk(id))
     },[])
     return (

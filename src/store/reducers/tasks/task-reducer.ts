@@ -21,8 +21,8 @@ const taskSlice = createSlice({
         setTaskAC: (state,action:PayloadAction<{todoListId: string, tasks: TaskType[]}>) => {
             state[action.payload.todoListId] = action.payload.tasks.map(task => ({...task,taskStatus:'idle'}))
         },
-        createTaskAC: (state,action:PayloadAction<{task: TaskType}>) => {
-            state[action.payload.task.todoListId].unshift({...action.payload.task,taskStatus:"idle"})
+        createTaskAC: (state,action:PayloadAction<TaskType>) => {
+            state[action.payload.todoListId].unshift({...action.payload,taskStatus:"idle"})
         },
         deleteTaskAC: (state,action:PayloadAction<{todoId: string, taskId: string}>) => {
             state[action.payload.todoId] = state[action.payload.todoId].filter(task => task.id !== action.payload.taskId)
@@ -84,7 +84,7 @@ export const createTaskThunk = (id: string, title: string): ThunkType => async d
     try {
         const response = await tasksAPI.createTask(id,title)
         if(response.data.resultCode === 0) {
-            dispatch(createTaskAC({task:response.data.data.item}))
+            dispatch(createTaskAC(response.data.data.item))
             dispatch(setAppStatusAC({status:'succeeded'}))
         } else {
             handleServerError(response.data,dispatch)
