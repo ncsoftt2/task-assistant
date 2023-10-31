@@ -48,7 +48,6 @@ export const EditableTask:FC<PropsType> = ({task,todoId}) => {
                         label={'Title'}
                         value={title}
                         onChange={handleChangeTitle}
-                        autoFocus
                         size={'small'}
                         sx={{fontFamily:'inherit',width:'100%'}}
                     />
