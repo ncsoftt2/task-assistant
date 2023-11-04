@@ -1,6 +1,6 @@
-import {useAppDispatch} from "../../store/hooks";
+import {useAppDispatch} from "../../../store/hooks";
 import {useFormik} from "formik";
-import {loginTC} from "./auth-reducer";
+import {loginTC} from "../auth-reducer";
 
 type FormikErrorType = {
     email?: string

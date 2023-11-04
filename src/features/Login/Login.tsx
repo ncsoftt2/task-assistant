@@ -10,7 +10,7 @@ import Button from '@mui/material/Button';
 import {useAppSelector} from "../../store/hooks";
 import {Navigate} from "react-router-dom";
 import {routes} from "../../routes/routes";
-import {useLogin} from "./useLogin";
+import {useLogin} from "./hooks/useLogin";
 
 
 

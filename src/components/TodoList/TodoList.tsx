@@ -6,7 +6,7 @@ import {Box, Button, ButtonGroup, CircularProgress, FormControl, IconButton, Inp
 import {AddItemForm} from "../AddItemForm/AddItemForm";
 import DeleteIcon from '@mui/icons-material/Delete';
 import Typography from "@mui/material/Typography";
-import {useTodoList} from "./useTodoList";
+import {useTodoList} from "./hooks/useTodoList";
 
 type PropsType = {
     todoList: TodoListReducerType

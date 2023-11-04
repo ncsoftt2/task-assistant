@@ -1,8 +1,8 @@
-import {useAppDispatch, useAppSelector} from "../../store/hooks";
+import {useAppDispatch, useAppSelector} from "../../../store/hooks";
 import {useCallback, useEffect, useState} from "react";
-import {TaskPriority, TaskStatus} from "../../api/task-api";
-import {createTaskThunk, getTaskThunk, sortTasksAC, TaskDomainType} from "../../store/reducers/tasks/task-reducer";
-import {changeTodoFilterAC, deleteTodoThunk, TodoFilterType} from "../../store/reducers/todo-list/todo-list-reducer";
+import {TaskPriority, TaskStatus} from "../../../api/task-api";
+import {createTaskThunk, getTaskThunk, sortTasksAC, TaskDomainType} from "../../../store/reducers/tasks/task-reducer";
+import {changeTodoFilterAC, deleteTodoThunk, TodoFilterType} from "../../../store/reducers/todo-list/todo-list-reducer";
 import {SelectChangeEvent} from "@mui/material/Select";
 
 export const useTodoList = (id: string,filter:TodoFilterType,demo: boolean) => {
