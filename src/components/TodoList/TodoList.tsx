@@ -1,14 +1,12 @@
-import {changeTodoFilterAC, deleteTodoThunk, TodoFilterType, TodoListReducerType} from "../../store/reducers/todo-list/todo-list-reducer";
-import {FC, memo, useCallback, useEffect, useState} from "react";
-import {useAppDispatch, useAppSelector} from "../../store/hooks";
-import {TaskPriority, TaskStatus} from "../../api/task-api";
+import {TodoListReducerType} from "../../store/reducers/todo-list/todo-list-reducer";
+import {FC, memo} from "react";
+import {TaskPriority} from "../../api/task-api";
 import {Task} from "../Task/Task";
 import {Box, Button, ButtonGroup, CircularProgress, FormControl, IconButton, InputLabel, List, MenuItem, Select} from "@mui/material";
 import {AddItemForm} from "../AddItemForm/AddItemForm";
-import {SelectChangeEvent} from "@mui/material/Select";
 import DeleteIcon from '@mui/icons-material/Delete';
 import Typography from "@mui/material/Typography";
-import {createTaskThunk, getTaskThunk, sortTasksAC, TaskDomainType} from "../../store/reducers/tasks/task-reducer";
+import {useTodoList} from "./useTodoList";
 
 type PropsType = {
     todoList: TodoListReducerType
@@ -16,27 +14,15 @@ type PropsType = {
 }
 
 export const TodoList:FC<PropsType> = memo(({demo,todoList: {title,filter,id,entityStatus}}) => {
-    const tasks = useAppSelector(state => state.tasks[id])
     const disabled = entityStatus === 'loading'
-    const [priority,setPriority] = useState<TaskPriority>(TaskPriority.Low)
-    const dispatch = useAppDispatch()
-    const handleAddTask = useCallback((newTitle:string) => dispatch(createTaskThunk(id,newTitle)),[id])
-    const handleDeleteTodoList = () => dispatch(deleteTodoThunk(id))
-    const handleChangeFilter = (filter:TodoFilterType) => () => dispatch(changeTodoFilterAC({todoId:id,filter:filter}))
-    const handleChangePriority = (e: SelectChangeEvent<TaskPriority>) => {
-        setPriority(+e.target.value)
-        dispatch(sortTasksAC({tasks:tasks, priority:priority, todoId:id}))
-    }
-    const filterTasks = (tasks:TaskDomainType[],filter:TodoFilterType):TaskDomainType[] => {
-        switch (filter) {
-            case "active":
-                return tasks.filter(({status}) => status !== TaskStatus.Completed)
-            case "completed":
-                return tasks.filter(({status}) => status === TaskStatus.Completed)
-            default: return tasks
-        }
-    }
-    const filteredTasks = filterTasks(tasks,filter)
+    const {handleDeleteTodoList,
+        handleChangeFilter,
+        handleChangePriority,
+        handleAddTask,
+        tasks,
+        filteredTasks,
+        priority
+    } = useTodoList(id,filter,demo = false)
     const tasksRender = filteredTasks.map(task => {
         return <Task key={task.id}
                      todoId={id}
@@ -44,10 +30,6 @@ export const TodoList:FC<PropsType> = memo(({demo,todoList: {title,filter,id,ent
                      demo={demo}
         />
     })
-    useEffect(() => {
-        if(demo) return
-       dispatch(getTaskThunk(id))
-    },[])
     return (
         <>
             <Box sx={{textAlign: 'center', fontSize: '16px'}}>
