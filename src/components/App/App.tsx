@@ -3,15 +3,17 @@ import { Header } from "../Header/header";
 import {AppRoutes} from "./AppRoutes";
 import {BrowserRouter} from "react-router-dom";
 import {useAppDispatch, useAppSelector} from "../../store/hooks";
-import {FC, useEffect} from "react";
+import {FC, useEffect, useState} from "react";
 import { CircularProgress } from "@mui/material";
 import {initializedTC} from "../../store/reducers/app/app-reducer";
+import { AppDrawer } from "../../widgets/Drawer";
 
 type PropsType = {
     demo?: boolean
 }
 
 export const App:FC<PropsType>= ({demo = false}) => {
+    const [drawerOpen,setDrawerOpen] = useState(false)
     const {initialized} = useAppSelector(({app}) => app)
     const dispatch = useAppDispatch()
     const style = {
@@ -29,7 +31,8 @@ export const App:FC<PropsType>= ({demo = false}) => {
     }
     return (
         <BrowserRouter>
-            <Header />
+            <Header setDrawerOpen={setDrawerOpen}/>
+            <AppDrawer setDrawerOpen={setDrawerOpen} drawerOpen={drawerOpen}/>
             <ErrorSnackBar/>
             <AppRoutes demo={demo}/>
         </BrowserRouter>
