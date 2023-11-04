@@ -58,8 +58,8 @@ export const logoutTC = (): ThunkType => async dispatch => {
         } else {
             handleServerError(response.data,dispatch)
         }
-    } catch (e: any) {
-        handleNetworkError(e.message,dispatch)
+    } catch (e) {
+        handleNetworkError(e as {message:string},dispatch)
     } finally {
         dispatch(setAppStatusAC({status:'failed'}))
     }
