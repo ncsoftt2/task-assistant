@@ -1,7 +1,13 @@
-import {createTaskAC, deleteTaskAC, setTaskAC, taskReducer, TasksType, updateTaskAC} from "./task-reducer";
-import {TaskPriority, TaskStatus, TaskType} from "../../../api/task-api";
-import {TodoListType} from "../../../api/todo-list-api";
-import {clearDataAC, deleteTodoAC, setTodoListAC} from "../todo-list/todo-list-reducer";
+import {taskReducer, TasksType} from "../slice/task-reducer";
+import {TaskPriority, TaskStatus, TaskType} from "../../../../api/task-api";
+import {TodoListType} from "../../../../api/todo-list-api";
+import {clearDataAC} from "../../todo-list/slice/todo-list-reducer";
+import {fetchTasksTC} from "../thunk/fetchTasks";
+import {createTaskTC} from "../thunk/createTask";
+import {deleteTaskTC} from "../thunk/deleteTask";
+import {updateTaskTC} from "../thunk/updateTask";
+import {fetchTodoTC} from "../../todo-list/thunk/fetchTodoList";
+import {deleteTodoTC} from "../../todo-list/thunk/deleteTodo";
 
 let startState: TasksType;
 let title: string;
@@ -57,30 +63,33 @@ beforeEach(() => {
 
 describe('todo-lists', () => {
     test('add task', () => {
-        const endState = taskReducer(startState, createTaskAC(newTaskState))
+        const endState = taskReducer(startState, createTaskTC.fulfilled(newTaskState,'reqId', {id:'1',title}))
         expect(endState['1'].length).toBe(3)
         expect(endState['1'][0].title).toBe(title)
     })
     test('remove task', () => {
-        const endState = taskReducer(startState, deleteTaskAC({todoId:"1",taskId:'2'}))
+        let payload = {todoId:"1",taskId:'2'};
+        const endState = taskReducer(startState, deleteTaskTC.fulfilled(payload,'reqId',payload))
         expect(endState['1'].length).toBe(1)
     })
     test('change task title', () => {
-        const endState = taskReducer(startState, updateTaskAC({taskId:'1', todoId:'1', model:newTaskState}))
+        let payload = {taskId:'1', todoId:'1', model:newTaskState};
+        const endState = taskReducer(startState, updateTaskTC.fulfilled(payload,'reqId',payload))
         expect(endState['1'][0].title).toBe(title)
     })
     test('change task status', () => {
-        const endState = taskReducer(startState, updateTaskAC({todoId:'1', taskId:'1', model:newTaskState}))
+        let payload = {taskId:'1', todoId:'1', model:newTaskState};
+        const endState = taskReducer(startState, updateTaskTC.fulfilled(payload,'reqId',payload))
         expect(endState['1'][0].status).toBe(TaskStatus.Completed)
     })
     test('remove todo = remove task', () => {
-        const endState = taskReducer(startState, deleteTodoAC({todoId:'1'}))
+        const endState = taskReducer(startState, deleteTodoTC.fulfilled('1','reqId','1'))
         const keys = Object.keys(endState)
         expect(keys.length).toBe(1)
         expect(endState['1']).toBeUndefined()
     })
     test('when added todolist we should added task with empty array',() => {
-        const action = setTodoListAC({todoList:startTodoListState})
+        const action = fetchTodoTC.fulfilled(startTodoListState,'reqId')
         const endState = taskReducer({
             ['1']: [],
             ['2']:[]
@@ -93,7 +102,8 @@ describe('todo-lists', () => {
         expect(endState).toEqual({})
     })
     test('set tasks for todolist',() => {
-        const action = setTaskAC({todoListId:"1",tasks:startStateTaskTypeAPI})
+        let payload = {id:"1",tasks:startStateTaskTypeAPI};
+        const action = fetchTasksTC.fulfilled(payload,"1","1")
         const endState = taskReducer({['1']: [], ['2']: [],}, action)
         expect(endState['1'].length).toBe(2)
         expect(endState['2'].length).toBe(0)

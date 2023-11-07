@@ -1,7 +1,7 @@
 import {Meta, StoryObj} from "@storybook/react";
 import {MainStoreDecorators} from "./MainStoreDecorators";
 import {EditableTask} from "../components/Task/EditableTask";
-import {TaskDomainType} from "../store/reducers/tasks/task-reducer";
+import {TaskDomainType} from "../store/reducers/tasks/slice/task-reducer";
 
 const taskObj:TaskDomainType = {
     title:'bla',

@@ -1,7 +1,6 @@
 import {ChangeEvent, KeyboardEvent, useState} from "react";
-import {RequestStatusType} from "../../../store/reducers/app/app-reducer";
 
-export const useAddItemForm = (callback: (title: string) => void,status:RequestStatusType) => {
+export const useAddItemForm = (callback: (title: string) => void) => {
     const [value, setValue] = useState('')
     const [error,setError] = useState(false)
     const handleAddItem = () => {

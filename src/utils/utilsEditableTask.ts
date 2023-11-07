@@ -1,9 +1,10 @@
-import {RequestStatusType} from "../store/reducers/app/app-reducer";
+import {RequestStatusType} from "../store/reducers/app/slice/app-reducer";
 import {useAppDispatch} from "../store/hooks";
 import {ChangeEvent, useState} from "react";
 import {SelectChangeEvent} from "@mui/material/Select";
 import {TaskPriority, TaskStatus} from "../api/task-api";
-import {TaskDomainType, updateTaskThunk} from "../store/reducers/tasks/task-reducer";
+import {TaskDomainType} from "../store/reducers/tasks/slice/task-reducer";
+import {updateTaskTC} from "../store/reducers/tasks/thunk/updateTask";
 
 export const useUtilsEditableTask = (taskUpdateStatus:RequestStatusType,task:TaskDomainType,todoId:string) => {
     const updateStatus = task.taskStatus
@@ -26,7 +27,8 @@ export const useUtilsEditableTask = (taskUpdateStatus:RequestStatusType,task:Tas
     const dispatch = useAppDispatch()
     const updateTask = () => {
         const payload =  {title,description,status,priority}
-        dispatch(updateTaskThunk(todoId,task.id,payload))
+        dispatch(updateTaskTC({todoId, taskId:task.id, model:payload}))
+
     }
     const styleTask = {
         color:'white',

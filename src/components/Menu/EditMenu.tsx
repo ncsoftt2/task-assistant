@@ -8,7 +8,7 @@ import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import {UniversalModal} from "./UniversalModal";
 import {FC, memo} from 'react';
 import {EditableTask} from "../Task/EditableTask";
-import {TaskDomainType} from "../../store/reducers/tasks/task-reducer";
+import {TaskDomainType} from "../../store/reducers/tasks/slice/task-reducer";
 
 
 type PropsType = {

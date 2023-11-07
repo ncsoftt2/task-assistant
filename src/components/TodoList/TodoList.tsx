@@ -1,4 +1,4 @@
-import {TodoListReducerType} from "../../store/reducers/todo-list/todo-list-reducer";
+import {TodoListReducerType} from "../../store/reducers/todo-list/slice/todo-list-reducer";
 import {FC, memo} from "react";
 import {TaskPriority} from "../../api/task-api";
 import {Task} from "../Task/Task";

@@ -7,7 +7,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import {useAppSelector} from "../../store/hooks";
 import {useUtilsEditableTask} from "../../utils/utilsEditableTask";
-import {TaskDomainType} from "../../store/reducers/tasks/task-reducer";
+import {TaskDomainType} from "../../store/reducers/tasks/slice/task-reducer";
 
 
 type PropsType = {

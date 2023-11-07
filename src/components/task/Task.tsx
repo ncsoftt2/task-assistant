@@ -1,11 +1,13 @@
-import {TaskStatus, UpdateTaskModelType} from "../../api/task-api";
+import {TaskStatus} from "../../api/task-api";
 import React, {memo, useCallback} from "react";
 import {ChangeEvent, FC} from "react";
 import {Box, Checkbox, ListItem} from "@mui/material";
 import {EditMenu} from "../Menu/EditMenu";
 import {useAppDispatch} from "../../store/hooks";
 import {utilsTask} from "../../utils/utilsTask";
-import {TaskDomainType, deleteTaskThunk, updateTaskThunk, updateTaskAC} from "../../store/reducers/tasks/task-reducer";
+import {TaskDomainType} from "../../store/reducers/tasks/slice/task-reducer";
+import { deleteTaskTC } from "../../store/reducers/tasks/thunk/deleteTask";
+import {updateTaskTC} from "../../store/reducers/tasks/thunk/updateTask";
 
 
 type PropsType = {
@@ -14,23 +16,23 @@ type PropsType = {
     demo?: boolean
 }
 
-export const Task: FC<PropsType> = memo(({demo,todoId, task}) => {
+export const Task: FC<PropsType> = memo(({todoId, task}) => {
     const dispatch = useAppDispatch()
-    const handleDeleteTask = useCallback(() => dispatch(deleteTaskThunk(todoId, task.id)), [todoId, task.id])
+    const handleDeleteTask = useCallback(() => dispatch(deleteTaskTC({todoId, taskId:task.id})), [todoId, task.id])
     const handleChangeStatus = (e: ChangeEvent<HTMLInputElement>) => {
         const status = e.currentTarget.checked ? TaskStatus.Completed : TaskStatus.New
-        const updateModel:UpdateTaskModelType = {
-            status,
-            priority:task.priority,
-            description:task.description,
-            title:task.title,
-            deadline:task.deadline,
-            startDate:task.startDate
-        }
-        if(demo) {
-            dispatch(updateTaskAC({taskId:task.id,todoId:todoId,model:updateModel}))
-        }
-        dispatch(updateTaskThunk(todoId, task.id, {status}))
+        // const updateModel:UpdateTaskModelType = {
+        //     status,
+        //     priority:task.priority,
+        //     description:task.description,
+        //     title:task.title,
+        //     deadline:task.deadline,
+        //     startDate:task.startDate
+        // }
+        // if(demo) {
+        //     dispatch(updateTaskAC({taskId:task.id,todoId:todoId,model:updateModel}))
+        // }
+        dispatch(updateTaskTC({todoId, taskId:task.id, model:{status}}))
     }
     const {style,taskAddedDate} = utilsTask(task)
     return (

@@ -1,20 +1,23 @@
 import {useAppDispatch, useAppSelector} from "../../../store/hooks";
 import {useCallback, useEffect, useState} from "react";
 import {TaskPriority, TaskStatus} from "../../../api/task-api";
-import {createTaskThunk, getTaskThunk, sortTasksAC, TaskDomainType} from "../../../store/reducers/tasks/task-reducer";
-import {changeTodoFilterAC, deleteTodoThunk, TodoFilterType} from "../../../store/reducers/todo-list/todo-list-reducer";
+import {sortTasksAC, TaskDomainType} from "../../../store/reducers/tasks/slice/task-reducer";
+import {changeTodoFilterAC, TodoFilterType} from "../../../store/reducers/todo-list/slice/todo-list-reducer";
 import {SelectChangeEvent} from "@mui/material/Select";
+import {fetchTasksTC} from "../../../store/reducers/tasks/thunk/fetchTasks";
+import {createTaskTC} from "../../../store/reducers/tasks/thunk/createTask";
+import {deleteTodoTC} from "../../../store/reducers/todo-list/thunk/deleteTodo";
 
 export const useTodoList = (id: string,filter:TodoFilterType,demo: boolean) => {
     useEffect(() => {
         if(demo) return
-        dispatch(getTaskThunk(id))
+        dispatch(fetchTasksTC(id))
     },[])
     const tasks = useAppSelector(state => state.tasks[id])
     const [priority,setPriority] = useState<TaskPriority>(TaskPriority.Low)
     const dispatch = useAppDispatch()
-    const handleAddTask = useCallback((newTitle:string) => dispatch(createTaskThunk(id,newTitle)),[id])
-    const handleDeleteTodoList = () => dispatch(deleteTodoThunk(id))
+    const handleAddTask = useCallback((title:string) => dispatch(createTaskTC({id, title})),[id])
+    const handleDeleteTodoList = () => dispatch(deleteTodoTC(id))
     const handleChangeFilter = (filter:TodoFilterType) => () => dispatch(changeTodoFilterAC({todoId:id,filter:filter}))
     const handleChangePriority = (e: SelectChangeEvent<TaskPriority>) => {
         setPriority(+e.target.value)

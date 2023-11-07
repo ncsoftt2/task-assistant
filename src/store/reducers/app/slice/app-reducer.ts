@@ -1,8 +1,5 @@
-import {ThunkType} from "../../index";
-import {authAPI} from "../../../api/auth-api";
-import {handleNetworkError, handleServerError} from "../../../utils/handleError";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {setIsLoggedIn} from "../../../features/Login/auth-reducer";
+import {initializedTC} from "../thunk/me";
 
 export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
 
@@ -42,28 +39,16 @@ const appSlice = createSlice({
         setUserDataAC: (state,action:PayloadAction<UserDataType | null>) => {
             state.userData = action.payload
         }
+    },
+    extraReducers: (builder) => {
+        builder.addCase(initializedTC.fulfilled,(state,action) => {
+            if(action.payload) {
+                state.userData = action.payload.userData ? action.payload.userData : {} as UserDataType
+                state.initialized = action.payload.value
+            }
+        })
     }
 })
 
 export const appReducer = appSlice.reducer
 export const {setAppStatusAC,setInitializedAC,setAppErrorAC,setUserDataAC} = appSlice.actions
-
-
-export const initializedTC = (): ThunkType => async dispatch => {
-    dispatch(setAppStatusAC({status:'loading'}))
-    try {
-        const response = await authAPI.me()
-        if(response.data.resultCode === 0) {
-            dispatch(setAppStatusAC({status:'succeeded'}))
-            dispatch(setIsLoggedIn({value:true}))
-            dispatch(setUserDataAC(response.data.data))
-        } else {
-            handleServerError(response.data,dispatch)
-        }
-        dispatch(setInitializedAC({value:true}))
-    } catch (e: any) {
-        handleNetworkError(e.message,dispatch)
-    } finally {
-        dispatch(setAppStatusAC({status:'idle'}))
-    }
-}

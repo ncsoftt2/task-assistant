@@ -5,8 +5,8 @@ import {BrowserRouter} from "react-router-dom";
 import {useAppDispatch, useAppSelector} from "../../store/hooks";
 import {FC, useEffect, useState} from "react";
 import { CircularProgress } from "@mui/material";
-import {initializedTC} from "../../store/reducers/app/app-reducer";
 import { AppDrawer } from "../../widgets/Drawer";
+import {initializedTC} from "../../store/reducers/app/thunk/me";
 
 type PropsType = {
     demo?: boolean

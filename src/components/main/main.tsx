@@ -6,7 +6,8 @@ import { TodoList } from "../TodoList/TodoList";
 import * as React from "react";
 import {Navigate} from "react-router-dom";
 import { routes } from "../../routes/routes";
-import {createTodoThunk, getTodoThunk} from "../../store/reducers/todo-list/todo-list-reducer";
+import { fetchTodoTC } from "../../store/reducers/todo-list/thunk/fetchTodoList";
+import { createTodoTC } from "../../store/reducers/todo-list/thunk/createTodo";
 
 
 type PropsType = {
@@ -17,11 +18,11 @@ export const Main:React.FC<PropsType> = memo(({demo = false}) => {
     const {isAuth} = useAppSelector(({auth}) => auth)
     useEffect(() => {
         if(demo) return
-        dispatch(getTodoThunk())
+        dispatch(fetchTodoTC())
     }, [])
     const todoList = useAppSelector(state => state.todoList)
     const dispatch = useAppDispatch()
-    const addNewTodo = useCallback((title:string) => dispatch(createTodoThunk(title)),[dispatch])
+    const addNewTodo = useCallback((title:string) => dispatch(createTodoTC(title)),[dispatch])
     const elements = todoList.map(todo => {
         return (
             <Grid item sx={{p:1}} md={6} lg={3} sm={6} xs={12} key={todo.id}>
