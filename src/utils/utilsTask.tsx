@@ -1,4 +1,4 @@
-import {TaskPriority, TaskStatus, TaskType} from "../api/task-api";
+import {TaskPriority, TaskStatus, TaskType} from "api/task-api";
 
 export const utilsTask = (task:TaskType) => {
     const taskPriorityColor = task.priority === TaskPriority.High

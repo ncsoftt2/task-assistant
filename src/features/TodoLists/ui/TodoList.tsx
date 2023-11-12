@@ -1,8 +1,8 @@
 import {TodoListReducerType} from "../service/slice/todo-list-reducer";
 import {FC, memo} from "react";
-import {TaskPriority} from "../../../api/task-api";
+import {TaskPriority} from "api/task-api";
 import {Box, Button, ButtonGroup,Typography, CircularProgress, FormControl, IconButton, InputLabel, List, MenuItem, Select} from "@mui/material";
-import {AddItemForm} from "../../../components/AddItemForm/AddItemForm";
+import {AddItemForm} from "components/AddItemForm/AddItemForm";
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Task } from "../../Tasks";
 import { useTodoList } from "..";

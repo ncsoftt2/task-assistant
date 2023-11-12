@@ -1,5 +1,5 @@
 import { tasksSelectors } from "./service/selectors/taskSelectors";
-import {taskReducer, taskSlice} from "./service/slice/task-reducer";
+import {taskReducer, slice} from "./service/slice/task-reducer";
 import { EditableTask } from "./ui/EditableTask";
 import { Task } from "./ui/Task";
 import {deleteTaskTC} from "./service/thunk/deleteTask";
@@ -9,7 +9,7 @@ import {fetchTasksTC} from "./service/thunk/fetchTasks";
 
 
 
-const taskActions = {deleteTaskTC,createTaskTC,updateTaskTC,fetchTasksTC,...taskSlice.actions}
+const taskActions = {deleteTaskTC,createTaskTC,updateTaskTC,fetchTasksTC,...slice.actions}
 
 export {
     tasksSelectors,

@@ -16,7 +16,7 @@ export type TodoListReducerType = TodoListType & {
 
 const initialState:TodoListReducerType[] = []
 
-export const todoSlice = createSlice({
+export const slice = createSlice({
     name: "todo",
     initialState,
     reducers: {
@@ -30,23 +30,25 @@ export const todoSlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(clearDataAC,() => {
-            return []
+                return []
         })
             .addCase(fetchTodoTC.fulfilled,(_,action) => {
-            return action.payload.map(tl => ({...tl,entityStatus:"idle",filter:"all"}))
+                return action.payload.map(tl => ({...tl,entityStatus:"idle",filter:"all"}))
         })
             .addCase(createTodoTC.fulfilled,(state,action) => {
-            state.unshift({...action.payload,entityStatus:'idle',filter:"all"})
+                state.unshift({...action.payload,entityStatus:'idle',filter:"all"})
         })
             .addCase(deleteTodoTC.fulfilled,(state,{payload}) => {
-            return state.filter(t => t.id !== payload)
+                const index = state.findIndex(todo => todo.id === payload)
+                if(index !== -1) state.splice(index,1)
         })
-            .addCase(updateTodoTitleTC.fulfilled,(state,action) => {
-            return state.map(tl => tl.id === action.payload.todoId ? {...tl,title:action.payload.title} : tl)
+            .addCase(updateTodoTitleTC.fulfilled,(state, {payload: {todoId,title}}) => {
+                const index = state.findIndex(todo => todo.id === todoId)
+                if(index !== -1) state[index].title = title
         })
     }
 })
 
-export const todoListReducer = todoSlice.reducer
-export const {changeTodoStatusAC, changeTodoFilterAC} = todoSlice.actions
+export const todoListReducer = slice.reducer
+export const {changeTodoStatusAC, changeTodoFilterAC} = slice.actions
 

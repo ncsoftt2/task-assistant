@@ -1,5 +1,5 @@
 import * as todoSelectors from './service/selectors/todoSelectors'
-import {todoListReducer, todoSlice} from "./service/slice/todo-list-reducer";
+import {todoListReducer, slice} from "./service/slice/todo-list-reducer";
 import { createTodoTC } from './service/thunk/createTodo';
 import { deleteTodoTC } from './service/thunk/deleteTodo';
 import { fetchTodoTC } from './service/thunk/fetchTodoList';
@@ -8,7 +8,7 @@ import { TodoList } from "./ui/TodoList";
 import { TodoLists } from "./ui/TodoLists";
 import { useTodoList } from "./ui/hooks/useTodoList";
 
-const todoListActions = {createTodoTC,deleteTodoTC,fetchTodoTC,updateTodoTitleTC,...todoSlice.actions}
+const todoListActions = {createTodoTC,deleteTodoTC,fetchTodoTC,updateTodoTitleTC,...slice.actions}
 
 export {
     todoListReducer,

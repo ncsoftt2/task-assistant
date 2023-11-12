@@ -1,5 +1,5 @@
-import {TaskPriority, TaskType} from "../../../../api/task-api";
-import {RequestStatusType} from "../../../../app/service/slice/app-reducer";
+import {TaskPriority, TaskType} from "api/task-api";
+import {RequestStatusType} from "app/service/slice/app-reducer";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {fetchTasksTC} from "../thunk/fetchTasks";
 import {createTaskTC} from "../thunk/createTask";
@@ -8,7 +8,7 @@ import {updateTaskTC} from "../thunk/updateTask";
 import {fetchTodoTC} from "../../../TodoLists/service/thunk/fetchTodoList";
 import {createTodoTC} from "../../../TodoLists/service/thunk/createTodo";
 import {deleteTodoTC} from "../../../TodoLists/service/thunk/deleteTodo";
-import {clearDataAC} from "../../../../common/actions/clearData";
+import {clearDataAC} from "common/actions/clearData";
 
 export type TaskDomainType = TaskType & {
     taskStatus: RequestStatusType
@@ -19,7 +19,7 @@ export type TasksType = {
 }
 
 const initialState: TasksType = {}
-export const taskSlice = createSlice({
+export const slice = createSlice({
     name: "task",
     initialState,
     reducers: {
@@ -50,36 +50,37 @@ export const taskSlice = createSlice({
             })
         })
             .addCase(fetchTasksTC.fulfilled,(state, action) => {
-            if(action.payload) {
                 state[action.payload.id] = action.payload.tasks.map(task => ({...task,taskStatus:'idle'}))
-            }
         })
             .addCase(createTaskTC.fulfilled,(state,action) => {
-            if(action.payload) {
                 state[action.payload.todoListId].unshift({...action.payload,taskStatus:"idle"})
-            }
+
         })
-            .addCase(deleteTaskTC.fulfilled,(state,action) => {
-            state[action.payload.todoId] = state[action.payload.todoId]
-                .filter(task => task.id !== action.payload.taskId)
+            .addCase(deleteTaskTC.fulfilled,(state, {payload: {taskId,todoId}}) => {
+                const index = state[todoId].findIndex(t => t.id === taskId)
+                if(index !== -1) {
+                    state[todoId].splice(index,1)
+                }
         })
-            .addCase(updateTaskTC.pending,(state, {meta: {arg: {taskId,todoId,model}}}) => {
-            state[todoId] = state[todoId]
-                .map(task => task.id === taskId ? {...task,...model} : task)
-        })
+        //     .addCase(updateTaskTC.pending,(state, {meta: {arg: {taskId,todoId,model}}}) => {
+        //     state[todoId] = state[todoId]
+        //         .map(task => task.id === taskId ? {...task,...model} : task)
+        // })
             .addCase(updateTaskTC.fulfilled,(state, {payload}) => {
-            if(payload) {
-                state[payload.todoId] = state[payload.todoId]
-                    .map(task => task.id === payload.taskId ? {...task,...payload.model} : task)
-            }
+                if(payload) {
+                    const index = state[payload.todoId].findIndex(t => t.id === payload.taskId)
+                    if(index !== -1) {
+                        state[payload.todoId][index] = {...state[payload.todoId][index],...payload.model}
+                    }
+                }
         })
-            .addCase(updateTaskTC.rejected,(state, {meta: {arg: {taskId,todoId,model}}}) => {
-            state[todoId] = state[todoId]
-                .map(task => task.id === taskId ? {...task,...model} : task)
-        })
+        //     .addCase(updateTaskTC.rejected,(state, {meta: {arg: {taskId,todoId,model}}}) => {
+        //     state[todoId] = state[todoId]
+        //         .map(task => task.id === taskId ? {...task,...model} : task)
+        // })
     }
 })
 
-export const taskReducer = taskSlice.reducer
-export const {sortTasksAC,changeTaskStatusAC} = taskSlice.actions
+export const taskReducer = slice.reducer
+export const {sortTasksAC,changeTaskStatusAC} = slice.actions
 

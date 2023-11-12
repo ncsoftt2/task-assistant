@@ -1,10 +1,10 @@
-import {setAppStatusAC} from "../../../../app/service/slice/app-reducer";
-import {tasksAPI, TaskType} from "../../../../api/task-api";
-import {handleNetworkError} from "../../../../utils/handleError";
+import {setAppStatusAC} from "app/service/slice/app-reducer";
+import {tasksAPI, TaskType} from "api/task-api";
+import {handleNetworkError} from "utils/handleError";
 
 import {createAsyncThunk} from "@reduxjs/toolkit";
 
-export const fetchTasksTC = createAsyncThunk<{ tasks:TaskType[], id:string } | void,string,{rejectValue: {errors: string[]}}>(
+export const fetchTasksTC = createAsyncThunk<{ tasks:TaskType[], id:string },string,{rejectValue: {errors: string[]}}>(
     'task/fetchTasks',
     async (id,{dispatch,rejectWithValue}) => {
         dispatch(setAppStatusAC({status:'loading'}))

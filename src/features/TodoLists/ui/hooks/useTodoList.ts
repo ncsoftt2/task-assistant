@@ -1,9 +1,9 @@
 import {useCallback, useEffect, useState} from "react";
-import {TaskPriority, TaskStatus} from "../../../../api/task-api";
+import {TaskPriority, TaskStatus} from "api/task-api";
 import {TaskDomainType} from "../../../Tasks/service/slice/task-reducer";
 import {TodoFilterType} from "../../service/slice/todo-list-reducer";
 import {SelectChangeEvent} from "@mui/material/Select";
-import {useActions, useAppSelector} from "../../../../app/store";
+import {useActions, useAppSelector} from "app/store";
 import {taskActions} from "../../../Tasks";
 import {todoListActions} from "../../index";
 

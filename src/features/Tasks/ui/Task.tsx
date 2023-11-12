@@ -1,11 +1,11 @@
-import {TaskStatus} from "../../../api/task-api";
+import {TaskStatus} from "api/task-api";
 import React, {memo, useCallback} from "react";
 import {ChangeEvent, FC} from "react";
 import {Box, Checkbox, ListItem} from "@mui/material";
-import {EditMenu} from "../../../components/Menu/EditMenu";
-import {utilsTask} from "../../../utils/utilsTask";
+import {EditMenu} from "components/Menu/EditMenu";
+import {utilsTask} from "utils/utilsTask";
 import {TaskDomainType} from "../service/slice/task-reducer";
-import {useActions} from "../../../app/store";
+import {useActions} from "app/store";
 import {taskActions} from "../index";
 
 type PropsType = {

@@ -29,8 +29,7 @@ const taskPriority = [
 ]
 
 export const EditableTask:FC<PropsType> = ({task,todoId}) => {
-    // const errorMessage = useAppSelector(appSelectors.appErrorSelector)
-    const {styleTask,
+    const {
         updateStatus,
         updateTask,
         handleChangePriority,

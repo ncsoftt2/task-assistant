@@ -24,7 +24,7 @@ const initialState:AppInitialStateType = {
     userData: {} as UserDataType | null
 }
 
-export const appSlice = createSlice({
+export const slice = createSlice({
     name: "app",
     initialState,
     reducers: {
@@ -51,5 +51,5 @@ export const appSlice = createSlice({
     }
 })
 
-export const appReducer = appSlice.reducer
-export const {setAppStatusAC,setInitializedAC,setAppErrorAC,setUserDataAC} = appSlice.actions
+export const appReducer = slice.reducer
+export const {setAppStatusAC,setInitializedAC,setAppErrorAC,setUserDataAC} = slice.actions
