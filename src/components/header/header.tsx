@@ -5,17 +5,19 @@ import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import {LinearProgress} from "@mui/material";
-import {useAppSelector} from "../../store/hooks";
 import { Link } from 'react-router-dom';
 import { routes } from '../../routes/routes';
+import {appSelectors} from "../../app";
+import {authSelector} from "../../features/Login";
+import { useAppSelector } from '../../app/store';
 type PropsType = {
     setDrawerOpen: (b: boolean) => void
 }
 
 export const Header:FC<PropsType> = ({setDrawerOpen}) => {
     const handleOpenDrawer = () => setDrawerOpen(true)
-    const {isAuth} = useAppSelector(({auth}) => auth)
-    const {status} = useAppSelector(({app}) => app)
+    const isAuth = useAppSelector(authSelector.isAuthSelector)
+    const status = useAppSelector(appSelectors.appStatusSelector)
     return (
         <AppBar position="static" color={'primary'} elevation={0} sx={{position: 'relative'}}>
             <Toolbar>

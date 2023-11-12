@@ -1,6 +1,6 @@
 import {Meta, StoryObj} from "@storybook/react";
 import {MainStoreDecorators} from "./MainStoreDecorators";
-import {App} from "../components/App/App";
+import { App } from "../app";
 
 
 const meta: Meta<typeof App> = {

@@ -2,9 +2,9 @@ import React from "react";
 
 import {MainStoreDecorators} from "./MainStoreDecorators";
 import {Meta, StoryObj} from "@storybook/react";
-import { Task } from "../components/Task/Task";
 import {TaskPriority, TaskStatus} from "../api/task-api";
-import {useAppSelector} from "../store/hooks";
+import { Task } from "../features/Tasks";
+import {useAppSelector} from "../app/store";
 
 const meta: Meta<typeof Task> = {
     title: "TODOLISTS/Task",

@@ -1,5 +1,5 @@
 import {Provider} from "react-redux";
-import {AppState, reducers} from "../store";
+import {AppState, reducers} from "../app/store";
 import {ThemeProvider} from "@mui/material";
 import {theme} from "../styles/GlobalTheme";
 import React from "react";

@@ -7,8 +7,8 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import {UniversalModal} from "./UniversalModal";
 import {FC, memo} from 'react';
-import {EditableTask} from "../Task/EditableTask";
-import {TaskDomainType} from "../../store/reducers/tasks/slice/task-reducer";
+import {TaskDomainType} from "../../features/Tasks/service/slice/task-reducer";
+import { EditableTask } from '../../features/Tasks';
 
 
 type PropsType = {

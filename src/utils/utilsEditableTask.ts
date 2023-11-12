@@ -1,10 +1,10 @@
-import {RequestStatusType} from "../store/reducers/app/slice/app-reducer";
-import {useAppDispatch} from "../store/hooks";
+import {RequestStatusType} from "../app/service/slice/app-reducer";
 import {ChangeEvent, useState} from "react";
 import {SelectChangeEvent} from "@mui/material/Select";
 import {TaskPriority, TaskStatus} from "../api/task-api";
-import {TaskDomainType} from "../store/reducers/tasks/slice/task-reducer";
-import {updateTaskTC} from "../store/reducers/tasks/thunk/updateTask";
+import {TaskDomainType} from "../features/Tasks/service/slice/task-reducer";
+import {useActions} from "../app/store";
+import {taskActions} from "../features/Tasks";
 
 export const useUtilsEditableTask = (taskUpdateStatus:RequestStatusType,task:TaskDomainType,todoId:string) => {
     const updateStatus = task.taskStatus
@@ -24,11 +24,10 @@ export const useUtilsEditableTask = (taskUpdateStatus:RequestStatusType,task:Tas
     const handleChangePriority = (e: SelectChangeEvent<TaskPriority>) => {
         setPriority(+e.target.value)
     }
-    const dispatch = useAppDispatch()
+    const {updateTaskTC} = useActions(taskActions)
     const updateTask = () => {
         const payload =  {title,description,status,priority}
-        dispatch(updateTaskTC({todoId, taskId:task.id, model:payload}))
-
+        updateTaskTC({todoId, taskId:task.id, model:payload})
     }
     const styleTask = {
         color:'white',
