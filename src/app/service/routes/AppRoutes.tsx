@@ -1,9 +1,9 @@
 import {Navigate, Route, Routes} from "react-router-dom";
-import {routes} from "../../../routes/routes";
+import {routes} from "routes/routes";
 import { Container } from "@mui/material";
 import {FC} from "react";
-import { Login } from "../../../features/Login";
-import { TodoLists } from "../../../features/TodoLists";
+import { Login } from "features/Login";
+import { TodoLists } from "features/TodoLists";
 
 type PropsType = {
     demo?:boolean
