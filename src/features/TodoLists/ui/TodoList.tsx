@@ -1,11 +1,12 @@
 import {TodoListReducerType} from "../service/slice/todo-list-reducer";
 import {FC, memo} from "react";
-import {TaskPriority} from "api/task-api";
-import {Box, Button, ButtonGroup,Typography, CircularProgress, FormControl, IconButton, InputLabel, List, MenuItem, Select} from "@mui/material";
+import {Box, Button, ButtonGroup,Typography, CircularProgress, IconButton, List} from "@mui/material";
 import {AddItemForm} from "components/AddItemForm/AddItemForm";
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Task } from "../../Tasks";
 import { useTodoList } from "..";
+import BoltIcon from '@mui/icons-material/Bolt';
+import FiberNewIcon from '@mui/icons-material/FiberNew';
 
 type PropsType = {
     todoList: TodoListReducerType
@@ -49,8 +50,15 @@ export const TodoList:FC<PropsType> = memo(({demo,todoList: {title,filter,id,ent
                     </Box>
             }
             {tasks.length > 0 && (
-                <>
-                    <Box sx={{margin:'0 auto',textAlign:'center'}}>
+                    <Box sx={{gap:'5px',display:'flex',justifyContent:'center',margin:'0 auto',textAlign:'center'}}>
+                        {filteredTasks.length > 1 &&
+                            <Button onClick={() => handleChangePriority(1)} sx={{padding:0,minWidth:'20px'}}>
+                                {priority === 1
+                                    ? <BoltIcon/>
+                                    : <FiberNewIcon/>
+                                }
+                            </Button>
+                        }
                         <ButtonGroup variant="contained" disabled={disabled} sx={{margin:'0 auto',textAlign:'center'}}>
                             <Button
                                 size={'medium'}
@@ -75,21 +83,6 @@ export const TodoList:FC<PropsType> = memo(({demo,todoList: {title,filter,id,ent
                             >Completed</Button>
                         </ButtonGroup>
                     </Box>
-                    {filteredTasks.length > 1 && <FormControl sx={{mt:'20px'}}>
-                        <InputLabel id="demo-simple-select-label">Priority</InputLabel>
-                        <Select
-                            labelId="demo-simple-select-label"
-                            id="demo-simple-select"
-                            value={priority}
-                            label="Age"
-                            onChange={handleChangePriority}
-                            disabled={disabled}
-                        >
-                            <MenuItem value={TaskPriority.Low}>Low</MenuItem>
-                            <MenuItem value={TaskPriority.Urgently}>Urgently</MenuItem>
-                        </Select>
-                    </FormControl>}
-                </>
 
             )}
         </>

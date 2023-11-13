@@ -2,7 +2,6 @@ import {useCallback, useEffect, useState} from "react";
 import {TaskPriority, TaskStatus} from "api/task-api";
 import {TaskDomainType} from "../../../Tasks/service/slice/task-reducer";
 import {TodoFilterType} from "../../service/slice/todo-list-reducer";
-import {SelectChangeEvent} from "@mui/material/Select";
 import {useActions, useAppSelector} from "app/store";
 import {taskActions} from "../../../Tasks";
 import {todoListActions} from "../../index";
@@ -15,8 +14,8 @@ export const useTodoList = (id: string,filter:TodoFilterType,demo: boolean) => {
     const handleAddTask = useCallback((title:string) => createTaskTC({id, title}),[id])
     const handleDeleteTodoList = () => deleteTodoTC(id)
     const handleChangeFilter = (filter:TodoFilterType) => () => changeTodoFilterAC({todoId:id,filter:filter})
-    const handleChangePriority = (e: SelectChangeEvent<TaskPriority>) => {
-        setPriority(+e.target.value)
+    const handleChangePriority = (e: 1 | 5) => {
+        setPriority(prevState => prevState === 1 ? 5 : 1)
         sortTasksAC({tasks:tasks, priority:priority, todoId:id})
     }
     const filterTasks = (tasks:TaskDomainType[],filter:TodoFilterType):TaskDomainType[] => {
