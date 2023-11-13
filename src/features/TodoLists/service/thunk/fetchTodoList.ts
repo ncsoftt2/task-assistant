@@ -1,7 +1,7 @@
-import {setAppStatusAC} from "../../../../app/service/slice/app-reducer";
-import {todoListAPI, TodoListType} from "../../../../api/todo-list-api";
+import {setAppStatusAC} from "app/service/slice/app-reducer";
+import {todoListAPI, TodoListType} from "api/todo-list-api";
 import {createAsyncThunk} from "@reduxjs/toolkit";
-import {handleNetworkError} from "../../../../utils/handleError";
+import {handleNetworkError} from "utils/handleError";
 
 export const fetchTodoTC = createAsyncThunk<TodoListType[],void,{rejectValue:{errors:string[]}}>(
     'todo/fetchTodo',
