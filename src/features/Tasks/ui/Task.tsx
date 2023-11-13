@@ -5,8 +5,9 @@ import {Box, Checkbox, ListItem} from "@mui/material";
 import {EditMenu} from "components/Menu/EditMenu";
 import {utilsTask} from "utils/utilsTask";
 import {TaskDomainType} from "../service/slice/task-reducer";
-import {useActions} from "app/store";
+import {useActions, useAppSelector} from "app/store";
 import {taskActions} from "../index";
+import {appStatusSelector} from "app/service/selectors/appSelectors";
 
 type PropsType = {
     task: TaskDomainType
@@ -24,9 +25,9 @@ export const Task: FC<PropsType> = memo(({todoId, task}) => {
     const {style,taskAddedDate} = utilsTask(task)
     return (
         <ListItem sx={style}>
-            <Box sx={{display:'flex',justifyContent:'space-between',alignItems:'flex-start'}}>
+            <Box sx={{display:'flex',justifyContent:'space-between',alignItems:'flex-start',gap:2}}>
                 <Checkbox
-                    sx={{p: 0, mr: '5px', zIndex: 0}}
+                    sx={{p: 0, zIndex: 0}}
                     color={'default'}
                     size={'small'}
                     checked={task.status === TaskStatus.Completed}
