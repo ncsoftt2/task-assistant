@@ -32,7 +32,7 @@ export const Header:FC<PropsType> = ({setDrawerOpen}) => {
                 >
                     <MenuIcon/>
                 </IconButton>
-                <Typography variant="h6" component="div" sx={{flexGrow: 1}}>ToDo</Typography>
+                <Typography variant="h6" component="div" sx={{flexGrow: 1}}>Task  assistant</Typography>
                 {!isAuth && <Link to={RoutePath.login}>Login</Link>}
             </Toolbar>
             {status === 'loading' &&
