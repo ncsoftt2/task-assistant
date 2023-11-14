@@ -6,10 +6,10 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import {LinearProgress} from "@mui/material";
 import { Link } from 'react-router-dom';
-import { routes } from '../../routes/routes';
 import {appSelectors} from "../../app";
 import {authSelector} from "../../features/Login";
-import { useAppSelector } from '../../app/store';
+import { useAppSelector } from 'app/store';
+import {RoutePath} from "app/service/routes/AppRoutes";
 type PropsType = {
     setDrawerOpen: (b: boolean) => void
 }
@@ -33,7 +33,7 @@ export const Header:FC<PropsType> = ({setDrawerOpen}) => {
                     <MenuIcon/>
                 </IconButton>
                 <Typography variant="h6" component="div" sx={{flexGrow: 1}}>ToDo</Typography>
-                {!isAuth && <Link to={routes.login}>Login</Link>}
+                {!isAuth && <Link to={RoutePath.login}>Login</Link>}
             </Toolbar>
             {status === 'loading' &&
                 <LinearProgress sx={{position: 'absolute', width: '100%', bottom: 0}} color="error"/>}
