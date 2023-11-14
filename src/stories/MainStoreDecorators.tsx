@@ -1,7 +1,7 @@
 import {Provider} from "react-redux";
 import {AppState, reducers} from "../app/store";
 import {ThemeProvider} from "@mui/material";
-import {theme} from "../styles/GlobalTheme";
+import {theme} from "../app/styles/GlobalTheme";
 import React from "react";
 import {TaskPriority, TaskStatus} from "../api/task-api";
 import thunk from "redux-thunk";
