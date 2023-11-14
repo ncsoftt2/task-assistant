@@ -5,7 +5,8 @@ import {store} from "./app/store";
 import {ThemeProvider} from "@mui/material";
 import {theme} from "./styles/GlobalTheme";
 import './styles/index.css'
-import { App } from './app';
+import { RouterProvider } from 'react-router-dom';
+import {router} from "app/service/routes/AppRoutes";
 
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
@@ -14,7 +15,7 @@ const root = ReactDOM.createRoot(
 root.render(
     <Provider store={store}>
         <ThemeProvider theme={theme}>
-            <App/>
+            <RouterProvider router={router}/>
         </ThemeProvider>
     </Provider>
 );

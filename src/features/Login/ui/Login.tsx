@@ -8,14 +8,14 @@ import FormLabel from '@mui/material/FormLabel';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import {Navigate} from "react-router-dom";
-import {routes} from "../../../routes/routes";
 import {authSelector, useLogin} from "../index";
-import { useAppSelector } from '../../../app/store';
+import {RoutePath} from "app/service/routes/AppRoutes";
+import { useAppSelector } from 'app/store';
 
-export const Login = () => {
+const Login = () => {
     const isAuth = useAppSelector(authSelector.isAuthSelector)
     const {formik} = useLogin()
-    if(isAuth) return <Navigate to={routes.main}/>
+    if(isAuth) return <Navigate to={RoutePath.main}/>
     return <Grid container justifyContent={'center'}>
         <Grid item justifyContent={'center'}>
             <form onSubmit={formik.handleSubmit}>
@@ -54,3 +54,4 @@ export const Login = () => {
         </Grid>
     </Grid>
 }
+export default Login

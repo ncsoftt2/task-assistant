@@ -5,7 +5,6 @@ import { App } from './ui/App'
 import {initializedTC} from "./service/thunk/me";
 
 const appActions = {initializedTC,...slice.actions}
-
 export {
     appSelectors,
     appReducer,

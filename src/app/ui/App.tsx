@@ -1,11 +1,11 @@
-import {ErrorSnackBar} from "../../components/ErrorSnackBar/ErrorSnackBar";
-import { Header } from "../../components/Header/Header";
-import {BrowserRouter} from "react-router-dom";
-import {FC, useEffect, useState} from "react";
+import {ErrorSnackBar} from "components/ErrorSnackBar/ErrorSnackBar";
+import { Header } from "components/Header/Header";
+import {Outlet} from "react-router-dom";
+import {FC, Suspense, useEffect, useState} from "react";
 import { CircularProgress } from "@mui/material";
-import { AppDrawer } from "../../widgets/Drawer";
-import {appActions, AppRoutes, appSelectors} from "../index";
+import {appActions, appSelectors} from "../index";
 import {useActions, useAppSelector} from "../store";
+import { AppDrawer } from "widgets/Drawer";
 
 type PropsType = {
     demo?: boolean
@@ -22,17 +22,19 @@ export const App:FC<PropsType>= ({demo = false}) => {
         transform: 'translate(-50%, -50%)'
     }
     useEffect(() => {
-        if(!demo) initializedTC()
+        initializedTC()
     }, [initialized])
     if(!initialized) {
         return <CircularProgress sx={style} color="primary" />
     }
     return (
-        <BrowserRouter>
+        <>
             <Header setDrawerOpen={setDrawerOpen}/>
             <AppDrawer setDrawerOpen={setDrawerOpen} drawerOpen={drawerOpen}/>
             <ErrorSnackBar/>
-            <AppRoutes demo={demo}/>
-        </BrowserRouter>
+            <Suspense fallback={<CircularProgress sx={style} color="primary" />}>
+                <Outlet />
+            </Suspense>
+        </>
     )
 }

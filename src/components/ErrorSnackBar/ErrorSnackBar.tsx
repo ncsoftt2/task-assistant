@@ -21,7 +21,6 @@ export const ErrorSnackBar = () => {
         }
         setAppErrorAC({error:null})
     }
-
     return (
         <Stack spacing={2} sx={{ width: '100%'}}>
             <Snackbar open={error !== null} autoHideDuration={3000} onClose={handleClose}>

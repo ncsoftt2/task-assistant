@@ -1,20 +1,35 @@
-import {Navigate, Route, Routes} from "react-router-dom";
-import {routes} from "routes/routes";
-import { Container } from "@mui/material";
-import {FC} from "react";
-import { Login } from "features/Login";
-import { TodoLists } from "features/TodoLists";
+import {createBrowserRouter} from "react-router-dom";
+import {App} from "app/ui/App";
+import {ProtectedAuth} from "app/service/routes/ProtectedAuth";
+import {TodoLists} from "features/TodoLists";
+import {Login} from "features/Login";
 
-type PropsType = {
-    demo?:boolean
+export enum AppRoutes {
+    MAIN = 'main',
+    LOGIN = 'login'
 }
 
-export const AppRoutes:FC<PropsType> = ({demo = false}) => (
-    <Container>
-        <Routes>
-            <Route path={routes.main} element={<TodoLists demo={demo}/>}/>
-            <Route path={routes.login} element={<Login/>}/>
-            <Route path={'*'} element={<Navigate to={routes.main}/>}/>
-        </Routes>
-    </Container>
-)
+export const RoutePath:Record<AppRoutes, string> = {
+    [AppRoutes.MAIN]: '/task-assistant',
+    [AppRoutes.LOGIN]: '/task-assistant/login'
+}
+
+export const router = createBrowserRouter([
+    {
+        element: <App/>,
+        children: [
+            {
+                path: RoutePath.main,
+                element: (
+                    <ProtectedAuth>
+                        <TodoLists/>
+                    </ProtectedAuth>
+                )
+            },
+            {
+                path: RoutePath.login,
+                element: <Login />
+            }
+        ]
+    }
+])

@@ -2,10 +2,7 @@ import {Container, Grid, Paper} from "@mui/material"
 import { AddItemForm } from "components/AddItemForm/AddItemForm"
 import {memo, useCallback, useEffect, useState} from "react";
 import * as React from "react";
-import {Navigate} from "react-router-dom";
-import { routes } from "routes/routes";
 import {useActions, useAppDispatch, useAppSelector} from "app/store";
-import {authSelector} from "../../Login";
 import {TodoList, todoListActions, todoSelectors} from "../index";
 import { fetchTodoTC } from "../service/thunk/fetchTodoList";
 import {SkeletonTodoLists} from "components/SkeletonTodoLists";
@@ -14,9 +11,8 @@ type PropsType = {
     demo?: boolean
 }
 
-export const TodoLists:React.FC<PropsType> = memo(({demo = false}) => {
+const TodoLists:React.FC<PropsType> = memo(({demo = false}) => {
     const [loading, setLoading] = useState(false)
-    const isAuth = useAppSelector(authSelector.isAuthSelector)
     const todoList = useAppSelector(todoSelectors.todoListSelector)
     const {createTodoTC} = useActions(todoListActions)
     const dispatch = useAppDispatch()
@@ -39,10 +35,8 @@ export const TodoLists:React.FC<PropsType> = memo(({demo = false}) => {
             setLoading(true)
             dispatch(fetchTodoTC())
                 .finally(() => setLoading(false))
-
         }
     }, [])
-    if(!isAuth) return <Navigate to={routes.login}/>
     return (
         <>
             <Grid container sx={{p: '15px', justifyContent: 'center', alignItems: 'center'}}>
@@ -61,4 +55,4 @@ export const TodoLists:React.FC<PropsType> = memo(({demo = false}) => {
         </>
     )
 })
-
+export default TodoLists

@@ -5,7 +5,7 @@ import { deleteTodoTC } from './service/thunk/deleteTodo';
 import { fetchTodoTC } from './service/thunk/fetchTodoList';
 import { updateTodoTitleTC } from './service/thunk/updateTodoTitle';
 import { TodoList } from "./ui/TodoList";
-import { TodoLists } from "./ui/TodoLists";
+import { TodoListsAsync as TodoLists } from "./ui/TodoLists.async";
 import { useTodoList } from "./ui/hooks/useTodoList";
 
 const todoListActions = {createTodoTC,deleteTodoTC,fetchTodoTC,updateTodoTitleTC,...slice.actions}
