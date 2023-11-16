@@ -28,6 +28,10 @@ export const theme = createTheme({
             default: '#fff',
         },
     },
+    typography: {
+        fontFamily: 'Montserrat',
+        fontSize: 16,
+    },
     breakpoints: {
         values: {
             xs: 320,

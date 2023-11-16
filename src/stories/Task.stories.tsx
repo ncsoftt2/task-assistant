@@ -2,9 +2,9 @@ import React from "react";
 
 import {MainStoreDecorators} from "./MainStoreDecorators";
 import {Meta, StoryObj} from "@storybook/react";
-import {TaskPriority, TaskStatus} from "../api/task-api";
-import { Task } from "../features/Tasks";
-import {useAppSelector} from "../app/store";
+import {TaskPriority, TaskStatus} from "api/task-api";
+import { Task } from "features/Tasks";
+import {useAppSelector} from "app/store";
 
 const meta: Meta<typeof Task> = {
     title: "TODOLISTS/Task",
@@ -34,7 +34,7 @@ const TaskRedux = () => {
         order:0,
         startDate: new Date()
     }
-    return <Task task={task} todoId={'1'} demo={true}/>
+    return <Task task={task} todoId={'1'}/>
 }
 
 export const TaskReduxStory:Story = {

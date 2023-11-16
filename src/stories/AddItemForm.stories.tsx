@@ -1,4 +1,4 @@
-import {AddItemForm, FormPropsType} from "../components/AddItemForm/AddItemForm";
+import {AddItemForm, FormPropsType} from "components/AddItemForm/AddItemForm";
 import {action} from "@storybook/addon-actions";
 import {MainStoreDecorators} from "./MainStoreDecorators";
 import {Meta, StoryObj} from "@storybook/react";
@@ -75,5 +75,5 @@ export const AddItemFormDefaultStory: Story = {
     }
 }
 export const AddItemFormWithErrorStory: Story = {
-    render: () => <AddItemFormWithError callback={action('')} />
+    render: () => <AddItemFormWithError callback={action('')} maxLengthTitle={10} />
 }

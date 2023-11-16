@@ -1,6 +1,6 @@
-import {Container, Grid, Paper} from "@mui/material"
+import {Box, Container, Grid, Paper} from "@mui/material"
 import { AddItemForm } from "components/AddItemForm/AddItemForm"
-import {memo, useCallback, useEffect, useState} from "react";
+import {useCallback, useEffect, useState} from "react";
 import * as React from "react";
 import {useActions, useAppDispatch, useAppSelector} from "app/store";
 import {TodoList, todoListActions, todoSelectors} from "../index";
@@ -11,7 +11,7 @@ type PropsType = {
     demo?: boolean
 }
 
-const TodoLists:React.FC<PropsType> = memo(({demo = false}) => {
+const TodoLists:React.FC<PropsType> = ({demo = false}) => {
     const [loading, setLoading] = useState(false)
     const todoList = useAppSelector(todoSelectors.todoListSelector)
     const {createTodoTC} = useActions(todoListActions)
@@ -39,12 +39,11 @@ const TodoLists:React.FC<PropsType> = memo(({demo = false}) => {
     }, [])
     return (
         <>
-            <Grid container sx={{p: '15px', justifyContent: 'center', alignItems: 'center'}}>
-                <AddItemForm callback={addNewTodo}
-                />
-            </Grid>
-            <Container>
-                <Grid container>
+            <Container maxWidth="lg" disableGutters>
+                <Box sx={{display:'flex',justifyContent:'center',margin:'15px 0 30px'}}>
+                    <AddItemForm maxLengthTitle={20} callback={addNewTodo} />
+                </Box>
+                <Grid container sx={{margin:'10px 0'}}>
                     {
                         loading
                             ? <SkeletonTodoLists/>
@@ -54,5 +53,5 @@ const TodoLists:React.FC<PropsType> = memo(({demo = false}) => {
             </Container>
         </>
     )
-})
+}
 export default TodoLists

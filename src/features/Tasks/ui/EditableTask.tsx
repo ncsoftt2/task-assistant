@@ -1,106 +1,125 @@
-
+import FormControl from "@mui/material/FormControl";
+import FormGroup from "@mui/material/FormGroup";
+import {Box, MenuItem, Select} from "@mui/material";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
 import * as React from "react";
-import {FC} from "react";
-import {Box, Button, Select, TextField} from "@mui/material";
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import {TaskDomainType} from "../service/slice/task-reducer";
-import {TaskPriority, TaskStatus} from "api/task-api";
-import { useUtilsEditableTask } from "utils/utilsEditableTask";
+import {useEditableTask, useTaskService} from "features/Tasks/ui/hooks";
+import {makeStyles, Theme} from "mui-styles";
+import {FC, memo} from "react";
+import {TaskDomainType} from "features/Tasks/service/slice/task-reducer";
+
+const useEditableTaskForm = makeStyles<Theme>(() => ({
+    customInput: {
+        '& .MuiInputBase-root': {
+            padding: 0
+        },
+        '& .MuiInputBase-input': {
+            padding: 5,
+        },
+        '& .MuiFormHelperText-root': {
+            lineHeight: 1,
+            margin: 0,
+            padding: 0,
+            position: 'absolute',
+            bottom: -15,
+            left: 0,
+            color: '#ff6d6d'
+        },
+        '& .MuiOutlinedInput-root': {
+            '&:hover fieldset': {
+                borderColor: 'rgba(10,41,91,0.66)',
+            },
+            '&.Mui-focused fieldset': {
+                borderColor: 'rgba(10,41,91,0.66)',
+                borderWidth: 1
+            },
+        }
+    }
+}))
 
 type PropsType = {
-    todoId:string
-    task:TaskDomainType
+    task: TaskDomainType
 }
 
-const taskStatus = [
-    {label: 'New', status: TaskStatus.New},
-    {label: 'In progress', status: TaskStatus.InProgress},
-    {label: 'Completed', status: TaskStatus.Completed},
-    {label: 'Draft', status: TaskStatus.Draft},
-]
-const taskPriority = [
-    {label: 'Low', priority: TaskPriority.Low},
-    {label: 'Middle', priority: TaskPriority.Middle},
-    {label: 'High', priority: TaskPriority.High},
-    {label: 'Urgently', priority: TaskPriority.Urgently},
-    {label: 'Later', priority: TaskPriority.Later}
-]
-
-export const EditableTask:FC<PropsType> = ({task,todoId}) => {
-    const {
-        updateStatus,
-        updateTask,
-        handleChangePriority,
-        handleChangeStatus,
-        handleChangeTitle,
-        handleChangeDescription,
-        title, status,priority,description
-    } = useUtilsEditableTask(task.taskStatus,task,todoId)
+export const EditableTask:FC<PropsType> = memo(({task}) => {
+    const classes = useEditableTaskForm()
+    const {formik} = useEditableTask(task)
+    const {taskPriority,taskStatus} = useTaskService(task.todoListId,task.id)
     return (
-        <Box sx={{display:'flex',justifyContent:'center'}}>
-            <Box>
-                <Box sx={{display:'flex',alignItems:'center',margin:'10px 0'}}>
-                    <TextField
-                        label={'Title'}
-                        value={title}
-                        onChange={handleChangeTitle}
-                        size={'small'}
-                        sx={{fontFamily:'inherit',width:'100%'}}
-                    />
-                </Box>
-                <Box sx={{display:'flex',alignItems:'center',margin:'10px 0'}}>
-                    <TextField
-                        id="outlined-multiline-flexible"
-                        value={description}
-                        multiline
-                        maxRows={4}
-                        label={'Description'}
-                        sx={{width:'100%'}}
-                        onChange={handleChangeDescription}
-                    />
-                </Box>
-                <Box sx={{margin:'10px 0'}}>
-                    <Box sx={{ minWidth: 120 }}>
+        <form onSubmit={formik.handleSubmit}>
+            <FormControl>
+                <FormGroup>
+                    <Box sx={{margin: '10px 0 20px'}}>
                         <FormControl fullWidth>
-                            <InputLabel id="demo-simple-select-label">Status</InputLabel>
+                            <Box>Название</Box>
+                            <TextField margin="normal"
+                                       style={{margin: 0}}
+                                       className={classes.customInput}
+                                       helperText={formik.touched.title && formik.errors.title}
+                                       {...formik.getFieldProps('title')}
+                            />
+                        </FormControl>
+                    </Box>
+                    <Box sx={{margin: '0 0 20px'}}>
+                        <FormControl fullWidth>
+                            <Box>Описание</Box>
+                            <TextField margin="normal"
+                                       style={{margin:0}}
+                                       className={classes.customInput}
+                                       helperText={formik.touched.description && formik.errors.description}
+                                       multiline
+                                       maxRows={3}
+                                       {...formik.getFieldProps('description')}
+                            />
+                        </FormControl>
+                    </Box>
+                    <Box sx={{margin: '0 0 10px'}}>
+                        <FormControl fullWidth>
+                            <Box>Статус</Box>
                             <Select
-                                value={status}
-                                label="Status"
-                                onChange={handleChangeStatus}
+                                className={classes.customInput}
+                                {...formik.getFieldProps('status')}
                             >
-                                {taskStatus.map(({status,label}) => {
-                                    return <MenuItem key={label} value={status}>{label}</MenuItem>
+                                {taskStatus.map(({status, label}) => {
+                                    return <MenuItem key={label} value={status} sx={{
+                                        '&:hover': {
+                                            backgroundColor: '#b9b7b7',
+                                            transition: 'background-color 0.3s ease'
+                                        }
+                                    }}>{label}</MenuItem>
                                 })}
                             </Select>
                         </FormControl>
                     </Box>
-                </Box>
-                <Box sx={{margin:'10px 0'}}>
-                    <Box sx={{ minWidth: 120 }}>
+                    <Box sx={{margin: '0 0 10px'}}>
                         <FormControl fullWidth>
-                            <InputLabel id="demo-simple-select-label">Priority</InputLabel>
+                            <Box>Приоритет</Box>
                             <Select
-                                value={priority}
-                                label="Priority"
-                                onChange={handleChangePriority}
+                                sx={{maxWidth: '100%'}}
+                                className={classes.customInput}
+                                {...formik.getFieldProps('priority')}
                             >
-                                {taskPriority.map(({priority,label}) => {
-                                    return <MenuItem key={label} value={priority}>{label}</MenuItem>
+                                {taskPriority.map(({priority, label}) => {
+                                    return <MenuItem key={label} value={priority} sx={{
+                                        '&:hover': {
+                                            backgroundColor: '#b9b7b7',
+                                            transition: 'background-color 0.3s ease'
+                                        }
+                                    }}>{label}</MenuItem>
                                 })}
                             </Select>
                         </FormControl>
                     </Box>
-                </Box>
-                <Box sx={{textAlign:'center'}}>
-                    <Button onClick={updateTask} variant={'contained'} color={'primary'}
-                            disabled={updateStatus === 'loading'}
-                    >save</Button>
-                </Box>
-                {/*{updateStatus === 'succeeded' && <Box sx={styleTask}>update is success</Box>}*/}
-                {/*{updateStatus === 'failed' && <Box sx={styleTask}>{errorMessage}</Box>}*/}
-            </Box>
-        </Box>
+                    <Button type={'submit'}
+                            variant={'contained'}
+                            color={'primary'}
+                            disabled={task.taskStatus === 'loading'}
+                    >
+                        Update
+                    </Button>
+                </FormGroup>
+            </FormControl>
+        </form>
     )
-}
+})

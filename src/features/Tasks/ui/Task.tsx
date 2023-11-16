@@ -1,44 +1,77 @@
-import {TaskStatus} from "api/task-api";
-import React, {memo, useCallback} from "react";
-import {ChangeEvent, FC} from "react";
-import {Box, Checkbox, ListItem} from "@mui/material";
-import {EditMenu} from "components/Menu/EditMenu";
-import {utilsTask} from "utils/utilsTask";
-import {TaskDomainType} from "../service/slice/task-reducer";
-import {useActions, useAppSelector} from "app/store";
-import {taskActions} from "../index";
-import {appStatusSelector} from "app/service/selectors/appSelectors";
+import React, {FC, memo, useState} from "react";
+import {Box, Button, Checkbox, ListItem, Menu, MenuItem, Typography} from "@mui/material";
 
+import {TaskStatus} from "api/task-api";
+import SettingsIcon from '@mui/icons-material/Settings';
+
+import {EditableTask} from "features/Tasks/ui/EditableTask";
+import { UniversalModal } from "components/UniversalModal/UniversalModal";
+import {TaskDomainType} from "features/Tasks/service/slice/task-reducer";
+import {useTaskService, useTaskStyles, useTaskUtilsStyle} from "features/Tasks/ui/hooks";
 type PropsType = {
     task: TaskDomainType
-    todoId: string
-    demo?: boolean
+    todoId:string
 }
 
-export const Task: FC<PropsType> = memo(({todoId, task}) => {
-    const {deleteTaskTC,updateTaskTC} = useActions(taskActions)
-    const handleDeleteTask = useCallback(() => deleteTaskTC({todoId, taskId:task.id}), [todoId, task.id])
-    const handleChangeStatus = (e: ChangeEvent<HTMLInputElement>) => {
-        const status = e.currentTarget.checked ? TaskStatus.Completed : TaskStatus.New
-        updateTaskTC({todoId, taskId:task.id, model:{status}})
+export const Task:FC<PropsType> = memo(({task,todoId}) => {
+    const [openEditTask, setOpenEditTask] = useState(false);
+    const {status,priority,title} = task
+    const classes = useTaskStyles()
+    const {menuItemStyle,listItemStyle,taskPriorityTriangleColor} = useTaskUtilsStyle(status,priority)
+    const {open,
+        handleOpenEditModalTask,
+        handleClose,
+        handleClick,
+        anchorEl,
+        handleChangeTaskStatus,
+        handleDeleteTask
+    } = useTaskService(todoId,task.id,setOpenEditTask)
+    const triangleFigure = {
+        position:'absolute',
+        top:-2,
+        right:-10,
+        width: 0,
+        height: 0,
+        borderStyle: 'solid',
+        borderWidth: '0 15px 15px 15px',
+        borderColor: `transparent transparent ${taskPriorityTriangleColor} transparent`,
+        transform: 'rotate(45deg)'
     }
-    const {style,taskAddedDate} = utilsTask(task)
     return (
-        <ListItem sx={style}>
-            <Box sx={{display:'flex',justifyContent:'space-between',alignItems:'flex-start',gap:2}}>
-                <Checkbox
-                    sx={{p: 0, zIndex: 0}}
-                    color={'default'}
-                    size={'small'}
-                    checked={task.status === TaskStatus.Completed}
-                    onChange={handleChangeStatus}
-                />
-                <Box sx={{wordBreak: 'break-all'}}>{task.title}</Box>
+        <ListItem sx={listItemStyle}>
+            <Box sx={triangleFigure}></Box>
+            <Checkbox
+                checked={status === TaskStatus.Completed}
+                onChange={handleChangeTaskStatus}
+                color={'default'}
+                size={'small'}
+                className={classes.taskCheckBox}
+            />
+            <Typography variant={'h3'} className={classes.taskTitle}>{title}</Typography>
+            <Box>
+                <Button sx={{color:'black',padding:0,minWidth:"40px",position:'relative','&:hover': {
+                        transform: 'rotate(180deg)',
+                        transition: 'transform 0.5s ease',
+                    }}}
+                        onClick={handleClick}>
+                    <SettingsIcon/>
+                </Button>
+                <Menu anchorEl={anchorEl}
+                      open={open}
+                      className={classes.customList}
+                      onClose={handleClose}
+                >
+                    <MenuItem onClick={handleOpenEditModalTask} sx={menuItemStyle}>Изменить</MenuItem>
+                    <MenuItem onClick={handleDeleteTask} sx={menuItemStyle}>Удалить</MenuItem>
+                </Menu>
             </Box>
-            <Box sx={{display:'flex',alignItems:'center'}}>
-                <Box>{taskAddedDate}</Box>
-                <EditMenu callback={handleDeleteTask} task={task} todoId={todoId}/>
-            </Box>
+            {
+                openEditTask && (
+                    <UniversalModal open={openEditTask} setOpen={setOpenEditTask}>
+                        <EditableTask task={task}/>
+                    </UniversalModal>
+                )
+            }
         </ListItem>
     )
 })
