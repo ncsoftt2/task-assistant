@@ -1,17 +1,17 @@
 import {setAppStatusAC} from "app/service/slice/app-reducer";
-import {tasksAPI, TaskType} from "api/task-api";
+import {CreateTaskResponse, tasksAPI, TaskType} from "api/task-api";
 import {handleNetworkError, handleServerError} from "utils/handleError";
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import {FieldsErrorsType} from "api/api-types";
 
-export const createTaskTC = createAsyncThunk<TaskType,{id:string,title:string},{
+export const createTaskTC = createAsyncThunk<TaskType,{id:string,payload: CreateTaskResponse},{
     rejectValue: {errors: string[],fieldsErrors?: [FieldsErrorsType]}
 }>(
     'task/createTask',
-    async ({id,title},{dispatch,rejectWithValue}) => {
+    async ({id,payload},{dispatch,rejectWithValue}) => {
         dispatch(setAppStatusAC({status:"loading"}))
         try {
-            const response = await tasksAPI.createTask(id,title)
+            const response = await tasksAPI.createTask(id,payload)
             if(response.data.resultCode === 0) {
                 dispatch(setAppStatusAC({status:'succeeded'}))
                 return response.data.data.item
