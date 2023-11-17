@@ -1,5 +1,5 @@
 import {TodoListReducerType} from "../service/slice/todo-list-reducer";
-import {FC, memo} from "react";
+import {FC, memo, useState} from "react";
 import {Box, Button, ButtonGroup,Typography, CircularProgress, List} from "@mui/material";
 import {AddItemForm} from "components/AddItemForm/AddItemForm";
 import { Task } from "../../Tasks";
@@ -8,6 +8,8 @@ import BoltIcon from '@mui/icons-material/Bolt';
 import FiberNewIcon from '@mui/icons-material/FiberNew';
 import ClearIcon from '@mui/icons-material/Clear';
 import { UniversalButton } from "components/UniversalButton/UniversalButton";
+import {CreateTaskForm} from "features/Tasks/ui/CreateTask";
+import { UniversalModal } from "components/UniversalModal/UniversalModal";
 
 type PropsType = {
     todoList: TodoListReducerType
@@ -20,13 +22,13 @@ export const TodoList:FC<PropsType> = memo(({demo,todoList: {title,filter,id,ent
         handleDeleteTodoList,
         handleChangeFilter,
         handleChangePriority,
-        handleAddTask,
         tasks,
         filteredTasks,
         priority,
         todoTitleStyle,
         todoAddedDate
     } = useTodoList(id,filter,demo = false,addedDate)
+    const [openCreateTask, setOpenCreateTask] = useState(false)
     const tasksRender = filteredTasks.map(task => {
         return <Task key={task.id}
                      todoId={id}
@@ -36,6 +38,13 @@ export const TodoList:FC<PropsType> = memo(({demo,todoList: {title,filter,id,ent
     return (
         <>
             <Box sx={{textAlign:'right'}}>
+                {
+                    openCreateTask && (
+                        <UniversalModal open={openCreateTask} setOpen={setOpenCreateTask}>
+                            <CreateTaskForm id={id}/>
+                        </UniversalModal>
+                    )
+                }
                 <Button sx={{padding:0,minWidth:'40px', '&:hover': {
                         transform: 'rotate(90deg)',
                         transition: 'transform 0.5s ease',
@@ -46,8 +55,8 @@ export const TodoList:FC<PropsType> = memo(({demo,todoList: {title,filter,id,ent
             <Box>
                 <Typography variant='h2' fontSize={18} sx={todoTitleStyle}>{title}</Typography>
             </Box>
-            <Box sx={{display:'flex',justifyContent:'center',mb:'20px'}}>
-                <AddItemForm maxLengthTitle={15} callback={handleAddTask}/>
+            <Box sx={{display:'flex',justifyContent:'center'}} onClick={() => setOpenCreateTask(true)}>
+                <Button>Create new task</Button>
             </Box>
             <Box>добавлено: {todoAddedDate}</Box>
             {

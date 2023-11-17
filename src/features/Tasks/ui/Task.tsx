@@ -24,8 +24,9 @@ export const Task:FC<PropsType> = memo(({task,todoId}) => {
         handleClick,
         anchorEl,
         handleChangeTaskStatus,
-        handleDeleteTask
-    } = useTaskService(todoId,task.id,setOpenEditTask)
+        handleDeleteTask,
+        taskDeadline
+    } = useTaskService(todoId,task,setOpenEditTask)
     const triangleFigure = {
         position:'absolute',
         top:-2,
@@ -48,6 +49,7 @@ export const Task:FC<PropsType> = memo(({task,todoId}) => {
                 className={classes.taskCheckBox}
             />
             <Typography variant={'h3'} className={classes.taskTitle}>{title}</Typography>
+            <Box>deadline <b>{taskDeadline}</b></Box>
             <Box>
                 <Button sx={{color:'black',padding:0,minWidth:"40px",position:'relative','&:hover': {
                         transform: 'rotate(180deg)',
@@ -68,7 +70,7 @@ export const Task:FC<PropsType> = memo(({task,todoId}) => {
             {
                 openEditTask && (
                     <UniversalModal open={openEditTask} setOpen={setOpenEditTask}>
-                        <EditableTask task={task}/>
+                        <EditableTask task={task} setOpen={setOpenEditTask}/>
                     </UniversalModal>
                 )
             }

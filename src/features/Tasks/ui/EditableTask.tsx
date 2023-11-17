@@ -8,6 +8,7 @@ import {useEditableTask, useTaskService} from "features/Tasks/ui/hooks";
 import {makeStyles, Theme} from "mui-styles";
 import {FC, memo} from "react";
 import {TaskDomainType} from "features/Tasks/service/slice/task-reducer";
+import {taskPriority, taskStatus, utilsTask} from "utils/utilsTask";
 
 const useEditableTaskForm = makeStyles<Theme>(() => ({
     customInput: {
@@ -40,12 +41,12 @@ const useEditableTaskForm = makeStyles<Theme>(() => ({
 
 type PropsType = {
     task: TaskDomainType
+    setOpen: (value: boolean) => void
 }
 
-export const EditableTask:FC<PropsType> = memo(({task}) => {
+export const EditableTask:FC<PropsType> = memo(({task,setOpen}) => {
     const classes = useEditableTaskForm()
-    const {formik} = useEditableTask(task)
-    const {taskPriority,taskStatus} = useTaskService(task.todoListId,task.id)
+    const {formik} = useEditableTask(task,setOpen)
     return (
         <form onSubmit={formik.handleSubmit}>
             <FormControl>
@@ -120,6 +121,9 @@ export const EditableTask:FC<PropsType> = memo(({task}) => {
                     </Button>
                 </FormGroup>
             </FormControl>
+            {task.taskStatus === 'failed' && (
+                <Box sx={{textAlign:'center',mt:'5px',color:'#d50000'}}>try later...</Box>
+            )}
         </form>
     )
 })

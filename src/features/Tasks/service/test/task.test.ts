@@ -63,7 +63,8 @@ beforeEach(() => {
 
 describe('todo-lists', () => {
     test('add task', () => {
-        const endState = taskReducer(startState, createTaskTC.fulfilled(newTaskState,'reqId', {id:'1',title}))
+        const payload = {title,description:'description',priority: TaskPriority.Low,deadline:new Date()}
+        const endState = taskReducer(startState, createTaskTC.fulfilled(newTaskState,'reqId', {id:'1',payload}))
         expect(endState['1'].length).toBe(3)
         expect(endState['1'][0].title).toBe(title)
     })

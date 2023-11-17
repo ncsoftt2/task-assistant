@@ -8,17 +8,24 @@ import {taskActions} from "features/Tasks/index";
 import {TaskDomainType} from "features/Tasks/service/slice/task-reducer";
 import {updateTaskTC} from "features/Tasks/service/thunk/updateTask";
 
-export const useTaskService = (todoId:string,id: string,setOpenEditTask?: (value: boolean) => void) => {
+export const useTaskService = (todoId:string,task:TaskDomainType,setOpenEditTask?: (value: boolean) => void) => {
     const {updateTaskTC,deleteTaskTC} = useActions(taskActions)
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+
+    const date = new Date(task.deadline)
+    const taskDeadlineDate = date.getDate().toString().padStart(2, '0')
+    const taskDeadlineMonth = (date.getMonth() + 1).toString().padStart(2, '0')
+    const taskDeadlineYear = date.getFullYear()
+    const taskDeadline = `${taskDeadlineDate}.${taskDeadlineMonth}.${taskDeadlineYear}`
+
     const open = Boolean(anchorEl)
     const handleClick = useCallback((event: React.MouseEvent<HTMLButtonElement>) => {
         setAnchorEl(event.currentTarget);
     },[])
     const handleDeleteTask = useCallback(() => {
-        deleteTaskTC({todoId, taskId: id})
+        deleteTaskTC({todoId, taskId: task.id})
         setAnchorEl(null)
-    },[todoId,id])
+    },[todoId,task.id])
     const handleClose = () => {
         setAnchorEl(null)
     }
@@ -29,35 +36,17 @@ export const useTaskService = (todoId:string,id: string,setOpenEditTask?: (value
     const handleChangeTaskStatus = useCallback((e:ChangeEvent<HTMLInputElement>) => {
         const checkedValue = e.currentTarget.checked
         const status = checkedValue ? TaskStatus.Completed : TaskStatus.New
-        updateTaskTC({todoId,taskId:id,model: {status}})
-    },[todoId,id])
-    const taskStatus = useMemo(() => {
-        return [
-            {label: 'New', status: TaskStatus.New},
-            {label: 'In progress', status: TaskStatus.InProgress},
-            {label: 'Completed', status: TaskStatus.Completed},
-            {label: 'Draft', status: TaskStatus.Draft},
-        ]
-    },[])
-    const taskPriority = useMemo(() => {
-        return [
-            {label: 'Low', priority: TaskPriority.Low},
-            {label: 'Middle', priority: TaskPriority.Middle},
-            {label: 'High', priority: TaskPriority.High},
-            {label: 'Urgently', priority: TaskPriority.Urgently},
-            {label: 'Later', priority: TaskPriority.Later}
-        ]
-    },[])
+        updateTaskTC({todoId,taskId:task.id,model: {status}})
+    },[todoId,task.id])
     return {
-        taskStatus,
-        taskPriority,
         handleClose,
         open,
         handleClick,
         handleOpenEditModalTask,
         anchorEl,
         handleChangeTaskStatus,
-        handleDeleteTask
+        handleDeleteTask,
+        taskDeadline
     }
 }
 
@@ -119,7 +108,7 @@ export const useTaskStyles = makeStyles<Theme>(() => ({
 }))
 
 
-export const useEditableTask = (task:TaskDomainType) => {
+export const useEditableTask = (task:TaskDomainType,setOpen: (value: boolean) => void) => {
     const dispatch = useAppDispatch()
     const formik = useFormik({
         initialValues: {
@@ -129,8 +118,15 @@ export const useEditableTask = (task:TaskDomainType) => {
             priority: task.priority
         },
         validationSchema: validationSchema,
-        onSubmit: (values) => {
-            dispatch(updateTaskTC({taskId:task.id,todoId:task.todoListId,model: values}))
+        onSubmit: async(values) => {
+            const action = await dispatch(updateTaskTC({taskId:task.id,todoId:task.todoListId,model: values}))
+            if(!updateTaskTC.rejected.match(action)) {
+                setOpen(false)
+            } else {
+                setTimeout(() => {
+                    dispatch(taskActions.changeTaskStatusAC({taskId:task.id,todoId:task.todoListId,taskStatus:"idle"}))
+                },2000)
+            }
         }
     })
     return {formik}

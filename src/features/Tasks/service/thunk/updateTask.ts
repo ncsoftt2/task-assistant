@@ -28,12 +28,14 @@ export const updateTaskTC = createAsyncThunk<
                     return {taskId,todoId, model:response.data.data.item}
                 } else {
                     handleServerError(response.data,dispatch)
+                    dispatch(changeTaskStatusAC({todoId,taskId,taskStatus:'failed'}))
                     return rejectWithValue({errors: response.data.messages,fieldsErrors: response.data.fieldsErrors})
                 }
             }
         } catch (e) {
             const err = e as {message:string}
             handleNetworkError(err,dispatch)
+            dispatch(changeTaskStatusAC({todoId,taskId,taskStatus:'failed'}))
             return rejectWithValue({errors:[err.message]})
         }
     }

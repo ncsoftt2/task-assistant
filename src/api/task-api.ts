@@ -40,13 +40,19 @@ export type UpdateTaskModelType = {
     deadline: Date
 }
 
+export type CreateTaskResponse = {
+    title: string
+    description: string
+    priority: TaskPriority
+    deadline: Date
+}
 
 export const tasksAPI = {
     getTasks(todoListId:string){
         return instance.get<TaskResponseType>(`/todo-lists/${todoListId}/tasks`)
     },
-    createTask(todoListId:string,title:string) {
-        return instance.post<ReturnResponseType<{item:TaskType}>>(`/todo-lists/${todoListId}/tasks`, {title})
+    createTask(todoListId:string,payload: CreateTaskResponse) {
+        return instance.post<ReturnResponseType<{item:TaskType}>>(`/todo-lists/${todoListId}/tasks`, payload)
     },
     deleteTask(todoListId:string,taskId:string) {
         return instance.delete<ReturnResponseType>(`/todo-lists/${todoListId}/tasks/${taskId}`)

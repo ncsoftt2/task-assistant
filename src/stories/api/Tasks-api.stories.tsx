@@ -1,6 +1,6 @@
 import {ChangeEvent, useState} from "react";
 import {TodoListType} from "../../api/todo-list-api";
-import {TaskPriority, tasksAPI, TaskStatus, UpdateTaskModelType} from "../../api/task-api";
+import {CreateTaskResponse, TaskPriority, tasksAPI, TaskStatus, UpdateTaskModelType} from "../../api/task-api";
 
 export default {
     title: 'API/Tasks'
@@ -36,8 +36,9 @@ export const CreateTask = () => {
     const [title,setTitle] = useState<string>('')
     const handleChangeTodoId = (e: ChangeEvent<HTMLInputElement>) => setTodoId(e.currentTarget.value)
     const handleChangeTitle = (e: ChangeEvent<HTMLInputElement>) => setTitle(e.currentTarget.value)
+    const payload:CreateTaskResponse = {title,deadline:new Date(),priority:TaskPriority.Low,description:'task desc'}
     const handleClick = () => {
-        tasksAPI.createTask(todoId,title)
+        tasksAPI.createTask(todoId,payload)
             .then(res => setState(res.data.data.item))
     }
     return (
