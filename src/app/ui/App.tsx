@@ -32,7 +32,7 @@ export const App:FC<PropsType>= ({demo = false}) => {
             <Header setDrawerOpen={setDrawerOpen}/>
             <AppDrawer setDrawerOpen={setDrawerOpen} drawerOpen={drawerOpen}/>
             <ErrorSnackBar/>
-            <Suspense fallback={<CircularProgress sx={style} color="primary" />}>
+            <Suspense>
                 <Outlet />
             </Suspense>
         </>
