@@ -58,7 +58,7 @@ export const TodoList:FC<PropsType> = memo(({demo,todoList: {title,filter,id,ent
             <Box sx={{display:'flex',justifyContent:'center'}} onClick={() => setOpenCreateTask(true)}>
                 <Button>Create new task</Button>
             </Box>
-            <Box>добавлено: {todoAddedDate}</Box>
+            <Box>created: {todoAddedDate}</Box>
             {
                 !disabled
                     ? <List sx={{gap: 2}}>{tasksRender}</List>
