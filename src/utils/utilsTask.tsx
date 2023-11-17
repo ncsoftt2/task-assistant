@@ -1,6 +1,20 @@
 import {TaskPriority, TaskStatus, TaskType} from "api/task-api";
 
 export const utilsTask = (task:TaskType) => {
+    const taskStatus = [
+            {label: 'New', status: TaskStatus.New},
+            {label: 'In progress', status: TaskStatus.InProgress},
+            {label: 'Completed', status: TaskStatus.Completed},
+            {label: 'Draft', status: TaskStatus.Draft},
+    ]
+
+    const taskPriority = [
+            {label: 'Low', priority: TaskPriority.Low},
+            {label: 'Middle', priority: TaskPriority.Middle},
+            {label: 'High', priority: TaskPriority.High},
+            {label: 'Urgently', priority: TaskPriority.Urgently},
+            {label: 'Later', priority: TaskPriority.Later}
+    ]
     const taskPriorityColor = task.priority === TaskPriority.High
         ? "#fc7272"
         : task.priority === TaskPriority.Middle
@@ -33,5 +47,20 @@ export const utilsTask = (task:TaskType) => {
     const taskMonth = (date.getMonth() + 1).toString().padStart(2, '0')
     const taskYear = date.getFullYear()
     const taskAddedDate = `${taskDate}.${taskMonth}.${taskYear}`
-    return {style,taskAddedDate}
+    return {style,taskAddedDate,taskStatus,taskPriority}
 }
+
+export const taskStatus = [
+    {label: 'New', status: TaskStatus.New},
+    {label: 'In progress', status: TaskStatus.InProgress},
+    {label: 'Completed', status: TaskStatus.Completed},
+    {label: 'Draft', status: TaskStatus.Draft},
+]
+
+export const taskPriority = [
+    {label: 'Low', priority: TaskPriority.Low},
+    {label: 'Middle', priority: TaskPriority.Middle},
+    {label: 'High', priority: TaskPriority.High},
+    {label: 'Urgently', priority: TaskPriority.Urgently},
+    {label: 'Later', priority: TaskPriority.Later}
+]
