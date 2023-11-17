@@ -1,4 +1,4 @@
-import {createBrowserRouter, createHashRouter} from "react-router-dom";
+import {createHashRouter} from "react-router-dom";
 import {App} from "app/ui/App";
 import {ProtectedAuth} from "app/service/routes/ProtectedAuth";
 import {TodoLists} from "features/TodoLists";
