@@ -3,8 +3,9 @@ import {handleNetworkError} from "common/utils"
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import {tasksAPI} from "features/Tasks/api/taskApi";
 import {TaskType} from "features/Tasks/api/taskApi.types";
+import {createAppAsyncThunk} from "common/utils/createAsyncThunkApp";
 
-export const fetchTasksTC = createAsyncThunk<{ tasks:TaskType[], id:string },string,{rejectValue: {errors: string[]}}>(
+export const fetchTasksTC = createAppAsyncThunk<{ tasks:TaskType[], id:string },string>(
     'task/fetchTasks',
     async (id,{dispatch,rejectWithValue}) => {
         dispatch(setAppStatusAC({status:'loading'}))
@@ -15,7 +16,7 @@ export const fetchTasksTC = createAsyncThunk<{ tasks:TaskType[], id:string },str
         } catch (e) {
             const err = e as {message: string}
             handleNetworkError(err,dispatch)
-            return rejectWithValue({errors: [err.message]})
+            return rejectWithValue(null)
         }
     }
 )

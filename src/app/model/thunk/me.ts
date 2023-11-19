@@ -2,6 +2,7 @@ import {setAppStatusAC, UserDataType} from "app/model/slice/app-reducer";
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import {handleNetworkError, handleServerError } from "common/utils";
 import {authActions, authAPI} from "features/auth";
+import {createAppAsyncThunk} from "common/utils/createAsyncThunkApp";
 
 
 type ValuesType = {
@@ -9,7 +10,7 @@ type ValuesType = {
     userData: UserDataType
 }
 
-export const initializedTC = createAsyncThunk<ValuesType | void,undefined,{
+export const initializedTC = createAppAsyncThunk<ValuesType | void,undefined,{
     rejectValue: {errors: string[]}
 }>(
     'app/me',

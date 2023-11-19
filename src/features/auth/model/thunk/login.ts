@@ -1,13 +1,13 @@
 import {FieldsErrorsType} from "common/types"
 import {setAppStatusAC} from "app/model/slice/app-reducer";
-import {createAsyncThunk} from "@reduxjs/toolkit";
 import {initializedTC} from "app/model/thunk/me";
 import {handleNetworkError, handleServerError} from "common/utils";
 import {LoginPayloadType} from "features/auth/api/authApi.types";
 import { authAPI } from "features/auth";
 import {ResultCode} from "common/enums";
+import {createAppAsyncThunk} from "common/utils/createAsyncThunkApp";
 
-export const loginTC = createAsyncThunk<void,LoginPayloadType,{
+export const loginTC = createAppAsyncThunk<void,LoginPayloadType,{
     rejectValue: {errors: string[],fieldsErrors?: [FieldsErrorsType]}
 }>(
     'auth/login',

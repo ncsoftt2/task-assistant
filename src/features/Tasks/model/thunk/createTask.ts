@@ -5,10 +5,9 @@ import {FieldsErrorsType} from "common/types"
 import {CreateTaskResponse, TaskType} from "features/Tasks/api/taskApi.types";
 import { tasksAPI } from "features/Tasks/api/taskApi";
 import {ResultCode} from "common/enums";
+import {createAppAsyncThunk} from "common/utils/createAsyncThunkApp";
 
-export const createTaskTC = createAsyncThunk<TaskType,{id:string,payload: CreateTaskResponse},{
-    rejectValue: {errors: string[],fieldsErrors?: [FieldsErrorsType]}
-}>(
+export const createTaskTC = createAppAsyncThunk<TaskType,{id:string,payload: CreateTaskResponse}>(
     'task/createTask',
     async ({id,payload},{dispatch,rejectWithValue}) => {
         dispatch(setAppStatusAC({status:"loading"}))
@@ -19,12 +18,12 @@ export const createTaskTC = createAsyncThunk<TaskType,{id:string,payload: Create
                 return response.data.data.item
             } else {
                 handleServerError(response.data,dispatch)
-                return rejectWithValue({errors: response.data.messages,fieldsErrors: response.data.fieldsErrors})
+                return rejectWithValue(null)
             }
         } catch (e) {
             const err = e as {message: string}
             handleNetworkError(err,dispatch)
-            return rejectWithValue({errors: [err.message]})
+            return rejectWithValue(null)
         }
     }
 )

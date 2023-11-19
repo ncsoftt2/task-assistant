@@ -7,19 +7,19 @@ import {tasksAPI} from "features/Tasks/api/taskApi";
 import {handleNetworkError, handleServerError} from "common/utils";
 import {taskActions} from "features/Tasks/index";
 import {ResultCode} from "common/enums";
+import {createAppAsyncThunk} from "common/utils/createAsyncThunkApp";
 
 type ReturnValuesType = { todoId: string, taskId: string, model: UpdateTaskModelType };
-export const updateTaskTC = createAsyncThunk<
+export const updateTaskTC = createAppAsyncThunk<
     ReturnValuesType | void,
-    {todoId:string,taskId:string,model: Partial<UpdateTaskModelType>},
-    { rejectValue: { errors: string[],fieldsErrors?: [FieldsErrorsType] } }
+    {todoId:string,taskId:string,model: Partial<UpdateTaskModelType>}
 >(
     'task/updateTask',
     async ({taskId,todoId,model},{getState,dispatch,rejectWithValue}) => {
         dispatch(setAppStatusAC({status:'loading'}))
         dispatch(taskActions.changeTaskStatusAC({todoId,taskId,taskStatus:'loading'}))
         try {
-            const state = getState() as AppState
+            const state = getState()
             const task = state.tasks[todoId].find(t => t.id === taskId)
             if (task) {
                 const apiModel:UpdateTaskModelType = {...task, ...model}
@@ -31,14 +31,14 @@ export const updateTaskTC = createAsyncThunk<
                 } else {
                     handleServerError(response.data,dispatch)
                     dispatch(taskActions.changeTaskStatusAC({todoId,taskId,taskStatus:'failed'}))
-                    return rejectWithValue({errors: response.data.messages,fieldsErrors: response.data.fieldsErrors})
+                    return rejectWithValue(null)
                 }
             }
         } catch (e) {
             const err = e as {message:string}
             handleNetworkError(err,dispatch)
             dispatch(taskActions.changeTaskStatusAC({todoId,taskId,taskStatus:'failed'}))
-            return rejectWithValue({errors:[err.message]})
+            return rejectWithValue(null)
         }
     }
 )
