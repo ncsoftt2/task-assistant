@@ -4,11 +4,10 @@ import { Task } from "../../Tasks";
 import BoltIcon from '@mui/icons-material/Bolt';
 import FiberNewIcon from '@mui/icons-material/FiberNew';
 import ClearIcon from '@mui/icons-material/Clear';
-import { UniversalButton } from "components/UniversalButton/UniversalButton";
 import {CreateTaskForm} from "features/Tasks/ui/CreateTask";
-import { UniversalModal } from "components/UniversalModal/UniversalModal";
 import { TodoListReducerType } from "../model/slice/todoSlice";
 import { useTodoList } from "./hooks/useTodoList";
+import {UniversalButton, UniversalModal } from "common/components";
 
 type PropsType = {
     todoList: TodoListReducerType
