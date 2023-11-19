@@ -9,7 +9,7 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import {Navigate} from "react-router-dom";
 import {RoutePath} from "app/model/routes/AppRoutes";
-import { useAppSelector } from 'app/model/store';
+import { useAppSelector } from 'common/hooks/useAppSelector';
 import { useLogin } from './hooks/useLogin';
 import {authSelectors} from "features/auth/index";
 

@@ -1,9 +1,9 @@
 import {makeStyles, Theme} from "mui-styles";
 import {TaskDomainType} from "features/Tasks/model/slice/taskSlice";
-import {useAppDispatch} from "app/model/store";
 import {useFormik} from "formik";
 import {taskActions} from "features/Tasks/index";
 import * as yup from "yup";
+import { useAppDispatch } from "common/hooks/useAppDispatch";
 
 export const useTaskStyles = makeStyles<Theme>(() => ({
     customList: {

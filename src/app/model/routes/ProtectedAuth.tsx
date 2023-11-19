@@ -1,5 +1,5 @@
 import {ReactNode} from "react";
-import {useAppSelector} from "app/model/store";
+import { useAppSelector } from 'common/hooks/useAppSelector';
 import { Navigate } from "react-router-dom";
 import {RoutePath} from "app/model/routes/AppRoutes";
 import {authSelectors} from "features/auth";

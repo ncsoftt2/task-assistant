@@ -4,8 +4,7 @@ import {MainStoreDecorators} from "./MainStoreDecorators";
 import {Meta, StoryObj} from "@storybook/react";
 import {TaskPriority, TaskStatus} from "common/enums";
 import { Task } from "features/Tasks";
-import {useAppSelector} from "app/model/store";
-
+import { useAppSelector } from 'common/hooks/useAppSelector';
 const meta: Meta<typeof Task> = {
     title: "TODOLISTS/Task",
     component: Task,

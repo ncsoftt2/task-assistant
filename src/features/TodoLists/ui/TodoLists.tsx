@@ -1,11 +1,12 @@
 import {Box, Container, Grid, Paper} from "@mui/material"
 import {useCallback, useEffect, useState} from "react";
 import * as React from "react";
-import {useActions, useAppDispatch, useAppSelector} from "app/model/store";
+import {useActions} from "common/hooks/useActions";
 import {todoListActions, todoListSelectors} from "features/TodoLists/index";
 import { TodoList } from "./TodoList";
 import { AddItemForm, SkeletonTodoLists } from "common/components";
-
+import { useAppDispatch } from "common/hooks/useAppDispatch";
+import { useAppSelector } from 'common/hooks/useAppSelector';
 type PropsType = {
     demo?: boolean
 }

@@ -1,11 +1,11 @@
 import {useCallback, useEffect, useState} from "react";
 import {TaskPriority, TaskStatus} from "common/enums";
-import {useActions, useAppSelector} from "app/model/store";
+import {useActions} from "common/hooks/useActions";
 import {taskActions} from "../../../Tasks";
 import {todoListActions} from "../../index";
 import {TaskDomainType} from "features/Tasks/model/slice/taskSlice";
 import { TodoFilterType } from "features/TodoLists/model/slice/todoSlice";
-
+import { useAppSelector } from 'common/hooks/useAppSelector';
 export const useTodoList = (id: string,filter:TodoFilterType,demo: boolean,addedDate: Date) => {
     const tasks = useAppSelector(state => state.tasks[id])
     const date = new Date(addedDate)

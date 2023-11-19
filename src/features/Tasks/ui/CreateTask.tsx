@@ -6,9 +6,9 @@ import TextField from "@mui/material/TextField";
 import {useFormik} from "formik";
 import * as Yup from 'yup';
 import { isRejectedWithValue } from "@reduxjs/toolkit";
-import {useAppDispatch} from "app/model/store";
 import {taskActions} from "features/Tasks/index";
 import { taskPriority } from "common/utils";
+import {useAppDispatch} from "common/hooks/useAppDispatch";
 
 type PropsType = {
     id: string

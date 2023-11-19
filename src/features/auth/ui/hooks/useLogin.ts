@@ -1,7 +1,7 @@
 import {FormikHelpers, useFormik} from "formik";
-import {useAppDispatch} from "app/model/store";
 import { LoginPayloadType } from "features/auth/api/authApi.types";
 import {authActions} from "features/auth/index";
+import {useAppDispatch} from "common/hooks/useAppDispatch";
 
 type FormikErrorType = {
     email?: string
