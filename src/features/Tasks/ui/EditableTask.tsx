@@ -4,11 +4,11 @@ import {Box, MenuItem, Select} from "@mui/material";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import * as React from "react";
-import {useEditableTask, useTaskService} from "features/Tasks/ui/hooks";
 import {makeStyles, Theme} from "mui-styles";
 import {FC, memo} from "react";
-import {TaskDomainType} from "features/Tasks/service/slice/task-reducer";
-import {taskPriority, taskStatus, utilsTask} from "utils/utilsTask";
+import {taskPriority, taskStatus} from "common/utils";
+import { TaskDomainType } from "../model/slice/taskSlice";
+import { useEditableTask } from "./hooks/useEditableTask";
 
 const useEditableTaskForm = makeStyles<Theme>(() => ({
     customInput: {

@@ -1,5 +1,6 @@
 import {ChangeEvent, useEffect, useState} from "react"
-import {todoListAPI, TodoListType} from "../../api/todo-list-api";
+import {TodoListType} from "features/TodoLists/api/todoApi.types";
+import {todoListAPI} from "features/TodoLists/api/todoApi";
 
 export default {
     title: 'API/Todolist'

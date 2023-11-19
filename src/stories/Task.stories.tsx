@@ -2,7 +2,7 @@ import React from "react";
 
 import {MainStoreDecorators} from "./MainStoreDecorators";
 import {Meta, StoryObj} from "@storybook/react";
-import {TaskPriority, TaskStatus} from "api/task-api";
+import {TaskPriority, TaskStatus} from "common/enums";
 import { Task } from "features/Tasks";
 import {useAppSelector} from "app/store";
 

@@ -1,11 +1,10 @@
 import {Box, Container, Grid, Paper} from "@mui/material"
-import { AddItemForm } from "components/AddItemForm/AddItemForm"
 import {useCallback, useEffect, useState} from "react";
 import * as React from "react";
 import {useActions, useAppDispatch, useAppSelector} from "app/store";
-import {TodoList, todoListActions, todoSelectors} from "../index";
-import { fetchTodoTC } from "../service/thunk/fetchTodoList";
-import {SkeletonTodoLists} from "components/SkeletonTodoLists";
+import {todoListActions, todoListSelectors} from "features/TodoLists/index";
+import { TodoList } from "./TodoList";
+import { AddItemForm, SkeletonTodoLists } from "common/components";
 
 type PropsType = {
     demo?: boolean
@@ -13,7 +12,7 @@ type PropsType = {
 
 const TodoLists:React.FC<PropsType> = ({demo = false}) => {
     const [loading, setLoading] = useState(false)
-    const todoList = useAppSelector(todoSelectors.todoListSelector)
+    const todoList = useAppSelector(todoListSelectors.fetchTodoSelector)
     const {createTodoTC} = useActions(todoListActions)
     const dispatch = useAppDispatch()
     const addNewTodo = useCallback((title:string) => createTodoTC(title),[])
@@ -33,7 +32,7 @@ const TodoLists:React.FC<PropsType> = ({demo = false}) => {
     useEffect(() => {
         if(!demo) {
             setLoading(true)
-            dispatch(fetchTodoTC())
+            dispatch(todoListActions.fetchTodoTC())
                 .finally(() => setLoading(false))
         }
     }, [])

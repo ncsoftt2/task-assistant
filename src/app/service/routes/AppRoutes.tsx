@@ -1,8 +1,8 @@
 import {createHashRouter} from "react-router-dom";
 import {App} from "app/ui/App";
 import {ProtectedAuth} from "app/service/routes/ProtectedAuth";
-import {TodoLists} from "features/TodoLists";
-import {Login} from "features/Login";
+import { Login } from "features/auth";
+import TodoLists from "features/TodoLists/ui/TodoLists";
 
 export enum AppRoutes {
     MAIN = 'main',

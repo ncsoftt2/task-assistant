@@ -1,15 +1,14 @@
-import {TodoListReducerType} from "../service/slice/todo-list-reducer";
 import {FC, memo, useState} from "react";
 import {Box, Button, ButtonGroup,Typography, CircularProgress, List} from "@mui/material";
-import {AddItemForm} from "components/AddItemForm/AddItemForm";
 import { Task } from "../../Tasks";
-import { useTodoList } from "..";
 import BoltIcon from '@mui/icons-material/Bolt';
 import FiberNewIcon from '@mui/icons-material/FiberNew';
 import ClearIcon from '@mui/icons-material/Clear';
 import { UniversalButton } from "components/UniversalButton/UniversalButton";
 import {CreateTaskForm} from "features/Tasks/ui/CreateTask";
 import { UniversalModal } from "components/UniversalModal/UniversalModal";
+import { TodoListReducerType } from "../model/slice/todoSlice";
+import { useTodoList } from "./hooks/useTodoList";
 
 type PropsType = {
     todoList: TodoListReducerType

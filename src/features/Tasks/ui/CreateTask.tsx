@@ -8,7 +8,7 @@ import * as Yup from 'yup';
 import { isRejectedWithValue } from "@reduxjs/toolkit";
 import {useAppDispatch} from "app/store";
 import {taskActions} from "features/Tasks/index";
-import {taskPriority} from "utils/utilsTask";
+import { taskPriority } from "common/utils";
 
 type PropsType = {
     id: string

@@ -1,13 +1,15 @@
 import React, {FC, memo, useState} from "react";
 import {Box, Button, Checkbox, ListItem, Menu, MenuItem, Typography} from "@mui/material";
 
-import {TaskStatus} from "api/task-api";
+import {TaskStatus} from "common/enums";
 import SettingsIcon from '@mui/icons-material/Settings';
 
 import {EditableTask} from "features/Tasks/ui/EditableTask";
 import { UniversalModal } from "components/UniversalModal/UniversalModal";
-import {TaskDomainType} from "features/Tasks/service/slice/task-reducer";
-import {useTaskService, useTaskStyles, useTaskUtilsStyle} from "features/Tasks/ui/hooks";
+import { TaskDomainType } from "../model/slice/taskSlice";
+import {utilsTaskStyles} from "common/utils/utilsTaskStyles";
+import { useTaskStyles } from "./hooks/useEditableTask";
+import { useTaskService } from "./hooks/useTaskService";
 type PropsType = {
     task: TaskDomainType
     todoId:string
@@ -17,8 +19,9 @@ export const Task:FC<PropsType> = memo(({task,todoId}) => {
     const [openEditTask, setOpenEditTask] = useState(false);
     const {status,priority,title} = task
     const classes = useTaskStyles()
-    const {menuItemStyle,listItemStyle,taskPriorityTriangleColor} = useTaskUtilsStyle(status,priority)
-    const {open,
+    const {menuItemStyle,listItemStyle,taskPriorityTriangleColor} = utilsTaskStyles(status,priority)
+    const {
+        open,
         handleOpenEditModalTask,
         handleClose,
         handleClick,

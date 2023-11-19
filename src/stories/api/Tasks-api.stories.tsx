@@ -1,6 +1,8 @@
 import {ChangeEvent, useState} from "react";
-import {TodoListType} from "../../api/todo-list-api";
-import {CreateTaskResponse, TaskPriority, tasksAPI, TaskStatus, UpdateTaskModelType} from "../../api/task-api";
+import {TaskPriority, TaskStatus} from "common/enums";
+import { tasksAPI } from "features/Tasks/api/taskApi";
+import { CreateTaskResponse, UpdateTaskModelType } from "features/Tasks/api/taskApi.types";
+import {TodoListType} from "features/TodoLists/api/todoApi.types";
 
 export default {
     title: 'API/Tasks'

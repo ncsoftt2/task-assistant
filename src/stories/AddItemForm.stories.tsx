@@ -1,4 +1,3 @@
-import {AddItemForm, FormPropsType} from "components/AddItemForm/AddItemForm";
 import {action} from "@storybook/addon-actions";
 import {MainStoreDecorators} from "./MainStoreDecorators";
 import {Meta, StoryObj} from "@storybook/react";
@@ -6,6 +5,8 @@ import {Box, TextField} from "@mui/material";
 import Button from "@mui/material/Button";
 import AddIcon from "@mui/icons-material/Add";
 import React, {ChangeEvent, KeyboardEvent, useState} from "react";
+import { AddItemForm } from "common/components";
+import {FormPropsType} from "common/components/AddItemForm/AddItemForm";
 
 const meta: Meta<typeof AddItemForm> = {
     title: 'TODOLISTS/AddItemForm',

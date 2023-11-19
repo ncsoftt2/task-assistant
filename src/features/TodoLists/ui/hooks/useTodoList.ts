@@ -1,10 +1,10 @@
 import {useCallback, useEffect, useState} from "react";
-import {TaskPriority, TaskStatus} from "api/task-api";
-import {TaskDomainType} from "../../../Tasks/service/slice/task-reducer";
-import {TodoFilterType} from "../../service/slice/todo-list-reducer";
+import {TaskPriority, TaskStatus} from "common/enums";
 import {useActions, useAppSelector} from "app/store";
 import {taskActions} from "../../../Tasks";
 import {todoListActions} from "../../index";
+import {TaskDomainType} from "features/Tasks/model/slice/taskSlice";
+import { TodoFilterType } from "features/TodoLists/model/slice/todoSlice";
 
 export const useTodoList = (id: string,filter:TodoFilterType,demo: boolean,addedDate: Date) => {
     const tasks = useAppSelector(state => state.tasks[id])
@@ -22,7 +22,7 @@ export const useTodoList = (id: string,filter:TodoFilterType,demo: boolean,added
         wordBreak:'break-all',
     }
     const [priority,setPriority] = useState<TaskPriority>(TaskPriority.Low)
-    const {createTaskTC,fetchTasksTC,sortTasksAC} = useActions(taskActions)
+    const {fetchTasksTC,sortTasksAC} = useActions(taskActions)
     const {deleteTodoTC,changeTodoFilterAC} = useActions(todoListActions)
     const handleDeleteTodoList = () => deleteTodoTC(id)
     const handleChangeFilter = useCallback((filter:TodoFilterType) => changeTodoFilterAC({todoId:id,filter:filter}),[])

@@ -1,17 +1,17 @@
 import {ActionCreatorsMapObject, AnyAction, bindActionCreators, combineReducers} from "redux";
 import thunk, {ThunkDispatch} from "redux-thunk";
 import {configureStore} from "@reduxjs/toolkit";
-import {authReducer} from "../../features/Login";
-import {taskReducer} from "../../features/Tasks";
-import {todoListReducer} from "../../features/TodoLists";
 import {appReducer} from "..";
 import {TypedUseSelectorHook, useDispatch, useSelector} from "react-redux";
 import {useMemo} from "react";
+import {authReducer} from "features/auth/model/slice/auth-reducer";
+import {taskReducer} from "features/Tasks/model/slice/taskSlice";
+import {todoReducer} from "features/TodoLists/model/slice/todoSlice";
 
 
 export const reducers = combineReducers({
     tasks: taskReducer,
-    todoList:todoListReducer,
+    todoList: todoReducer,
     app: appReducer,
     auth: authReducer
 })
@@ -21,7 +21,7 @@ export const store = configureStore({
     middleware: getDefaultMiddleware => getDefaultMiddleware().prepend(thunk),
     devTools: true
 })
-export type AppState = ReturnType<typeof reducers>
+export type AppState = ReturnType<typeof store.getState>
 export type AppDispatch = ThunkDispatch<AppState, unknown, AnyAction>
 
 export const useAppDispatch = () => useDispatch<AppDispatch>()
