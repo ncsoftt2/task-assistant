@@ -5,7 +5,11 @@ import { TodoListType } from "features/TodoLists/api/todoApi.types";
 import {todoListActions} from "features/TodoLists";
 import { TasksType, taskReducer } from "../slice/taskSlice";
 import { TaskType } from "features/Tasks/api/taskApi.types";
+import {TodoListReducerType, todoReducer} from "features/TodoLists/model/slice/todoSlice";
+import {createTodoTC} from "features/TodoLists/model/thunk/createTodo";
 
+
+let newTodoListType:TodoListReducerType
 let startState: TasksType;
 let title: string;
 let startTodoListState:TodoListType[]
@@ -24,6 +28,9 @@ let startStateTaskTypeAPI:TaskType[] = [
 ]
 
 beforeEach(() => {
+    newTodoListType = {
+        id:"1",title:'bla',order:0,addedDate:new Date(),filter:"all",entityStatus:'idle'
+    }
     startState = {
         '1': [
             {
@@ -106,4 +113,19 @@ describe('todo-lists', () => {
         expect(endState['1'].length).toBe(2)
         expect(endState['2'].length).toBe(0)
     })
+
+
+    test('', () => {
+        const startTaskState:TasksType = {}
+        const startTodoState:TodoListReducerType[] = []
+        const action = todoListActions.createTodoTC.fulfilled(newTodoListType,'reqId','title')
+        const endTaskState = taskReducer(startTaskState,action)
+        const endTodoState = todoReducer(startTodoState,action)
+        const keysFromTask = Object.keys(endTaskState)
+        const keyOfTask = keysFromTask[0]
+        const keyOfTodo = endTodoState[0].id
+        expect(keyOfTask).toBe(action.payload.id)
+        expect(keyOfTodo).toBe(action.payload.id)
+    })
+
 })
