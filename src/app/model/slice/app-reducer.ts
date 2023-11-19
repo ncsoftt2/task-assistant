@@ -1,5 +1,5 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {initializedTC} from "../thunk/me";
+import {initializedTC} from "app/model/thunk/me";
 
 
 export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'

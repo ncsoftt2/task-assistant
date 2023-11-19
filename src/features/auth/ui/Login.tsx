@@ -8,8 +8,8 @@ import FormLabel from '@mui/material/FormLabel';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import {Navigate} from "react-router-dom";
-import {RoutePath} from "app/service/routes/AppRoutes";
-import { useAppSelector } from 'app/store';
+import {RoutePath} from "app/model/routes/AppRoutes";
+import { useAppSelector } from 'app/model/store';
 import { useLogin } from './hooks/useLogin';
 import {authSelectors} from "features/auth/index";
 

@@ -1,5 +1,5 @@
 import {TaskPriority} from "common/enums";
-import {RequestStatusType} from "app/service/slice/app-reducer";
+import {RequestStatusType} from "app/model/slice/app-reducer";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {fetchTasksTC} from "../thunk/fetchTasks";
 import {createTaskTC} from "../thunk/createTask";

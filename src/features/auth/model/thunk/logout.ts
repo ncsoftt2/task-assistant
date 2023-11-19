@@ -1,4 +1,4 @@
-import {setAppStatusAC, setInitializedAC, setUserDataAC} from "app/service/slice/app-reducer";
+import {setAppStatusAC, setInitializedAC, setUserDataAC} from "app/model/slice/app-reducer";
 import {handleNetworkError, handleServerError} from "common/utils";
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import {clearDataAC} from "common/actions/clearData";

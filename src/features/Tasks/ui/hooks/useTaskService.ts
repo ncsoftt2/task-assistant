@@ -1,6 +1,6 @@
 import {TaskStatus} from "common/enums";
 import React, {ChangeEvent, useCallback} from "react";
-import {useActions} from "app/store";
+import {useActions} from "app/model/store";
 import {taskActions} from "features/Tasks/index";
 import {TaskDomainType} from "features/Tasks/model/slice/taskSlice";
 

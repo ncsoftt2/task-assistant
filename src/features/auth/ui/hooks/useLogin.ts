@@ -1,5 +1,5 @@
 import {FormikHelpers, useFormik} from "formik";
-import {useAppDispatch} from "app/store";
+import {useAppDispatch} from "app/model/store";
 import { LoginPayloadType } from "features/auth/api/authApi.types";
 import {authActions} from "features/auth/index";
 

@@ -1,6 +1,6 @@
 import {useCallback, useEffect, useState} from "react";
 import {TaskPriority, TaskStatus} from "common/enums";
-import {useActions, useAppSelector} from "app/store";
+import {useActions, useAppSelector} from "app/model/store";
 import {taskActions} from "../../../Tasks";
 import {todoListActions} from "../../index";
 import {TaskDomainType} from "features/Tasks/model/slice/taskSlice";

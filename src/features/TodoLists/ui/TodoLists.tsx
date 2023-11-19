@@ -1,7 +1,7 @@
 import {Box, Container, Grid, Paper} from "@mui/material"
 import {useCallback, useEffect, useState} from "react";
 import * as React from "react";
-import {useActions, useAppDispatch, useAppSelector} from "app/store";
+import {useActions, useAppDispatch, useAppSelector} from "app/model/store";
 import {todoListActions, todoListSelectors} from "features/TodoLists/index";
 import { TodoList } from "./TodoList";
 import { AddItemForm, SkeletonTodoLists } from "common/components";

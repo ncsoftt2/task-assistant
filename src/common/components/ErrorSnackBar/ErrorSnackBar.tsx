@@ -2,7 +2,7 @@ import React from 'react';
 import Stack from '@mui/material/Stack';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
-import {useActions, useAppSelector} from 'app/store';
+import {useActions, useAppSelector} from 'app/model/store';
 import {appActions, appSelectors} from "app";
 
 

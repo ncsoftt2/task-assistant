@@ -1,6 +1,6 @@
 import {makeStyles, Theme} from "mui-styles";
 import {TaskDomainType} from "features/Tasks/model/slice/taskSlice";
-import {useAppDispatch} from "app/store";
+import {useAppDispatch} from "app/model/store";
 import {useFormik} from "formik";
 import {taskActions} from "features/Tasks/index";
 import * as yup from "yup";

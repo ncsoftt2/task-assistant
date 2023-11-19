@@ -1,4 +1,4 @@
-import {RequestStatusType} from "app/service/slice/app-reducer";
+import {RequestStatusType} from "app/model/slice/app-reducer";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {fetchTodoTC} from "../thunk/fetchTodoList";
 import {createTodoTC} from "../thunk/createTodo";

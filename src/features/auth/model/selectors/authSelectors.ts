@@ -1,3 +1,3 @@
-import {AppState} from "app/store";
+import {AppState} from "app/model/store";
 
 export const isAuthSelector = (state:AppState) => state.auth.isAuth

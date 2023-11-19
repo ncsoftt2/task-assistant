@@ -1,11 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import {Provider} from "react-redux";
-import {store} from "./app/store";
+import {store} from "./app/model/store";
 import {ThemeProvider} from "@mui/material";
 import './app/styles/index.css'
 import { RouterProvider } from 'react-router-dom';
-import {router} from "app/service/routes/AppRoutes";
+import {router} from "app/model/routes/AppRoutes";
 import {theme} from "app/styles/GlobalTheme";
 
 const root = ReactDOM.createRoot(

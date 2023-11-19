@@ -1,5 +1,5 @@
-import {AppState} from "app/store";
-import {setAppStatusAC} from "app/service/slice/app-reducer";
+import {AppState} from "app/model/store";
+import {setAppStatusAC} from "app/model/slice/app-reducer";
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import {UpdateTaskModelType} from "features/Tasks/api/taskApi.types";
 import {FieldsErrorsType} from "common/types";

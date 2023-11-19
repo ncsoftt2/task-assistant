@@ -2,7 +2,7 @@ import {Outlet} from "react-router-dom";
 import {FC, Suspense, useEffect, useState} from "react";
 import { CircularProgress } from "@mui/material";
 import {appActions, appSelectors} from "../index";
-import {useActions, useAppSelector} from "../store";
+import {useActions, useAppSelector} from "../model/store";
 import { AppDrawer } from "widgets/Drawer";
 import { Header } from "widgets/Header";
 import { ErrorSnackBar } from "common/components";

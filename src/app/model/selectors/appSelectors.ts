@@ -1,4 +1,4 @@
-import {AppState} from "../../store";
+import {AppState} from "app/model/store";
 
 export const appInitializeSelector = (state:AppState) => state.app.initialized
 export const appStatusSelector = (state:AppState) => state.app.status

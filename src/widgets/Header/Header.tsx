@@ -7,8 +7,8 @@ import MenuIcon from '@mui/icons-material/Menu';
 import {LinearProgress} from "@mui/material";
 import { Link } from 'react-router-dom';
 import {appSelectors} from "../../app";
-import { useAppSelector } from 'app/store';
-import {RoutePath} from "app/service/routes/AppRoutes";
+import { useAppSelector } from 'app/model/store';
+import {RoutePath} from "app/model/routes/AppRoutes";
 import { authSelectors } from 'features/auth';
 type PropsType = {
     setDrawerOpen: (b: boolean) => void

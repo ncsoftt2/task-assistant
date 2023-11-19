@@ -1,6 +1,6 @@
 import {createHashRouter} from "react-router-dom";
 import {App} from "app/ui/App";
-import {ProtectedAuth} from "app/service/routes/ProtectedAuth";
+import {ProtectedAuth} from "app/model/routes/ProtectedAuth";
 import { Login } from "features/auth";
 import TodoLists from "features/TodoLists/ui/TodoLists";
 

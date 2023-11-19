@@ -1,5 +1,5 @@
 import {Dispatch} from "redux";
-import {setAppErrorAC, setAppStatusAC} from "app/service/slice/app-reducer";
+import {setAppErrorAC, setAppStatusAC} from "app/model/slice/app-reducer";
 import axios from "axios";
 
 export const handleNetworkError = (err:unknown, dispatch:Dispatch) => {

@@ -1,7 +1,7 @@
 import {FieldsErrorsType} from "common/types"
-import {setAppStatusAC} from "app/service/slice/app-reducer";
+import {setAppStatusAC} from "app/model/slice/app-reducer";
 import {createAsyncThunk} from "@reduxjs/toolkit";
-import {initializedTC} from "app/service/thunk/me";
+import {initializedTC} from "app/model/thunk/me";
 import {handleNetworkError, handleServerError} from "common/utils";
 import {LoginPayloadType} from "features/auth/api/authApi.types";
 import { authAPI } from "features/auth";

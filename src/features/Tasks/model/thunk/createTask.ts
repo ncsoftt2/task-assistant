@@ -1,4 +1,4 @@
-import {setAppStatusAC} from "app/service/slice/app-reducer";
+import {setAppStatusAC} from "app/model/slice/app-reducer";
 import {handleNetworkError, handleServerError} from "common/utils";
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import {FieldsErrorsType} from "common/types"

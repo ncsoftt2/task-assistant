@@ -1,4 +1,4 @@
-import {setAppStatusAC} from "app/service/slice/app-reducer";
+import {setAppStatusAC} from "app/model/slice/app-reducer";
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import {handleNetworkError} from "common/utils"
 import {TodoListType} from "features/TodoLists/api/todoApi.types";
