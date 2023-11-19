@@ -18,7 +18,7 @@ export const useTodoList = (id: string,filter:TodoFilterType,demo: boolean,added
         justifyContent:'center',
         maxWidth:'200px',
         fontWeight: 400,
-        margin:'0px auto 10px',
+        margin:'0px auto',
         wordBreak:'break-all',
     }
     const [priority,setPriority] = useState<TaskPriority>(TaskPriority.Low)
