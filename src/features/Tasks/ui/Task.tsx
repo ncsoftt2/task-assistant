@@ -1,15 +1,13 @@
 import React, {FC, memo, useState} from "react";
 import {Box, Button, Checkbox, ListItem, Menu, MenuItem, Typography} from "@mui/material";
-
 import {TaskStatus} from "common/enums";
 import SettingsIcon from '@mui/icons-material/Settings';
-
-import {EditableTask} from "features/Tasks/ui/EditableTask";
 import { TaskDomainType } from "../model/slice/taskSlice";
 import {utilsTaskStyles} from "common/utils/utilsTaskStyles";
 import { useTaskStyles } from "./hooks/useEditableTask";
 import { useTaskService } from "./hooks/useTaskService";
 import { UniversalModal } from "common/components";
+import { EditableTask } from "./EditableTask";
 type PropsType = {
     task: TaskDomainType
     todoId:string

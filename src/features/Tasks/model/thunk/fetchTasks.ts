@@ -1,6 +1,5 @@
 import {setAppStatusAC} from "app/model/slice/app-reducer";
 import {handleNetworkError} from "common/utils"
-import {createAsyncThunk} from "@reduxjs/toolkit";
 import {tasksAPI} from "features/Tasks/api/taskApi";
 import {TaskType} from "features/Tasks/api/taskApi.types";
 import {createAppAsyncThunk} from "common/utils/createAsyncThunkApp";

@@ -1,7 +1,5 @@
 import {setAppStatusAC} from "app/model/slice/app-reducer";
 import {handleNetworkError, handleServerError} from "common/utils";
-import {createAsyncThunk} from "@reduxjs/toolkit";
-import {FieldsErrorsType} from "common/types"
 import {CreateTaskResponse, TaskType} from "features/Tasks/api/taskApi.types";
 import { tasksAPI } from "features/Tasks/api/taskApi";
 import {ResultCode} from "common/enums";

@@ -21,7 +21,7 @@ export const useLogin = () => {
             const errors: FormikErrorType = {}
             // if (!values.email) {
             //     errors.email = 'Обязательное свойство'
-            // } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+            // } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.__tests__(values.email)) {
             //     errors.email = 'Неправильный email'
             // }
             // if(!values.password) {

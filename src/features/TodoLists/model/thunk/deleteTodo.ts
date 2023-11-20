@@ -2,14 +2,14 @@ import {setAppStatusAC} from "app/model/slice/app-reducer";
 import {handleNetworkError, handleServerError} from "common/utils"
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import {todoListAPI} from "features/TodoLists/api/todoApi";
-import {todoListActions} from "features/TodoLists/index";
 import {ResultCode} from "common/enums";
+import { todoActionsCreators } from "../slice/todoSlice";
 
 export const deleteTodoTC = createAsyncThunk<string, string,{rejectValue:{errors:string[]}}>(
     'todo/deleteTodo',
     async (id,{dispatch,rejectWithValue}) => {
         dispatch(setAppStatusAC({status:'loading'}))
-        dispatch(todoListActions.changeTodoStatusAC({todoId:id,entityStatus:'loading'}))
+        dispatch(todoActionsCreators.changeTodoStatusAC({todoId:id,entityStatus:'loading'}))
         try {
             const response = await todoListAPI.deleteTodoList(id)
             if(response.data.resultCode === ResultCode.SUCCESS) {

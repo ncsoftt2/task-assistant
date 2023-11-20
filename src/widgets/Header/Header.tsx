@@ -7,7 +7,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import {LinearProgress} from "@mui/material";
 import { Link } from 'react-router-dom';
 import {appSelectors} from "../../app";
-import {RoutePath} from "app/model/routes/AppRoutes";
+import {RoutePath} from "app/providers/router/ui/AppRouter";
 import { authSelectors } from 'features/auth';
 import { useAppSelector } from 'common/hooks/useAppSelector';
 type PropsType = {

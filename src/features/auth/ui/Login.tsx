@@ -8,7 +8,7 @@ import FormLabel from '@mui/material/FormLabel';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import {Navigate} from "react-router-dom";
-import {RoutePath} from "app/model/routes/AppRoutes";
+import {RoutePath} from "app/providers/router/ui/AppRouter";
 import { useAppSelector } from 'common/hooks/useAppSelector';
 import { useLogin } from './hooks/useLogin';
 import {authSelectors} from "features/auth/index";
