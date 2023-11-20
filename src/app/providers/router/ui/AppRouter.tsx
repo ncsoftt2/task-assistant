@@ -1,19 +1,19 @@
 import {createHashRouter} from "react-router-dom";
-import {App} from "app/ui/App";
-import {ProtectedAuth} from "app/model/routes/ProtectedAuth";
+import {App} from "app/App";
 import { Login } from "features/auth";
 import TodoLists from "features/TodoLists/ui/TodoLists";
+import { ProtectedAuth } from "common/components/ProtectedAuth/ProtectedAuth";
 
-export enum AppRoutes {
+export enum AppRouter {
     MAIN = 'main',
     LOGIN = 'login',
     NOT_FOUND = 'not_found',
 }
 
-export const RoutePath:Record<AppRoutes, string> = {
-    [AppRoutes.MAIN]: '/',
-    [AppRoutes.LOGIN]: '/login',
-    [AppRoutes.NOT_FOUND]: '*',
+export const RoutePath:Record<AppRouter, string> = {
+    [AppRouter.MAIN]: '/',
+    [AppRouter.LOGIN]: '/login',
+    [AppRouter.NOT_FOUND]: '*',
 }
 
 export const router = createHashRouter([
