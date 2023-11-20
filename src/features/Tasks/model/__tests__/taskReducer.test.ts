@@ -1,13 +1,10 @@
 import {TaskPriority, TaskStatus} from "common/enums";
-import {taskActions} from "features/Tasks/index";
 import { clearDataAC } from "common/actions/clearData";
 import { TodoListType } from "features/TodoLists/api/todoApi.types";
 import {todoListActions} from "features/TodoLists";
-import { TasksType, taskReducer } from "../slice/taskSlice";
+import {TasksType, taskReducer, tasksThunks} from "../slice/taskSlice";
 import { TaskType } from "features/Tasks/api/taskApi.types";
 import {TodoListReducerType, todoReducer} from "features/TodoLists/model/slice/todoSlice";
-import {createTodoTC} from "features/TodoLists/model/thunk/createTodo";
-
 
 let newTodoListType:TodoListReducerType
 let startState: TasksType;
@@ -68,23 +65,23 @@ beforeEach(() => {
 describe('todo-lists', () => {
     test('add task', () => {
         const payload = {title,description:'description',priority: TaskPriority.Low,deadline:new Date()}
-        const endState = taskReducer(startState, taskActions.createTaskTC.fulfilled(newTaskState,'reqId', {id:'1',payload}))
+        const endState = taskReducer(startState, tasksThunks.createTaskTC.fulfilled(newTaskState,'reqId', {id:'1',payload}))
         expect(endState['1'].length).toBe(3)
         expect(endState['1'][0].title).toBe(title)
     })
     test('remove task', () => {
         let payload = {todoId:"1",taskId:'2'};
-        const endState = taskReducer(startState, taskActions.deleteTaskTC.fulfilled(payload,'reqId',payload))
+        const endState = taskReducer(startState, tasksThunks.deleteTaskTC.fulfilled(payload,'reqId',payload))
         expect(endState['1'].length).toBe(1)
     })
     test('change task title', () => {
         let payload = {taskId:'1', todoId:'1', model:newTaskState};
-        const endState = taskReducer(startState, taskActions.updateTaskTC.fulfilled(payload,'reqId',payload))
+        const endState = taskReducer(startState, tasksThunks.updateTaskTC.fulfilled(payload,'reqId',payload))
         expect(endState['1'][0].title).toBe(title)
     })
     test('change task status', () => {
         let payload = {taskId:'1', todoId:'1', model:newTaskState};
-        const endState = taskReducer(startState, taskActions.updateTaskTC.fulfilled(payload,'reqId',payload))
+        const endState = taskReducer(startState, tasksThunks.updateTaskTC.fulfilled(payload,'reqId',payload))
         expect(endState['1'][0].status).toBe(TaskStatus.Completed)
     })
     test('remove todo = remove task', () => {
@@ -108,7 +105,7 @@ describe('todo-lists', () => {
     })
     test('set tasks for todolist',() => {
         let payload = {id:"1",tasks:startStateTaskTypeAPI};
-        const action = taskActions.fetchTasksTC.fulfilled(payload,"1","1")
+        const action = tasksThunks.fetchTasksTC.fulfilled(payload,"1","1")
         const endState = taskReducer({['1']: [], ['2']: [],}, action)
         expect(endState['1'].length).toBe(2)
         expect(endState['2'].length).toBe(0)
