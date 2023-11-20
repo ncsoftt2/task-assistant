@@ -1,7 +1,7 @@
 import {Outlet} from "react-router-dom";
 import {FC, Suspense, useEffect, useState} from "react";
 import { CircularProgress } from "@mui/material";
-import {appActions, appSelectors} from "../index";
+import {appActions, appSelectors} from "app/index";
 import { AppDrawer } from "widgets/Drawer";
 import { Header } from "widgets/Header";
 import { ErrorSnackBar } from "common/components";
@@ -11,7 +11,7 @@ type PropsType = {
     demo?: boolean
 }
 
-export const App:FC<PropsType>= ({demo = false}) => {
+export const App:FC<PropsType>= () => {
     const [drawerOpen,setDrawerOpen] = useState(false)
     const initialized = useAppSelector(appSelectors.appInitializeSelector)
     const {initializedTC} = useActions(appActions)
