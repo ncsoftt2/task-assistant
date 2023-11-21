@@ -1,5 +1,5 @@
 import {AnyAction, combineReducers} from "redux";
-import {ThunkDispatch} from "redux-thunk";
+import thunk, {ThunkDispatch} from "redux-thunk";
 import {configureStore} from "@reduxjs/toolkit";
 import {appReducer} from "app/index";
 import {authReducer} from "features/auth/model/slice/auth-reducer";

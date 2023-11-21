@@ -5,7 +5,7 @@ import {todoListAPI} from "features/TodoLists/api/todoApi";
 import { TodoListType } from "features/TodoLists/api/todoApi.types";
 import {ResultCode} from "common/enums";
 
-export const createTodoTC = createAsyncThunk<TodoListType,string,{rejectValue:{errors:string[]}}>(
+export const createTodoTC = createAsyncThunk<TodoListType,string,{rejectValue:{errors:string[]} | null}>(
     'todo/createTodo',
     async (title,{dispatch,rejectWithValue}) => {
         dispatch(setAppStatusAC({status:'loading'}))
@@ -15,13 +15,12 @@ export const createTodoTC = createAsyncThunk<TodoListType,string,{rejectValue:{e
                 dispatch(setAppStatusAC({status:'succeeded'}))
                 return response.data.data.item
             } else {
-                handleServerError(response.data,dispatch)
+                handleServerError(response.data,dispatch,false)
                 return rejectWithValue({errors:response.data.messages})
             }
         } catch (e) {
-            const err = e as {message:string}
-            handleNetworkError(err,dispatch)
-            return rejectWithValue({errors:[err.message]})
+            handleNetworkError(e,dispatch,true)
+            return rejectWithValue(null)
         }
     }
 )

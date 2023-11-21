@@ -1,7 +1,6 @@
 import {Box, Container, Grid, Paper} from "@mui/material"
 import {useCallback, useEffect, useState} from "react";
 import * as React from "react";
-import {useActions} from "common/hooks/useActions";
 import {todoListActions, todoListSelectors} from "features/TodoLists/index";
 import { TodoList } from "./TodoList";
 import { AddItemForm, SkeletonTodoLists } from "common/components";
@@ -14,9 +13,18 @@ type PropsType = {
 const TodoLists:React.FC<PropsType> = ({demo = false}) => {
     const [loading, setLoading] = useState(false)
     const todoList = useAppSelector(todoListSelectors.fetchTodoSelector)
-    const {createTodoTC} = useActions(todoListActions)
     const dispatch = useAppDispatch()
-    const addNewTodo = useCallback((title:string) => createTodoTC(title),[])
+    const addNewTodo = useCallback(async (title:string) => {
+        const action = await dispatch(todoListActions.createTodoTC(title))
+        if(todoListActions.createTodoTC.rejected.match(action)) {
+            if(action.payload?.errors?.length) {
+                const errorMessage = action.payload?.errors[0]
+                throw new Error(errorMessage)
+            } else {
+                throw new Error('Some error occured')
+            }
+        }
+    },[])
     const elements = todoList.map(todo => {
         return (
             <Grid item sx={{p:1}} md={6} lg={4} sm={6} xs={12} key={todo.id}>
@@ -41,7 +49,7 @@ const TodoLists:React.FC<PropsType> = ({demo = false}) => {
         <>
             <Container maxWidth="lg" disableGutters>
                 <Box sx={{display:'flex',justifyContent:'center',margin:'15px 0 30px'}}>
-                    <AddItemForm maxLengthTitle={20} callback={addNewTodo} />
+                    <AddItemForm callback={addNewTodo} />
                 </Box>
                 <Grid container sx={{margin:'10px 0'}}>
                     {
