@@ -4,22 +4,15 @@ import FormControl from "@mui/material/FormControl";
 import FormGroup from "@mui/material/FormGroup";
 import TextField from "@mui/material/TextField";
 import {useFormik} from "formik";
-import * as Yup from 'yup';
-import { isRejectedWithValue } from "@reduxjs/toolkit";
 import {taskActions} from "features/Tasks/index";
 import { taskPriority } from "common/utils";
 import {useAppDispatch} from "common/hooks/useAppDispatch";
 
-type PropsType = {
+type Props = {
     id: string
 }
 
-const validationSchema = Yup.object({
-    title: Yup.string().required('Обязательное свойство').min(3,'Минимум 3 символа').max(20,'Максимум 20 символов'),
-    description: Yup.string().required('Обязательное свойство').min(3,'Минимум 3 символа').max(80,'Максимум 80 символов')
-})
-
-export const CreateTaskForm:FC<PropsType> = ({id}) => {
+export const CreateTaskForm:FC<Props> = ({id}) => {
     const dispatch = useAppDispatch()
     const gridPadding = {
         padding:'10px'
@@ -31,11 +24,16 @@ export const CreateTaskForm:FC<PropsType> = ({id}) => {
             priority: 1 || 2 || 3 || 4 || 5,
             deadline: new Date()
         },
-        validationSchema: validationSchema,
-        onSubmit: async (values, { resetForm,setSubmitting }) => {
+        onSubmit: async (values, { resetForm,setSubmitting,setFieldError }) => {
             setSubmitting(true)
-            const action = await dispatch(taskActions.createTaskTC({ id, payload: values }));
-            if(!isRejectedWithValue(action)) {
+            const action = await dispatch(taskActions.createTaskTC({ id, payload: values }))
+            if(taskActions.createTaskTC.rejected.match(action)) {
+                if(action.payload?.errors?.length) {
+                    const errorMessage = action.payload.errors[0]
+                    const fieldError = errorMessage.includes('Description') ? "description" : "title"
+                    setFieldError(fieldError,errorMessage)
+                }
+            } else {
                 resetForm()
             }
             setSubmitting(false)

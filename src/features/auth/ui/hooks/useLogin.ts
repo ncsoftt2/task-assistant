@@ -3,12 +3,6 @@ import { LoginPayloadType } from "features/auth/api/authApi.types";
 import {authActions} from "features/auth/index";
 import {useAppDispatch} from "common/hooks/useAppDispatch";
 
-type FormikErrorType = {
-    email?: string
-    password?: string
-    rememberMe?: boolean
-}
-
 export const useLogin = () => {
     const dispatch = useAppDispatch()
     const formik = useFormik({
@@ -16,20 +10,6 @@ export const useLogin = () => {
             email: '',
             password: '',
             rememberMe: false
-        },
-        validate: (values) => {
-            const errors: FormikErrorType = {}
-            // if (!values.email) {
-            //     errors.email = 'Обязательное свойство'
-            // } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.__tests__(values.email)) {
-            //     errors.email = 'Неправильный email'
-            // }
-            // if(!values.password) {
-            //     errors.password = 'Обязательное свойство'
-            // } else if (values.password.trim().length < 4) {
-            //     errors.password = 'Минимум 4 символа'
-            // }
-            return errors
         },
         onSubmit: async(values,formikHelpers: FormikHelpers<LoginPayloadType>) => {
             formikHelpers.setSubmitting(true)
