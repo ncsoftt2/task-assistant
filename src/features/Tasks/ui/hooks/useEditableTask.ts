@@ -49,6 +49,6 @@ export const useEditableTask = (task:TaskDomainType,setOpen: (value: boolean) =>
 }
 
 const validationSchema = yup.object({
-    title: yup.string().min(3,'Минимум 3 символа').max(15,'Максимум 15 символов'),
-    description: yup.string().max(80,'Максимум 80 символов')
+    title: yup.string().min(3,'Минимум 3 символа').max(100,'Максимум 100 символов'),
+    description: yup.string().max(1000,'Максимум 1000 символов')
 });
