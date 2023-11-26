@@ -1,9 +1,10 @@
 import {handleServerError} from "common/utils"
-import {DeleteTaskArgType, tasksAPI} from "features/Tasks/api/taskApi";
+import {tasksAPI} from "features/Tasks/api/taskApi";
 import {ResultCode} from "common/enums";
 import {appActions} from "app/app.reducer";
 import {thunkTryCatch} from "common/utils/thunkTryCatch";
 import {createAppAsyncThunk} from "common/utils/createAsyncThunkApp";
+import { DeleteTaskArgType } from "features/Tasks/api/taskApi.types";
 
 export const deleteTask = createAppAsyncThunk<DeleteTaskArgType,DeleteTaskArgType>(
     'task/deleteTask',

@@ -6,11 +6,12 @@ import { TodoList } from "./TodoList";
 import { AddItemForm, SkeletonTodoLists } from "common/components";
 import { useAppDispatch } from "common/hooks/useAppDispatch";
 import { useAppSelector } from 'common/hooks/useAppSelector';
-type PropsType = {
+
+type Props = {
     demo?: boolean
 }
 
-const TodoLists:React.FC<PropsType> = ({demo = false}) => {
+const TodoLists:React.FC<Props> = ({demo = false}) => {
     const [loading, setLoading] = useState(false)
     const todoList = useAppSelector(todoListSelectors.fetchTodoSelector)
     const dispatch = useAppDispatch()

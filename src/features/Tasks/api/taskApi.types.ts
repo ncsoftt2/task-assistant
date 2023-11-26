@@ -1,9 +1,6 @@
 import {TaskPriority, TaskStatus} from "common/enums";
 
-export type AddTaskArgsType = {
-    todolistId: string
-    title: string
-}
+export type DeleteTaskArgType = { todoId: string, taskId: string }
 
 export type TaskType = {
     description: string

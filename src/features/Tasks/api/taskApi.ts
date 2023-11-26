@@ -1,9 +1,6 @@
 import {instance} from "common/api";
 import {BaseResponseType} from "common/types";
-import {CreateTaskResponse, TaskResponseType, TaskType, UpdateTaskModelType} from "./taskApi.types";
-
-
-export type DeleteTaskArgType = { todoId: string, taskId: string }
+import {CreateTaskResponse, DeleteTaskArgType, TaskResponseType, TaskType, UpdateTaskModelType} from "./taskApi.types";
 
 export const tasksAPI = {
     getTasks(todoListId:string){
