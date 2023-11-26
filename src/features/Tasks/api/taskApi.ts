@@ -1,18 +1,21 @@
 import {instance} from "common/api";
-import {ReturnResponseType} from "common/types";
+import {BaseResponseType} from "common/types";
 import {CreateTaskResponse, TaskResponseType, TaskType, UpdateTaskModelType} from "./taskApi.types";
+
+
+export type DeleteTaskArgType = { todoId: string, taskId: string }
 
 export const tasksAPI = {
     getTasks(todoListId:string){
         return instance.get<TaskResponseType>(`/todo-lists/${todoListId}/tasks`)
     },
     createTask(todoListId:string,payload: CreateTaskResponse) {
-        return instance.post<ReturnResponseType<{item:TaskType}>>(`/todo-lists/${todoListId}/tasks`, payload)
+        return instance.post<BaseResponseType<{item:TaskType}>>(`/todo-lists/${todoListId}/tasks`, payload)
     },
-    deleteTask(todoListId:string,taskId:string) {
-        return instance.delete<ReturnResponseType>(`/todo-lists/${todoListId}/tasks/${taskId}`)
+    deleteTask(payload: DeleteTaskArgType) {
+        return instance.delete<BaseResponseType>(`/todo-lists/${payload.todoId}/tasks/${payload.taskId}`)
     },
     updateTask(todoId:string,taskId:string,model:UpdateTaskModelType) {
-        return instance.put<ReturnResponseType<{item:TaskType}>>(`/todo-lists/${todoId}/tasks/${taskId}`, model)
+        return instance.put<BaseResponseType<{item:TaskType}>>(`/todo-lists/${todoId}/tasks/${taskId}`, model)
     }
 }

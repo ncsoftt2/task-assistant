@@ -1,10 +1,10 @@
 import {TaskPriority} from "common/enums";
-import {RequestStatusType} from "app/model/slice/app-reducer";
+import {RequestStatusType} from "app/app.reducer";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {fetchTasksTC} from "../thunk/fetchTasks";
-import {createTaskTC} from "../thunk/createTask";
-import {deleteTaskTC} from "../thunk/deleteTask";
-import {updateTaskTC} from "../thunk/updateTask";
+import {fetchTasks} from "../thunk/fetchTasks";
+import {createTask} from "../thunk/createTask";
+import {deleteTask} from "../thunk/deleteTask";
+import {updateTask} from "../thunk/updateTask";
 import {clearDataAC} from "common/actions/clearData";
 import { todoListActions } from "features/TodoLists";
 import {TaskType} from "features/Tasks/api/taskApi.types";
@@ -48,14 +48,14 @@ const slice = createSlice({
                 state[tl.id] = []
             })
         })
-            .addCase(fetchTasksTC.fulfilled,(state, action) => {
+            .addCase(fetchTasks.fulfilled,(state, action) => {
                 state[action.payload.id] = action.payload.tasks.map(task => ({...task,taskStatus:'idle'}))
         })
-            .addCase(createTaskTC.fulfilled,(state,action) => {
+            .addCase(createTask.fulfilled,(state,action) => {
                 state[action.payload.todoListId].unshift({...action.payload,taskStatus:"idle"})
 
         })
-            .addCase(deleteTaskTC.fulfilled,(state, {payload: {taskId,todoId}}) => {
+            .addCase(deleteTask.fulfilled,(state, {payload: {taskId,todoId}}) => {
                 const index = state[todoId].findIndex(t => t.id === taskId)
                 if(index !== -1) {
                     state[todoId].splice(index,1)
@@ -65,7 +65,7 @@ const slice = createSlice({
         //     state[todoId] = state[todoId]
         //         .map(task => task.id === taskId ? {...task,...model} : task)
         // })
-            .addCase(updateTaskTC.fulfilled,(state, {payload}) => {
+            .addCase(updateTask.fulfilled,(state, {payload}) => {
                 if(payload) {
                     const index = state[payload.todoId].findIndex(t => t.id === payload.taskId)
                     if(index !== -1) {
@@ -82,5 +82,5 @@ const slice = createSlice({
 
 export const taskReducer = slice.reducer
 export const tasksActionsCreators = slice.actions
-export const tasksThunks = {createTaskTC,deleteTaskTC,updateTaskTC,fetchTasksTC}
+export const tasksThunks = {createTask,deleteTask,updateTask,fetchTasks}
 

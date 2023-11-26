@@ -1,4 +1,4 @@
-import {AppInitialStateType, appReducer, setAppErrorAC, setAppStatusAC} from "app/model/slice/app-reducer";
+import {appActions, AppInitialStateType, appReducer} from "app/app.reducer";
 
 let startState:AppInitialStateType
 beforeEach(() => {
@@ -6,25 +6,20 @@ beforeEach(() => {
             status: 'loading',
             error: null,
             initialized: false,
-            userData: {
-                id:1,
-                email:'',
-                login:''
-            }
         }
 })
 
 describe('app-reducer', () => {
     test('set message for error',() => {
-        const endState = appReducer(startState,setAppErrorAC({error:'some error'}))
+        const endState = appReducer(startState,appActions.setAppErrorAC({error:'some error'}))
         expect(endState.error).toBe('some error')
     })
     test('set null for error',() => {
-        const endState = appReducer(startState,setAppErrorAC({error:null}))
+        const endState = appReducer(startState,appActions.setAppErrorAC({error:null}))
         expect(endState.error).toBe(null)
     })
     test('change app status',() => {
-        const endState = appReducer(startState,setAppStatusAC({status:'loading'}))
+        const endState = appReducer(startState,appActions.setAppStatusAC({status:'loading'}))
         expect(endState.status).toBe('loading')
     })
 });

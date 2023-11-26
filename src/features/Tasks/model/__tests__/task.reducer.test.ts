@@ -62,7 +62,7 @@ beforeEach(() => {
     deadline:new Date(),description:'',priority:TaskPriority.Low,startDate:new Date()}
 })
 
-describe('todo-lists', () => {
+describe('tasks', () => {
     test('add task', () => {
         const payload = {title,description:'description',priority: TaskPriority.Low,deadline:new Date()}
         const endState = taskReducer(startState, tasksThunks.createTaskTC.fulfilled(newTaskState,'reqId', {id:'1',payload}))

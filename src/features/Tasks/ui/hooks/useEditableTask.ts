@@ -35,8 +35,8 @@ export const useEditableTask = (task:TaskDomainType,setOpen: (value: boolean) =>
         },
         validationSchema: validationSchema,
         onSubmit: async(values) => {
-            const action = await dispatch(taskActions.updateTaskTC({taskId:task.id,todoId:task.todoListId,model: values}))
-            if(!taskActions.updateTaskTC.rejected.match(action)) {
+            const action = await dispatch(taskActions.updateTask({taskId:task.id,todoId:task.todoListId,model: values}))
+            if(!taskActions.updateTask.rejected.match(action)) {
                 setOpen(false)
             } else {
                 setTimeout(() => {

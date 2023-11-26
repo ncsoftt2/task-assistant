@@ -1,29 +1,46 @@
-import {setAppStatusAC, setInitializedAC, setUserDataAC} from "app/model/slice/app-reducer";
-import {handleNetworkError, handleServerError} from "common/utils";
+import {handleServerError} from "common/utils";
 import {clearDataAC} from "common/actions/clearData";
 import { authAPI } from "features/auth";
 import {ResultCode} from "common/enums";
 import {createAppAsyncThunk} from "common/utils/createAsyncThunkApp";
+import {appActions} from "app/app.reducer";
+import {thunkTryCatch} from "common/utils/thunkTryCatch";
 
-export const logoutTC = createAppAsyncThunk<void,undefined>(
+export const logout = createAppAsyncThunk<undefined,undefined>(
     'auth/logout',
-    async (_,{dispatch,rejectWithValue}) => {
-        dispatch(setAppStatusAC({status:'loading'}))
-        try {
+    async (_,thunkAPI) => {
+        const {dispatch,rejectWithValue} = thunkAPI
+        return thunkTryCatch(thunkAPI, async () => {
             const response = await authAPI.logout()
             if(response.data.resultCode === ResultCode.SUCCESS) {
-                dispatch(setAppStatusAC({status:'succeeded'}))
-                dispatch(setInitializedAC({value:false}))
+                dispatch(appActions.setAppStatusAC({status:'succeeded'}))
+                dispatch(appActions.setInitializedAC({value:false}))
                 dispatch(clearDataAC())
-                dispatch(setUserDataAC(null))
             } else {
                 handleServerError(response.data,dispatch)
-                rejectWithValue(null)
+                return rejectWithValue(null)
             }
-        } catch (e) {
-            const err = e as {message: string}
-            handleNetworkError(err,dispatch)
-            rejectWithValue(null)
-        }
+        })
     }
 )
+// export const logout = createAppAsyncThunk<undefined,undefined>(
+//     'auth/logout',
+//     async (_,{dispatch,rejectWithValue}) => {
+//         dispatch(appActions.setAppStatusAC({status:'loading'}))
+//         try {
+//             const response = await authAPI.logout()
+//             if(response.data.resultCode === ResultCode.SUCCESS) {
+//                 dispatch(appActions.setAppStatusAC({status:'succeeded'}))
+//                 dispatch(appActions.setInitializedAC({value:false}))
+//                 dispatch(clearDataAC())
+//             } else {
+//                 handleServerError(response.data,dispatch)
+//                 return rejectWithValue(null)
+//             }
+//         } catch (e) {
+//             const err = e as {message: string}
+//             handleNetworkError(err,dispatch)
+//             return rejectWithValue(null)
+//         }
+//     }
+// )

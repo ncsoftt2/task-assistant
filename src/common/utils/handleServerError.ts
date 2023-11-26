@@ -1,11 +1,10 @@
-import { ReturnResponseType } from "common/types"
+import { BaseResponseType } from "common/types"
 import {Dispatch} from "redux";
-import {setAppErrorAC, setAppStatusAC} from "app/model/slice/app-reducer";
+import {appActions} from "app/app.reducer";
 
-export const handleServerError = <D>(data: ReturnResponseType<D>, dispatch:Dispatch,showError = true) => {
+export const handleServerError = <D>(data: BaseResponseType<D>, dispatch:Dispatch, showError = true) => {
     if(showError) {
-        dispatch(setAppErrorAC({error: data.messages.length ? data.messages[0] : "Some error occurred" }))
+        dispatch(appActions.setAppErrorAC({error: data.messages.length ? data.messages[0] : "Some error occurred" }))
     }
-    dispatch(setAppStatusAC({status:'failed'}))
+    dispatch(appActions.setAppStatusAC({status:'failed'}))
 }
-

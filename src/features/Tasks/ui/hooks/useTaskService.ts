@@ -5,7 +5,7 @@ import {taskActions} from "features/Tasks/index";
 import {TaskDomainType} from "features/Tasks/model/slice/taskSlice";
 
 export const useTaskService = (todoId:string,task:TaskDomainType,setOpenEditTask?: (value: boolean) => void) => {
-    const {updateTaskTC,deleteTaskTC} = useActions(taskActions)
+    const {updateTask,deleteTask} = useActions(taskActions)
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
     const date = new Date(task.deadline)
@@ -19,7 +19,7 @@ export const useTaskService = (todoId:string,task:TaskDomainType,setOpenEditTask
         setAnchorEl(event.currentTarget);
     },[])
     const handleDeleteTask = useCallback(() => {
-        deleteTaskTC({todoId, taskId: task.id})
+        deleteTask({todoId, taskId: task.id})
         setAnchorEl(null)
     },[todoId,task.id])
     const handleClose = () => {
@@ -32,7 +32,7 @@ export const useTaskService = (todoId:string,task:TaskDomainType,setOpenEditTask
     const handleChangeTaskStatus = useCallback((e:ChangeEvent<HTMLInputElement>) => {
         const checkedValue = e.currentTarget.checked
         const status = checkedValue ? TaskStatus.Completed : TaskStatus.New
-        updateTaskTC({todoId,taskId:task.id,model: {status}})
+        updateTask({todoId,taskId:task.id,model: {status}})
     },[todoId,task.id])
     return {
         handleClose,

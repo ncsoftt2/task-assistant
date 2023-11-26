@@ -26,10 +26,10 @@ export const CreateTaskForm:FC<Props> = ({id}) => {
         },
         onSubmit: async (values, { resetForm,setSubmitting,setFieldError }) => {
             setSubmitting(true)
-            const action = await dispatch(taskActions.createTaskTC({ id, payload: values }))
-            if(taskActions.createTaskTC.rejected.match(action)) {
-                if(action.payload?.errors?.length) {
-                    const errorMessage = action.payload.errors[0]
+            const action = await dispatch(taskActions.createTask({ id, payload: values }))
+            if(taskActions.createTask.rejected.match(action)) {
+                if(action.payload?.messages?.length) {
+                    const errorMessage = action.payload.messages[0]
                     const fieldError = errorMessage.includes('Description') ? "description" : "title"
                     setFieldError(fieldError,errorMessage)
                 }

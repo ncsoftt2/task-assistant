@@ -1,1 +1,1 @@
-export type {FieldsErrorsType,ReturnResponseType} from './ReturnResponseType'
+export type {FieldsErrorsType,BaseResponseType} from 'common/types/BaseResponseType'

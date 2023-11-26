@@ -2,9 +2,8 @@ import React, {FC} from "react";
 import {Box, Drawer} from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import Button from "@mui/material/Button";
-import {appSelectors} from "../../../app";
 import {useActions} from "common/hooks/useActions";
-import {authActions} from "features/auth";
+import {authActions, authSelectors} from "features/auth";
 import { useAppSelector } from 'common/hooks/useAppSelector';
 const imgUrl = 'https://images.unsplash.com/photo-1575936123452-b67c3203c357?auto=format&fit=crop&q=80&w=1000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8fDA%3D'
 
@@ -14,10 +13,10 @@ type PropsType = {
 }
 
 export const AppDrawer: FC<PropsType> = ({drawerOpen, setDrawerOpen}) => {
-    const userData = useAppSelector(appSelectors.appUserDataSelector)
-    const {logoutTC} = useActions(authActions)
+    const userData = useAppSelector(authSelectors.userDataSelector)
+    const {logout} = useActions(authActions)
     const handleLogout = () => {
-        logoutTC()
+        logout()
         setDrawerOpen(false)
     }
     const handleToggleDrawer = () => setDrawerOpen(false)

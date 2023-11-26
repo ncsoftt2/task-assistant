@@ -1,35 +1,45 @@
-import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {loginTC} from "features/auth/model/thunk/login";
-import {logoutTC} from "features/auth/model/thunk/logout";
+import {createSlice} from "@reduxjs/toolkit";
+import {login} from "features/auth/model/thunk/login";
+import {logout} from "features/auth/model/thunk/logout";
+import {initializeMe} from "features/auth/model/thunk/initializeMe";
 
+export type UserDataType = {
+    id?: number | null
+    login?: string | null
+    email: string | null
+}
 
 type InitialStateType = {
-    isAuth: boolean
+    userData: UserDataType | null
 }
-const initialState:InitialStateType = {
-    isAuth: false
+const initialState: InitialStateType = {
+    userData: {} as UserDataType | null
 }
 
 const slice = createSlice({
     name: "auth",
     initialState,
-    reducers: {
-        setIsLoggedIn: (state,action:PayloadAction<{value: boolean}>) => {
-            state.isAuth = action.payload.value
-        }
-    },
+    reducers: {},
     extraReducers: (builder) => {
         builder
-            .addCase(loginTC.fulfilled,(state,_) => {
-            state.isAuth = true
-        })
-            .addCase(logoutTC.fulfilled,(state,_) => {
-            state.isAuth = false
-        })
+            .addCase(login.pending, (state, _) => {
+                state.userData = null
+            })
+            .addCase(login.fulfilled, (state, action) => {
+                state.userData = action.payload
+            })
+            .addCase(login.rejected, (state, _) => {
+                state.userData = null
+            })
+            .addCase(logout.fulfilled, (state, _) => {
+                state.userData = null
+            })
+            .addCase(initializeMe.fulfilled, (state, action) => {
+                state.userData = action.payload
+            })
     }
 })
 
-
 export const authReducer = slice.reducer
 export const authActionsCreators = slice.actions
-export const authThunks = {loginTC,logoutTC}
+export const authThunks = {login, logout, initializeMe}

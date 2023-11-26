@@ -1,32 +1,51 @@
-import {setAppStatusAC} from "app/model/slice/app-reducer";
-import {handleNetworkError, handleServerError} from "common/utils";
+import {handleServerError} from "common/utils";
 import {CreateTaskResponse, TaskType} from "features/Tasks/api/taskApi.types";
 import { tasksAPI } from "features/Tasks/api/taskApi";
 import {ResultCode} from "common/enums";
 import {createAppAsyncThunk} from "common/utils/createAsyncThunkApp";
-import {FieldsErrorsType} from "common/types";
+import {appActions} from "app/app.reducer";
+import {thunkTryCatch} from "common/utils/thunkTryCatch";
 
-export const createTaskTC = createAppAsyncThunk<
+export const createTask = createAppAsyncThunk<
     TaskType,
-    {id:string,payload: CreateTaskResponse},
-    {rejectValue: {errors: string[], fieldsErrors?: [FieldsErrorsType]} | null}
->(
+    {id:string,payload: CreateTaskResponse}>(
     'task/createTask',
-    async ({id,payload},{dispatch,rejectWithValue}) => {
-        dispatch(setAppStatusAC({status:"loading"}))
-        try {
+    async ({id,payload},thunkAPI) => {
+        const {dispatch,rejectWithValue} = thunkAPI
+        return thunkTryCatch(thunkAPI, async () => {
             const response = await tasksAPI.createTask(id,payload)
             if(response.data.resultCode === ResultCode.SUCCESS) {
-                dispatch(setAppStatusAC({status:'succeeded'}))
+                dispatch(appActions.setAppStatusAC({status:'succeeded'}))
                 return response.data.data.item
             } else {
                 handleServerError(response.data,dispatch,false)
-                return rejectWithValue({errors: response.data.messages,fieldsErrors: response.data.fieldsErrors})
+                return rejectWithValue(response.data)
             }
-        } catch (e) {
-            const err = e as {message: string}
-            handleNetworkError(err,dispatch,true)
-            return rejectWithValue(null)
-        }
+        })
     }
 )
+
+// export const createTaskTC = createAppAsyncThunk<
+//     TaskType,
+//     {id:string,payload: CreateTaskResponse},
+//     {rejectValue: {errors: string[], fieldsErrors?: [FieldsErrorsType]} | null}
+// >(
+//     'task/createTask',
+//     async ({id,payload},{dispatch,rejectWithValue}) => {
+//         dispatch(appActions.setAppStatusAC({status:"loading"}))
+//         try {
+//             const response = await tasksAPI.createTask(id,payload)
+//             if(response.data.resultCode === ResultCode.SUCCESS) {
+//                 dispatch(appActions.setAppStatusAC({status:'succeeded'}))
+//                 return response.data.data.item
+//             } else {
+//                 handleServerError(response.data,dispatch,false)
+//                 return rejectWithValue({errors: response.data.messages,fieldsErrors: response.data.fieldsErrors})
+//             }
+//         } catch (e) {
+//             const err = e as {message: string}
+//             handleNetworkError(err,dispatch)
+//             return rejectWithValue(null)
+//         }
+//     }
+// )

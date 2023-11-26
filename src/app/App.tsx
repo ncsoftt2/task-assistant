@@ -1,18 +1,19 @@
 import {Outlet} from "react-router-dom";
 import {Suspense, useEffect, useState} from "react";
 import { CircularProgress } from "@mui/material";
-import {appActions, appSelectors} from "app/index";
 import { AppDrawer } from "widgets/Drawer";
 import { Header } from "widgets/Header";
 import { ErrorSnackBar } from "common/components";
 import { useAppSelector } from 'common/hooks/useAppSelector';
 import {useActions} from "common/hooks/useActions";
+import {appInitializeSelector} from "app/app.selectors";
+import {authActions} from "features/auth";
 
 
 export const App= () => {
     const [drawerOpen,setDrawerOpen] = useState(false)
-    const initialized = useAppSelector(appSelectors.appInitializeSelector)
-    const {initializedTC} = useActions(appActions)
+    const initialized = useAppSelector(appInitializeSelector)
+    const {initializeMe} = useActions(authActions)
     const style = {
         position: 'absolute',
         top: '50%',
@@ -20,7 +21,7 @@ export const App= () => {
         transform: 'translate(-50%, -50%)'
     }
     useEffect(() => {
-        initializedTC()
+        initializeMe()
     }, [initialized])
     if(!initialized) {
         return <CircularProgress sx={style} color="primary" />

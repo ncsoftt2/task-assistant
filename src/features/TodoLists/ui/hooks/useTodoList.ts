@@ -22,7 +22,7 @@ export const useTodoList = (id: string,filter:TodoFilterType,demo: boolean,added
         wordBreak:'break-all',
     }
     const [priority,setPriority] = useState<TaskPriority>(TaskPriority.Low)
-    const {fetchTasksTC,sortTasksAC} = useActions(taskActions)
+    const {fetchTasks,sortTasksAC} = useActions(taskActions)
     const {deleteTodoTC,changeTodoFilterAC} = useActions(todoListActions)
     const handleDeleteTodoList = () => deleteTodoTC(id)
     const handleChangeFilter = useCallback((filter:TodoFilterType) => changeTodoFilterAC({todoId:id,filter:filter}),[])
@@ -41,7 +41,7 @@ export const useTodoList = (id: string,filter:TodoFilterType,demo: boolean,added
     }
     const filteredTasks = filterTasks(tasks,filter)
     useEffect(() => {
-        if(!demo) fetchTasksTC(id)
+        if(!demo) fetchTasks(id)
     },[])
     return {
         handleDeleteTodoList,

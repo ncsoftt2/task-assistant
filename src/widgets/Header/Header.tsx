@@ -5,19 +5,18 @@ import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import {LinearProgress} from "@mui/material";
-import { Link } from 'react-router-dom';
-import {appSelectors} from "../../app";
-import {RoutePath} from "app/providers/router/ui/AppRouter";
 import { authSelectors } from 'features/auth';
 import { useAppSelector } from 'common/hooks/useAppSelector';
-type PropsType = {
+import { appStatusSelector } from 'app/app.selectors';
+
+type Props = {
     setDrawerOpen: (b: boolean) => void
 }
 
-export const Header:FC<PropsType> = ({setDrawerOpen}) => {
+export const Header:FC<Props> = ({setDrawerOpen}) => {
     const handleOpenDrawer = () => setDrawerOpen(true)
-    const isAuth = useAppSelector(authSelectors.isAuthSelector)
-    const status = useAppSelector(appSelectors.appStatusSelector)
+    const data = useAppSelector(authSelectors.userDataSelector)
+    const status = useAppSelector(appStatusSelector)
     return (
         <AppBar position="static" color={'primary'} elevation={0} sx={{position: 'relative'}}>
             <Toolbar>
@@ -28,12 +27,11 @@ export const Header:FC<PropsType> = ({setDrawerOpen}) => {
                     aria-label="menu"
                     sx={{mr: 2}}
                     onClick={handleOpenDrawer}
-                    disabled={!isAuth}
+                    disabled={!data}
                 >
                     <MenuIcon/>
                 </IconButton>
                 <Typography variant="h6" component="div" sx={{flexGrow: 1}}>Task  assistant</Typography>
-                {!isAuth && <Link to={RoutePath.login}>Login</Link>}
             </Toolbar>
             {status === 'loading' &&
                 <LinearProgress sx={{position: 'absolute', width: '100%', bottom: 0}} color="error"/>}

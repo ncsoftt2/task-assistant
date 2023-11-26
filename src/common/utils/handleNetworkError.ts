@@ -1,8 +1,8 @@
 import {Dispatch} from "redux";
-import {setAppErrorAC, setAppStatusAC} from "app/model/slice/app-reducer";
 import axios from "axios";
+import {appActions} from "app/app.reducer";
 
-export const handleNetworkError = (err:unknown, dispatch:Dispatch,showError = true) => {
+export const handleNetworkError = (err:unknown, dispatch:Dispatch) => {
     let errorMessage = "Some error occurred"
     if (axios.isAxiosError(err)) {
         errorMessage = err.response?.data?.message || err?.message || errorMessage
@@ -11,8 +11,6 @@ export const handleNetworkError = (err:unknown, dispatch:Dispatch,showError = tr
     } else {
         errorMessage = JSON.stringify(err)
     }
-    if(showError) {
-        dispatch(setAppErrorAC({ error: errorMessage }))
-    }
-    dispatch(setAppStatusAC({ status: "failed" }))
+    dispatch(appActions.setAppErrorAC({ error: errorMessage }))
+    dispatch(appActions.setAppStatusAC({ status: "failed" }))
 }

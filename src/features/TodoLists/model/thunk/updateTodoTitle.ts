@@ -1,20 +1,20 @@
-import {setAppStatusAC} from "app/model/slice/app-reducer";
 import {handleNetworkError, handleServerError} from "common/utils"
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import {FieldsErrorsType} from "common/types"
 import {todoListAPI} from "features/TodoLists/api/todoApi";
 import {ResultCode} from "common/enums";
+import {appActions} from "app/app.reducer";
 
 type PayloadType = { todoId: string, title: string };
 export const updateTodoTitleTC = createAsyncThunk<PayloadType,PayloadType,
     {rejectValue:{errors:string[],fieldsErrors?:[FieldsErrorsType]}}>(
     'todo/updateTodoTitle',
     async ({title,todoId},{dispatch,rejectWithValue}) => {
-        dispatch(setAppStatusAC({status:'loading'}))
+        dispatch(appActions.setAppStatusAC({status:'loading'}))
         const response = await todoListAPI.updateTodoListTitle(todoId,title)
         try {
             if(response.data.resultCode === ResultCode.SUCCESS) {
-                dispatch(setAppStatusAC({status:'succeeded'}))
+                dispatch(appActions.setAppStatusAC({status:'succeeded'}))
                 return {todoId,title}
             } else {
                 handleServerError(response.data,dispatch)
