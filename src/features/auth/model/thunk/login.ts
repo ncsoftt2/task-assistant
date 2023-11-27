@@ -4,7 +4,7 @@ import { authAPI } from "features/auth";
 import {ResultCode} from "common/enums";
 import {createAppAsyncThunk} from "common/utils/createAsyncThunkApp";
 import {appActions} from "app/app.reducer";
-import {authThunks, UserDataType} from "features/auth/model/slice/auth-reducer";
+import {authThunks, UserDataType} from "features/auth/model/slice/auth.reducer";
 import {thunkTryCatch} from "common/utils/thunkTryCatch";
 
 export const login = createAppAsyncThunk<UserDataType,LoginPayloadType>(

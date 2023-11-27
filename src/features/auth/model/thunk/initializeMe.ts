@@ -1,7 +1,7 @@
 import {appActions} from "app/app.reducer";
 import {createAppAsyncThunk} from "common/utils/createAsyncThunkApp";
 import {authAPI} from "features/auth/api/authApi";
-import {UserDataType} from "features/auth/model/slice/auth-reducer";
+import {UserDataType} from "features/auth/model/slice/auth.reducer";
 import {ResultCode} from "common/enums";
 import {thunkTryCatch} from "common/utils/thunkTryCatch";
 

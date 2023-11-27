@@ -15,16 +15,13 @@ const TodoLists:React.FC<Props> = ({demo = false}) => {
     const [loading, setLoading] = useState(false)
     const todoList = useAppSelector(todoListSelectors.fetchTodoSelector)
     const dispatch = useAppDispatch()
-    const addNewTodo = useCallback(async (title:string) => {
-        const action = await dispatch(todoListActions.createTodoTC(title))
-        if(todoListActions.createTodoTC.rejected.match(action)) {
-            if(action.payload?.errors?.length) {
-                const errorMessage = action.payload?.errors[0]
+    const addNewTodo = useCallback(async(title:string) => {
+        await dispatch(todoListActions.createTodoTC(title))
+            .unwrap()
+            .catch(err => {
+                const errorMessage = err.errors ? err.errors : 'Some error occured'
                 throw new Error(errorMessage)
-            } else {
-                throw new Error('Some error occured')
-            }
-        }
+            })
     },[])
     const elements = todoList.map(todo => {
         return (
