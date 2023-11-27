@@ -14,9 +14,7 @@ import { useLogin } from './hooks/useLogin';
 import {authSelectors} from "features/auth/index";
 
 const Login = () => {
-    const data = useAppSelector(authSelectors.userDataSelector)
     const {formik} = useLogin()
-    if(data) return <Navigate to={RoutePath.main}/>
     return <Grid container justifyContent={'center'}>
         <Grid item justifyContent={'center'}>
             <form onSubmit={formik.handleSubmit}>
