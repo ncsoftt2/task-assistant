@@ -8,12 +8,13 @@ import { useTaskStyles } from "./hooks/useEditableTask";
 import { useTaskService } from "./hooks/useTaskService";
 import { UniversalModal } from "common/components";
 import { EditableTask } from "./EditableTask";
-type PropsType = {
+
+type Props = {
     task: TaskDomainType
     todoId:string
 }
 
-export const Task:FC<PropsType> = memo(({task,todoId}) => {
+export const Task:FC<Props> = memo(({task,todoId}) => {
     const [openEditTask, setOpenEditTask] = useState(false);
     const {status,priority,title} = task
     const classes = useTaskStyles()
