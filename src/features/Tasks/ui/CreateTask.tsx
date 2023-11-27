@@ -7,6 +7,7 @@ import {useFormik} from "formik";
 import {taskActions} from "features/Tasks/index";
 import { taskPriority } from "common/utils";
 import {useAppDispatch} from "common/hooks/useAppDispatch";
+import {BaseResponseType} from "common/types";
 
 type Props = {
     id: string
@@ -24,19 +25,23 @@ export const CreateTaskForm:FC<Props> = ({id}) => {
             priority: 1 || 2 || 3 || 4 || 5,
             deadline: new Date()
         },
-        onSubmit: async (values, { resetForm,setSubmitting,setFieldError }) => {
+        onSubmit: (values, { resetForm,setSubmitting,setFieldError }) => {
             setSubmitting(true)
-            const action = await dispatch(taskActions.createTask({ id, payload: values }))
-            if(taskActions.createTask.rejected.match(action)) {
-                if(action.payload?.messages?.length) {
-                    const errorMessage = action.payload.messages[0]
-                    const fieldError = errorMessage.includes('Description') ? "description" : "title"
-                    setFieldError(fieldError,errorMessage)
-                }
-            } else {
-                resetForm()
-            }
-            setSubmitting(false)
+            dispatch(taskActions.createTask({ id, payload: values }))
+                .unwrap()
+                .then(() => {
+                    resetForm()
+                })
+                .catch((err:BaseResponseType) => {
+                    const errorMessage = err.messages ? err.messages[0] : "Some occured error"
+                    const errorField = errorMessage.includes('Description') ? 'description' : "title"
+                    err.messages?.forEach(el => {
+                        setFieldError(errorField,el)
+                    })
+                })
+                .finally(() => {
+                    setSubmitting(false)
+                })
         },
     })
     return (
