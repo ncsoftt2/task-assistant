@@ -46,7 +46,10 @@ export const TodoList:FC<PropsType> = memo(({demo,todoList: {title,filter,id,ent
                 <Button sx={{padding:0,minWidth:'40px', '&:hover': {
                         transform: 'rotate(90deg)',
                         transition: 'transform 0.5s ease',
-                    }}} onClick={handleDeleteTodoList}>
+                    }}}
+                        onClick={handleDeleteTodoList}
+                        disabled={disabled}
+                >
                     <ClearIcon/>
                 </Button>
             </Box>
@@ -54,7 +57,7 @@ export const TodoList:FC<PropsType> = memo(({demo,todoList: {title,filter,id,ent
                 <Typography variant='h2' fontSize={18} sx={todoTitleStyle}>{title}</Typography>
             </Box>
             <Box sx={{display:'flex',justifyContent:'center'}} onClick={() => setOpenCreateTask(true)}>
-                <Button>Create new task</Button>
+                <Button disabled={disabled}>Create new task</Button>
             </Box>
             <Box>created: {todoAddedDate}</Box>
             {

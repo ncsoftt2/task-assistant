@@ -3,7 +3,7 @@ import {ChangeEvent, FC, memo, useState, KeyboardEvent} from "react";
 import {makeStyles, Theme} from "mui-styles";
 import AddIcon from '@mui/icons-material/Add';
 
-const useAddItemFormStyles = makeStyles<Theme>(() => ({
+export const useAddItemFormStyles = makeStyles<Theme>(() => ({
     customInput: {
         '& .MuiInputBase-input': {
             padding: '5px'
@@ -37,13 +37,14 @@ const useAddItemFormStyles = makeStyles<Theme>(() => ({
     }
 }))
 
-export type Props = {
+export type AddItemFormProps = {
     callback: (title:string) => Promise<any>
 }
 
-export const AddItemForm:FC<Props> = memo(({callback}) => {
+export const AddItemForm:FC<AddItemFormProps> = memo(({callback}) => {
     const [value,setValue] = useState('')
     const [error,setError] = useState(false)
+    const [disableValue,setDisableValue] = useState(false)
     const [errorMessage,setErrorMessage] = useState('')
     const handleChange = (e:ChangeEvent<HTMLInputElement>) => {
         const target = e.currentTarget.value
@@ -54,6 +55,7 @@ export const AddItemForm:FC<Props> = memo(({callback}) => {
         setValue(target)
     }
     const handleClick = async () => {
+        setDisableValue(true)
         const trimValue = value.trim()
         if(trimValue.length !== 0) {
             try {
@@ -68,6 +70,7 @@ export const AddItemForm:FC<Props> = memo(({callback}) => {
             setError(true)
             setErrorMessage('Title is required')
         }
+        setDisableValue(false)
     }
     const addNewItemOnEnter = (e: KeyboardEvent<HTMLInputElement>) => {
         if(e.key === 'Enter') {
@@ -84,8 +87,9 @@ export const AddItemForm:FC<Props> = memo(({callback}) => {
                        error={error}
                        helperText={errorMessage}
                        onKeyDown={addNewItemOnEnter}
+                       disabled={disableValue}
             />
-            <Button className={classes.customButton} onClick={handleClick}>
+            <Button className={classes.customButton} onClick={handleClick} disabled={disableValue}>
                 <AddIcon/>
             </Button>
         </Box>
