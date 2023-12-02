@@ -58,7 +58,7 @@ export const TodoList:FC<PropsType> = memo(({todoList: {title,filter,id,entitySt
             <Box sx={todoTitleStyle}>
                 <EditableSpan value={title} onChange={handleUpdateTodoListTitle} />
             </Box>
-            <Box sx={{mt:"25px"}} onClick={() => setOpenCreateTask(true)}>
+            <Box sx={{mt:"25px",display:'inline-block'}} onClick={() => setOpenCreateTask(true)}>
                 <Button sx={{p:0}} disabled={disabled}>Create new task</Button>
             </Box>
             <Box>created: {todoAddedDate}</Box>
