@@ -6,7 +6,7 @@ import {todoListActions} from "../../index";
 import {TaskDomainType} from "features/Tasks/model/slice/taskSlice";
 import { TodoFilterType } from "features/TodoLists/model/slice/todoSlice";
 import { useAppSelector } from 'common/hooks/useAppSelector';
-export const useTodoList = (id: string,filter:TodoFilterType,demo: boolean,addedDate: Date) => {
+export const useTodoList = (id: string,filter:TodoFilterType,addedDate: Date) => {
     const tasks = useAppSelector(state => state.tasks[id])
     const date = new Date(addedDate)
     const todoDate = date.getDate().toString().padStart(2, '0')
@@ -23,8 +23,11 @@ export const useTodoList = (id: string,filter:TodoFilterType,demo: boolean,added
     }
     const [priority,setPriority] = useState<TaskPriority>(TaskPriority.Low)
     const {fetchTasks,sortTasksAC} = useActions(taskActions)
-    const {deleteTodoTC,changeTodoFilterAC} = useActions(todoListActions)
+    const {deleteTodoTC,changeTodoFilterAC,updateTodoTitleTC} = useActions(todoListActions)
     const handleDeleteTodoList = () => deleteTodoTC(id)
+    const handleUpdateTodoListTitle = useCallback((newTitle:string) => {
+        return updateTodoTitleTC({title:newTitle,todoId:id}).unwrap()
+    },[])
     const handleChangeFilter = useCallback((filter:TodoFilterType) => changeTodoFilterAC({todoId:id,filter:filter}),[])
     const handleChangePriority = (e: 1 | 5) => {
         setPriority(prevState => prevState === 1 ? 5 : 1)
@@ -41,7 +44,7 @@ export const useTodoList = (id: string,filter:TodoFilterType,demo: boolean,added
     }
     const filteredTasks = filterTasks(tasks,filter)
     useEffect(() => {
-        if(!demo) fetchTasks(id)
+        fetchTasks(id)
     },[])
     return {
         handleDeleteTodoList,
@@ -51,6 +54,7 @@ export const useTodoList = (id: string,filter:TodoFilterType,demo: boolean,added
         tasks,
         priority,
         todoTitleStyle,
+        handleUpdateTodoListTitle,
         todoAddedDate
     }
 }

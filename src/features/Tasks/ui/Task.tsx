@@ -49,6 +49,7 @@ export const Task:FC<Props> = memo(({task,todoId}) => {
                 color={'default'}
                 size={'small'}
                 className={classes.taskCheckBox}
+                disabled={task.taskStatus === 'loading'}
             />
             <Typography variant={'h3'} className={classes.taskTitle}>{title}</Typography>
             <Box>deadline <b>{taskDeadline}</b></Box>
@@ -57,7 +58,9 @@ export const Task:FC<Props> = memo(({task,todoId}) => {
                         transform: 'rotate(180deg)',
                         transition: 'transform 0.5s ease',
                     }}}
-                        onClick={handleClick}>
+                        onClick={handleClick}
+                        disabled={task.taskStatus === 'loading'}
+                >
                     <SettingsIcon/>
                 </Button>
                 <Menu anchorEl={anchorEl}

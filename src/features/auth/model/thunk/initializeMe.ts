@@ -21,27 +21,3 @@ export const initializeMe = createAppAsyncThunk<UserDataType | null,undefined>(
         })
     }
 )
-
-// export const _initializeMe = createAppAsyncThunk<UserDataType | null,undefined,{
-//     rejectValue: {errors: string[]} | null
-// }>(
-//     'app/initializeMe',
-//     async (_,{dispatch,rejectWithValue}) => {
-//         dispatch(appActions.setAppStatusAC({status:'loading'}))
-//         try {
-//             const response = await authAPI.me()
-//             if(response.data.resultCode === ResultCode.SUCCESS) {
-//                 dispatch(appActions.setAppStatusAC({status:'succeeded'}))
-//                 return response.data.data
-//             } else {
-//                 handleServerError(response.data,dispatch,false)
-//                 return null
-//             }
-//         } catch (e) {
-//             handleNetworkError(e,dispatch)
-//             return rejectWithValue(null)
-//         } finally {
-//             dispatch(appActions.setInitializedAC({value: true}))
-//         }
-//     }
-// )

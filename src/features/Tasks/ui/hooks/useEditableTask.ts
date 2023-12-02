@@ -3,7 +3,7 @@ import {TaskDomainType} from "features/Tasks/model/slice/taskSlice";
 import {useFormik} from "formik";
 import {taskActions} from "features/Tasks/index";
 import * as yup from "yup";
-import { useAppDispatch } from "common/hooks/useAppDispatch";
+import {useActions} from "common/hooks/useActions";
 
 export const useTaskStyles = makeStyles<Theme>(() => ({
     customList: {
@@ -25,7 +25,7 @@ export const useTaskStyles = makeStyles<Theme>(() => ({
 }))
 
 export const useEditableTask = (task:TaskDomainType,setOpen: (value: boolean) => void) => {
-    const dispatch = useAppDispatch()
+    const {updateTask} = useActions(taskActions)
     const formik = useFormik({
         initialValues: {
             title: task.title,
@@ -34,15 +34,14 @@ export const useEditableTask = (task:TaskDomainType,setOpen: (value: boolean) =>
             priority: task.priority
         },
         validationSchema: validationSchema,
-        onSubmit: async(values) => {
-            const action = await dispatch(taskActions.updateTask({taskId:task.id,todoId:task.todoListId,model: values}))
-            if(!taskActions.updateTask.rejected.match(action)) {
-                setOpen(false)
-            } else {
-                setTimeout(() => {
-                    dispatch(taskActions.changeTaskStatusAC({taskId:task.id,todoId:task.todoListId,taskStatus:"idle"}))
-                },2000)
-            }
+        onSubmit: async (values,formikHelpers) => {
+            formikHelpers.setSubmitting(true)
+            await updateTask({taskId:task.id,todoId:task.todoListId,model: values})
+                .unwrap()
+                .then(() => setOpen(false))
+                .finally(() => {
+                    formikHelpers.setSubmitting(false)
+                })
         }
     })
     return {formik}

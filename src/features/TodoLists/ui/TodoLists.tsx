@@ -4,8 +4,8 @@ import * as React from "react";
 import {todoListActions, todoListSelectors} from "features/TodoLists/index";
 import { TodoList } from "./TodoList";
 import { AddItemForm, SkeletonTodoLists } from "common/components";
-import { useAppDispatch } from "common/hooks/useAppDispatch";
 import { useAppSelector } from 'common/hooks/useAppSelector';
+import {useActions} from "common/hooks/useActions";
 
 type Props = {
     demo?: boolean
@@ -14,14 +14,10 @@ type Props = {
 const TodoLists:React.FC<Props> = ({demo = false}) => {
     const [loading, setLoading] = useState(false)
     const todoList = useAppSelector(todoListSelectors.fetchTodoSelector)
-    const dispatch = useAppDispatch()
-    const addNewTodo = useCallback(async(title:string) => {
-        await dispatch(todoListActions.createTodoTC(title))
+    const {fetchTodoTC,createTodoTC} = useActions(todoListActions)
+    const addNewTodo = useCallback((title:string) => {
+        return createTodoTC(title)
             .unwrap()
-            .catch(err => {
-                const errorMessage = err.errors ? err.errors : 'Some error occured'
-                throw new Error(errorMessage)
-            })
     },[])
     const elements = todoList.map(todo => {
         return (
@@ -39,7 +35,7 @@ const TodoLists:React.FC<Props> = ({demo = false}) => {
     useEffect(() => {
         if(!demo) {
             setLoading(true)
-            dispatch(todoListActions.fetchTodoTC())
+            fetchTodoTC()
                 .finally(() => setLoading(false))
         }
     }, [])

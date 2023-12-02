@@ -10,7 +10,7 @@ import {appInitializeSelector} from "app/app.selectors";
 import {authActions} from "features/auth";
 
 
-export const App= () => {
+export const App = () => {
     const [drawerOpen,setDrawerOpen] = useState(false)
     const initialized = useAppSelector(appInitializeSelector)
     const {initializeMe} = useActions(authActions)

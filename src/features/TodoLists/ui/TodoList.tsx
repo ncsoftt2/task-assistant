@@ -1,5 +1,5 @@
 import {FC, memo, useState} from "react";
-import {Box, Button, ButtonGroup,Typography, CircularProgress, List} from "@mui/material";
+import {Box, Button, ButtonGroup, CircularProgress, List} from "@mui/material";
 import { Task } from "../../Tasks";
 import BoltIcon from '@mui/icons-material/Bolt';
 import FiberNewIcon from '@mui/icons-material/FiberNew';
@@ -8,13 +8,14 @@ import {CreateTaskForm} from "features/Tasks/ui/CreateTask";
 import { TodoListReducerType } from "../model/slice/todoSlice";
 import { useTodoList } from "./hooks/useTodoList";
 import {UniversalButton, UniversalModal } from "common/components";
+import {EditableSpan} from "common/components/EditableSpan/EditableSpan";
 
 type PropsType = {
     todoList: TodoListReducerType
     demo?: boolean
 }
 
-export const TodoList:FC<PropsType> = memo(({demo,todoList: {title,filter,id,entityStatus,addedDate}}) => {
+export const TodoList:FC<PropsType> = memo(({todoList: {title,filter,id,entityStatus,addedDate}}) => {
     const disabled = entityStatus === 'loading'
     const {
         handleDeleteTodoList,
@@ -24,8 +25,9 @@ export const TodoList:FC<PropsType> = memo(({demo,todoList: {title,filter,id,ent
         filteredTasks,
         priority,
         todoTitleStyle,
-        todoAddedDate
-    } = useTodoList(id,filter,demo = false,addedDate)
+        todoAddedDate,
+        handleUpdateTodoListTitle
+    } = useTodoList(id,filter,addedDate)
     const [openCreateTask, setOpenCreateTask] = useState(false)
     const tasksRender = filteredTasks.map(task => {
         return <Task key={task.id}
@@ -53,19 +55,23 @@ export const TodoList:FC<PropsType> = memo(({demo,todoList: {title,filter,id,ent
                     <ClearIcon/>
                 </Button>
             </Box>
-            <Box>
-                <Typography variant='h2' fontSize={18} sx={todoTitleStyle}>{title}</Typography>
+            <Box sx={todoTitleStyle}>
+                <EditableSpan value={title} onChange={handleUpdateTodoListTitle} />
             </Box>
-            <Box sx={{display:'flex',justifyContent:'center'}} onClick={() => setOpenCreateTask(true)}>
-                <Button disabled={disabled}>Create new task</Button>
+            <Box sx={{mt:"25px"}} onClick={() => setOpenCreateTask(true)}>
+                <Button sx={{p:0}} disabled={disabled}>Create new task</Button>
             </Box>
             <Box>created: {todoAddedDate}</Box>
             {
                 !disabled
                     ? <List sx={{gap: 2}}>{tasksRender}</List>
-                    : <Box sx={{margin:'10px 0',display:'flex',justifyContent:'center'}}>
-                        <CircularProgress color="primary" />
-                    </Box>
+                    : tasks.length
+                        ? (
+                            <Box sx={{margin:'10px 0',display:'flex',justifyContent:'center'}}>
+                                <CircularProgress color="primary" />
+                            </Box>
+                        )
+                        : null
             }
             {tasks.length > 0 && (
                     <Box sx={{display:'flex',justifyContent:'space-around',alignItems:'center'}}>

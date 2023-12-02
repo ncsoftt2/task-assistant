@@ -6,5 +6,4 @@ export const handleServerError = <D>(data: BaseResponseType<D>, dispatch:Dispatc
     if(showError) {
         dispatch(appActions.setAppErrorAC({error: data.messages.length ? data.messages[0] : "Some error occurred" }))
     }
-    dispatch(appActions.setAppStatusAC({status:'failed'}))
 }

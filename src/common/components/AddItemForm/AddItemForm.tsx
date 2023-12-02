@@ -2,6 +2,7 @@ import {Box, Button, TextField} from "@mui/material";
 import {ChangeEvent, FC, memo, useState, KeyboardEvent} from "react";
 import {makeStyles, Theme} from "mui-styles";
 import AddIcon from '@mui/icons-material/Add';
+import {BaseResponseType} from "common/types";
 
 export const useAddItemFormStyles = makeStyles<Theme>(() => ({
     customInput: {
@@ -58,14 +59,16 @@ export const AddItemForm:FC<AddItemFormProps> = memo(({callback}) => {
         setDisableValue(true)
         const trimValue = value.trim()
         if(trimValue.length !== 0) {
-            try {
-                await callback(value)
-                setValue('')
-            } catch (err) {
-                const errMessage = err as {message: string}
-                setError(true)
-                setErrorMessage(errMessage.message)
-            }
+            callback(value)
+                .then(() => {
+                    setValue('')
+                })
+                .catch((err:BaseResponseType) => {
+                    setError(true)
+                    if(err?.resultCode) {
+                        setErrorMessage(err.messages[0])
+                    }
+                })
         } else {
             setError(true)
             setErrorMessage('Title is required')
@@ -96,61 +99,3 @@ export const AddItemForm:FC<AddItemFormProps> = memo(({callback}) => {
 
     )
 })
-
-
-
-// export type FormPropsType = {
-//     callback: (title:string) => void
-//     disabled?: boolean
-//     maxLengthTitle: number
-// }
-//
-// export const AddItemForm:FC<FormPropsType> = memo(({callback,maxLengthTitle}) => {
-//     const [value,setValue] = useState('')
-//     const [error,setError] = useState(false)
-//     const [lengthError,setLengthError] = useState(false)
-//     const errorMessage = error && 'Enter title' || lengthError && `Max length symbols ${maxLengthTitle}`
-//     const handleChange = (e:ChangeEvent<HTMLInputElement>) => {
-//         const target = e.currentTarget.value
-//         if (error) {
-//             setError(false)
-//         }
-//         if(target.length > maxLengthTitle) {
-//             setLengthError(true)
-//         }else if(lengthError){
-//             setLengthError(false)
-//         }
-//         setValue(target)
-//     }
-//     const handleClick = () => {
-//         const trimValue = value.trim()
-//         if(trimValue.length !== 0 && value.length <= maxLengthTitle) {
-//             callback(value)
-//             setValue('')
-//         } else if (trimValue.length === 0) {
-//             setError(true)
-//         } else if(trimValue.length > maxLengthTitle) {
-//             setLengthError(true)
-//         }
-//     }
-//     const addNewItemOnEnter = (e: KeyboardEvent<HTMLInputElement>) => {
-//         if(e.key === 'Enter') handleClick()
-//     }
-//     const classes = useAddItemFormStyles()
-//     return (
-//         <Box sx={{display:'flex',alignItems:'center'}}>
-//             <TextField id="outlined-basic"
-//                        className={classes.customInput}
-//                        value={value}
-//                        onChange={handleChange}
-//                        error={lengthError || error}
-//                        helperText={errorMessage}
-//                        onKeyDown={addNewItemOnEnter}
-//             />
-//             <Button className={classes.customButton} onClick={handleClick} disabled={error || lengthError}>
-//                 <AddIcon/>
-//             </Button>
-//         </Box>
-//
-//     )
-// })

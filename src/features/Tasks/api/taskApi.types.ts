@@ -29,11 +29,16 @@ export type CreateTaskResponse = {
 }
 
 export type UpdateTaskModelType = {
-    title: string
-    description: string
-    status: TaskStatus
-    priority: TaskPriority
-    startDate: Date
-    deadline: Date
+    title?: string
+    description?: string
+    status?: TaskStatus
+    priority?: TaskPriority
+    startDate?: Date
+    deadline?: Date
 }
 
+export type UpdateTaskArgType = {
+    taskId: string;
+    model: Partial<UpdateTaskModelType>
+    todoId: string;
+}

@@ -1,4 +1,4 @@
-import {createSlice} from "@reduxjs/toolkit";
+import {AnyAction, createSlice} from "@reduxjs/toolkit";
 import {login} from "features/auth/model/thunk/login";
 import {logout} from "features/auth/model/thunk/logout";
 import {initializeMe} from "features/auth/model/thunk/initializeMe";
@@ -22,21 +22,16 @@ const slice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder
-            .addCase(login.pending, (state, _) => {
-                state.userData = null
-            })
-            .addCase(login.fulfilled, (state, action) => {
-                state.userData = action.payload
-            })
-            .addCase(login.rejected, (state, _) => {
-                state.userData = null
-            })
-            .addCase(logout.fulfilled, (state, _) => {
-                state.userData = null
-            })
-            .addCase(initializeMe.fulfilled, (state, action) => {
-                state.userData = action.payload
-            })
+            .addMatcher(
+                (action: AnyAction) => {
+                    return action.type === 'app/initializeMe/fulfilled' ||
+                        action.type === 'auth/logout/fulfilled' ||
+                        action.type === 'auth/login/fulfilled';
+                },
+                (state,action) => {
+                    state.userData = action.payload
+                }
+            )
     }
 })
 

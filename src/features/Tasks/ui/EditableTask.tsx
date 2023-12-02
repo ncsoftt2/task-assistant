@@ -115,15 +115,12 @@ export const EditableTask:FC<PropsType> = memo(({task,setOpen}) => {
                     <Button type={'submit'}
                             variant={'contained'}
                             color={'primary'}
-                            disabled={task.taskStatus === 'loading'}
+                            disabled={formik.isSubmitting}
                     >
                         Update
                     </Button>
                 </FormGroup>
             </FormControl>
-            {task.taskStatus === 'failed' && (
-                <Box sx={{textAlign:'center',mt:'5px',color:'#d50000'}}>try later...</Box>
-            )}
         </form>
     )
 })

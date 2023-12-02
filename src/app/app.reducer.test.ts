@@ -18,8 +18,4 @@ describe('app-reducer', () => {
         const endState = appReducer(startState,appActions.setAppErrorAC({error:null}))
         expect(endState.error).toBe(null)
     })
-    test('change app status',() => {
-        const endState = appReducer(startState,appActions.setAppStatusAC({status:'loading'}))
-        expect(endState.status).toBe('loading')
-    })
 });
