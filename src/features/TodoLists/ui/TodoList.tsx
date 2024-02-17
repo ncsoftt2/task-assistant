@@ -9,6 +9,7 @@ import { TodoListReducerType } from "../model/slice/todoSlice";
 import { useTodoList } from "./hooks/useTodoList";
 import {UniversalButton, UniversalModal } from "common/components";
 import {EditableSpan} from "common/components/EditableSpan/EditableSpan";
+import { AnimatePresence, motion } from "framer-motion";
 
 type PropsType = {
     todoList: TodoListReducerType
@@ -30,10 +31,19 @@ export const TodoList:FC<PropsType> = memo(({todoList: {title,filter,id,entitySt
     } = useTodoList(id,filter,addedDate)
     const [openCreateTask, setOpenCreateTask] = useState(false)
     const tasksRender = filteredTasks.map(task => {
-        return <Task key={task.id}
-                     todoId={id}
-                     task={task}
-        />
+        return (
+            <motion.div
+                layout
+                key={task.id}
+                initial={{ x: -50, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                exit={{ x: -10, opacity: 0 }}
+            >
+                <Task todoId={id}
+                      task={task}
+                />
+            </motion.div>
+        )
     })
     return (
         <>
@@ -64,7 +74,13 @@ export const TodoList:FC<PropsType> = memo(({todoList: {title,filter,id,entitySt
             <Box>created: {todoAddedDate}</Box>
             {
                 !disabled
-                    ? <List sx={{gap: 2}}>{tasksRender}</List>
+                    ? (
+                        <List sx={{gap: 2}}>
+                            <AnimatePresence>
+                                {tasksRender}
+                            </AnimatePresence>
+                        </List>
+                    )
                     : tasks.length
                         ? (
                             <Box sx={{margin:'10px 0',display:'flex',justifyContent:'center'}}>
