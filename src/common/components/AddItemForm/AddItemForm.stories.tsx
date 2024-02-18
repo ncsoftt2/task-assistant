@@ -1,5 +1,5 @@
 import {Meta, StoryObj} from "@storybook/react";
-import {AddItemForm, useAddItemFormStyles} from "common/components/AddItemForm/AddItemForm";
+import {AddItemForm} from "common/components/AddItemForm/AddItemForm";
 import {ChangeEvent, KeyboardEvent, useState} from "react";
 import {Box, Button, TextField} from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
@@ -60,12 +60,10 @@ const CreateAddItemForm = (props: any) => {
             handleClick();
         }
     };
-    const classes = useAddItemFormStyles();
     return (
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <TextField
                 id="outlined-basic"
-                className={classes.customInput}
                 value={value}
                 onChange={handleChange}
                 error={error}
@@ -74,7 +72,6 @@ const CreateAddItemForm = (props: any) => {
                 disabled={disableValue}
             />
             <Button
-                className={classes.customButton}
                 onClick={handleClick}
                 disabled={disableValue}
             >

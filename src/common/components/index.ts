@@ -1,5 +1,4 @@
 export {AddItemForm} from './AddItemForm/AddItemForm'
 export {ErrorSnackBar} from './ErrorSnackBar/ErrorSnackBar'
 export {SkeletonTodoLists} from './SkeletonTodoLists/SkeletonTodoLists'
-export {UniversalButton} from './UniversalButton/UniversalButton'
 export {UniversalModal} from './UniversalModal/UniversalModal'

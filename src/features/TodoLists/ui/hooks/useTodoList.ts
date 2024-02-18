@@ -6,13 +6,9 @@ import {todoListActions} from "../../index";
 import {TaskDomainType} from "features/Tasks/model/slice/taskSlice";
 import { TodoFilterType } from "features/TodoLists/model/slice/todoSlice";
 import { useAppSelector } from 'common/hooks/useAppSelector';
+import {getData} from "common/utils/getData";
 export const useTodoList = (id: string,filter:TodoFilterType,addedDate: Date) => {
     const tasks = useAppSelector(state => state.tasks[id])
-    const date = new Date(addedDate)
-    const todoDate = date.getDate().toString().padStart(2, '0')
-    const todoMonth = (date.getMonth() + 1).toString().padStart(2, '0')
-    const todoYear = date.getFullYear()
-    const todoAddedDate = `${todoDate}.${todoMonth}.${todoYear}`
     const todoTitleStyle = {
         display:'flex',
         justifyContent:'center',
@@ -42,6 +38,9 @@ export const useTodoList = (id: string,filter:TodoFilterType,addedDate: Date) =>
             default: return tasks
         }
     }
+
+    const todoAddedDate = getData(addedDate)
+
     const filteredTasks = filterTasks(tasks,filter)
     useEffect(() => {
         fetchTasks(id)

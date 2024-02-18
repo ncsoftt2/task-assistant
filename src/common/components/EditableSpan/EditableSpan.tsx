@@ -1,6 +1,5 @@
 import {TextField} from "@mui/material";
 import {memo, useState, ChangeEvent} from "react";
-import {useAddItemFormStyles} from "common/components/AddItemForm/AddItemForm";
 import {BaseResponseType} from "common/types";
 
 
@@ -14,7 +13,6 @@ export const EditableSpan = memo(({value,onChange}: EditableSpanPropsType) => {
     const [error,setError] = useState(false)
     const [errorMessage,setErrorMessage] = useState('')
     let [title, setTitle] = useState(value)
-    const classes = useAddItemFormStyles()
     const activateEditMode = () => {
         setEditMode(true);
         setTitle(value);
@@ -48,7 +46,6 @@ export const EditableSpan = memo(({value,onChange}: EditableSpanPropsType) => {
 
     return editMode ? (
         <TextField
-            className={classes.customInput}
             value={title}
             onChange={changeTitle}
             autoFocus

@@ -3,16 +3,13 @@ import React, {ChangeEvent, useCallback} from "react";
 import {useActions} from "common/hooks/useActions";
 import {taskActions} from "features/Tasks/index";
 import {TaskDomainType} from "features/Tasks/model/slice/taskSlice";
+import {getData} from "common/utils/getData";
 
 export const useTaskService = (todoId:string,task:TaskDomainType,setOpenEditTask?: (value: boolean) => void) => {
     const {updateTask,deleteTask} = useActions(taskActions)
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
-    const date = new Date(task.deadline)
-    const taskDeadlineDate = date.getDate().toString().padStart(2, '0')
-    const taskDeadlineMonth = (date.getMonth() + 1).toString().padStart(2, '0')
-    const taskDeadlineYear = date.getFullYear()
-    const taskDeadline = `${taskDeadlineDate}.${taskDeadlineMonth}.${taskDeadlineYear}`
+    const taskDeadline = getData(task.deadline)
 
     const open = Boolean(anchorEl)
     const handleClick = useCallback((event: React.MouseEvent<HTMLButtonElement>) => {

@@ -1,22 +1,23 @@
 import {FC, memo, useState} from "react";
-import {Box, Button, ButtonGroup, CircularProgress, List} from "@mui/material";
-import { Task } from "../../Tasks";
+import {Box, Button, CircularProgress, List} from "@mui/material";
+import {Task} from "../../Tasks";
 import BoltIcon from '@mui/icons-material/Bolt';
 import FiberNewIcon from '@mui/icons-material/FiberNew';
 import ClearIcon from '@mui/icons-material/Clear';
 import {CreateTaskForm} from "features/Tasks/ui/CreateTask";
-import { TodoListReducerType } from "../model/slice/todoSlice";
-import { useTodoList } from "./hooks/useTodoList";
-import {UniversalButton, UniversalModal } from "common/components";
+import {TodoListReducerType} from "../model/slice/todoSlice";
+import {useTodoList} from "./hooks/useTodoList";
+import {UniversalModal} from "common/components";
 import {EditableSpan} from "common/components/EditableSpan/EditableSpan";
-import { AnimatePresence, motion } from "framer-motion";
+import {AnimatePresence, motion} from "framer-motion";
+import {TodoListFilterButtons} from "./TodoListFilterButtons/TodoListFilterButtons";
 
 type PropsType = {
     todoList: TodoListReducerType
     demo?: boolean
 }
 
-export const TodoList:FC<PropsType> = memo(({todoList: {title,filter,id,entityStatus,addedDate}}) => {
+export const TodoList: FC<PropsType> = memo(({todoList: {title, filter, id, entityStatus, addedDate}}) => {
     const disabled = entityStatus === 'loading'
     const {
         handleDeleteTodoList,
@@ -26,18 +27,18 @@ export const TodoList:FC<PropsType> = memo(({todoList: {title,filter,id,entitySt
         filteredTasks,
         priority,
         todoTitleStyle,
-        todoAddedDate,
-        handleUpdateTodoListTitle
-    } = useTodoList(id,filter,addedDate)
+        handleUpdateTodoListTitle,
+        todoAddedDate
+    } = useTodoList(id, filter, addedDate)
     const [openCreateTask, setOpenCreateTask] = useState(false)
     const tasksRender = filteredTasks.map(task => {
         return (
             <motion.div
                 layout
                 key={task.id}
-                initial={{ x: -50, opacity: 0 }}
-                animate={{ x: 0, opacity: 1 }}
-                exit={{ x: -10, opacity: 0 }}
+                initial={{x: -50, opacity: 0}}
+                animate={{x: 0, opacity: 1}}
+                exit={{x: -10, opacity: 0}}
             >
                 <Task todoId={id}
                       task={task}
@@ -47,7 +48,7 @@ export const TodoList:FC<PropsType> = memo(({todoList: {title,filter,id,entitySt
     })
     return (
         <>
-            <Box sx={{textAlign:'right'}}>
+            <Box sx={{textAlign: 'right'}}>
                 {
                     openCreateTask && (
                         <UniversalModal open={openCreateTask} setOpen={setOpenCreateTask}>
@@ -55,10 +56,12 @@ export const TodoList:FC<PropsType> = memo(({todoList: {title,filter,id,entitySt
                         </UniversalModal>
                     )
                 }
-                <Button sx={{padding:0,minWidth:'40px', '&:hover': {
+                <Button sx={{
+                    padding: 0, minWidth: '40px', '&:hover': {
                         transform: 'rotate(90deg)',
                         transition: 'transform 0.5s ease',
-                    }}}
+                    }
+                }}
                         onClick={handleDeleteTodoList}
                         disabled={disabled}
                 >
@@ -66,12 +69,12 @@ export const TodoList:FC<PropsType> = memo(({todoList: {title,filter,id,entitySt
                 </Button>
             </Box>
             <Box sx={todoTitleStyle}>
-                <EditableSpan value={title} onChange={handleUpdateTodoListTitle} />
+                <EditableSpan value={title} onChange={handleUpdateTodoListTitle}/>
             </Box>
-            <Box sx={{mt:"25px",display:'inline-block'}} onClick={() => setOpenCreateTask(true)}>
-                <Button sx={{p:0}} disabled={disabled}>Create new task</Button>
+            <Box sx={{mt: "25px", display: 'inline-block'}} onClick={() => setOpenCreateTask(true)}>
+                <Button sx={{p: 0}} disabled={disabled}>Создать новую задачу</Button>
             </Box>
-            <Box>created: {todoAddedDate}</Box>
+            <Box>создано: {todoAddedDate}</Box>
             {
                 !disabled
                     ? (
@@ -83,37 +86,27 @@ export const TodoList:FC<PropsType> = memo(({todoList: {title,filter,id,entitySt
                     )
                     : tasks.length
                         ? (
-                            <Box sx={{margin:'10px 0',display:'flex',justifyContent:'center'}}>
-                                <CircularProgress color="primary" />
+                            <Box sx={{margin: '10px 0', display: 'flex', justifyContent: 'center'}}>
+                                <CircularProgress color="primary"/>
                             </Box>
                         )
                         : null
             }
             {tasks.length > 0 && (
-                    <Box sx={{display:'flex',justifyContent:'space-around',alignItems:'center'}}>
-                        {filteredTasks.length > 1 &&
-                            <Button onClick={() => handleChangePriority(1)} sx={{padding:0,minWidth:'20px'}}>
-                                {priority === 1
-                                    ? <BoltIcon/>
-                                    : <FiberNewIcon/>
-                                }
-                            </Button>
-                        }
-                        <ButtonGroup variant="contained" disabled={disabled} >
-                            <UniversalButton callback={() => handleChangeFilter('all')}
-                                             name="All"
-                                             variant={filter === 'all' ? 'contained' : "outlined"}
-                                             color={filter === 'all' ? 'primary' : 'secondary'}/>
-                            <UniversalButton callback={() => handleChangeFilter('active')}
-                                             name="Active"
-                                             variant={filter === 'active' ? 'contained' : "outlined"}
-                                             color={filter === 'active' ? 'primary' : 'secondary'}/>
-                            <UniversalButton callback={() => handleChangeFilter('completed')}
-                                             name="Completed"
-                                             variant={filter === 'completed' ? 'contained' : "outlined"}
-                                             color={filter === 'completed' ? 'primary' : 'secondary'}/>
-                        </ButtonGroup>
-                    </Box>
+                <Box sx={{display: 'flex', justifyContent: 'space-around', alignItems: 'center'}}>
+                    {filteredTasks.length > 1 &&
+                        <Button onClick={() => handleChangePriority(1)} sx={{padding: 0, minWidth: '20px'}}>
+                            {priority === 1
+                                ? <BoltIcon/>
+                                : <FiberNewIcon/>
+                            }
+                        </Button>
+                    }
+                    <TodoListFilterButtons disabled={disabled}
+                                           handleChangeFilter={handleChangeFilter}
+                                           filter={filter}
+                    />
+                </Box>
 
             )}
         </>
