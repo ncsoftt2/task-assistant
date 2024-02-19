@@ -52,7 +52,7 @@ export const Task:FC<Props> = memo(({task,todoId}) => {
                 disabled={task.taskStatus === 'loading'}
             />
             <Typography variant={'h3'} className={classes.taskTitle}>{title}</Typography>
-            <Box>deadline <b>{taskDeadline}</b></Box>
+            <Box>срок <b>{taskDeadline}</b></Box>
             <Box>
                 <Button sx={{color:'black',padding:0,minWidth:"40px",position:'relative','&:hover': {
                         transform: 'rotate(180deg)',
