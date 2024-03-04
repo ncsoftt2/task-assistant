@@ -8,11 +8,8 @@ import {useAppSelector} from 'common/hooks/useAppSelector';
 import {useActions} from "common/hooks/useActions";
 import {AnimatePresence} from "framer-motion";
 
-type Props = {
-    demo?: boolean
-}
 
-const TodoLists: React.FC<Props> = ({demo = false}) => {
+const TodoLists = () => {
     const [loading, setLoading] = useState(false)
     const todoList = useAppSelector(todoListSelectors.fetchTodoSelector)
     const {fetchTodoTC, createTodoTC} = useActions(todoListActions)
@@ -26,18 +23,15 @@ const TodoLists: React.FC<Props> = ({demo = false}) => {
                 <Paper elevation={5} sx={{p: 1, margin: "0 auto"}}>
                     <TodoList
                         todoList={todo}
-                        demo={demo}
                     />
                 </Paper>
             </Grid>
         )
     })
     useEffect(() => {
-        if (!demo) {
-            setLoading(true)
-            fetchTodoTC()
-                .finally(() => setLoading(false))
-        }
+        setLoading(true)
+        fetchTodoTC()
+            .finally(() => setLoading(false))
     }, [])
     return (
         <>

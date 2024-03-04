@@ -14,7 +14,6 @@ import {TodoListFilterButtons} from "./TodoListFilterButtons/TodoListFilterButto
 
 type PropsType = {
     todoList: TodoListReducerType
-    demo?: boolean
 }
 
 export const TodoList: FC<PropsType> = memo(({todoList: {title, filter, id, entityStatus, addedDate}}) => {
