@@ -6,7 +6,7 @@ import {TodoList} from "./TodoList";
 import {AddItemForm, SkeletonTodoLists} from "common/components";
 import {useAppSelector} from 'common/hooks/useAppSelector';
 import {useActions} from "common/hooks/useActions";
-import {AnimatePresence, motion} from "framer-motion";
+import {AnimatePresence} from "framer-motion";
 
 type Props = {
     demo?: boolean
@@ -22,7 +22,7 @@ const TodoLists: React.FC<Props> = ({demo = false}) => {
     }, [])
     const elements = todoList.map(todo => {
         return (
-            <Grid item sx={{p: 1}} md={6} lg={4} sm={6} xs={12}>
+            <Grid item sx={{p: 1}} md={6} lg={4} sm={6} xs={12} key={todo.id}>
                 <Paper elevation={5} sx={{p: 1, margin: "0 auto"}}>
                     <TodoList
                         todoList={todo}

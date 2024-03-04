@@ -1,5 +1,5 @@
 import {FC} from "react";
-import {Button, FormControlLabel, FormLabel, Grid, Radio, RadioGroup} from "@mui/material"
+import {Box, Button, FormControlLabel, FormLabel, Grid, Radio, RadioGroup} from "@mui/material"
 import TextField from "@mui/material/TextField";
 import {useFormik} from "formik";
 import {taskActions} from "features/Tasks/index";
@@ -44,7 +44,7 @@ export const CreateTaskForm:FC<Props> = ({id}) => {
     })
     return (
         <form onSubmit={formik.handleSubmit}>
-            <Grid container>
+            <Grid container sx={{display:'flex',flexDirection:'column'}}>
                 <Grid item xs={12} md={12} style={gridPadding}>
                     <TextField margin="normal"
                                label={"Название задачи"}
@@ -82,11 +82,13 @@ export const CreateTaskForm:FC<Props> = ({id}) => {
                     </RadioGroup>
                 </Grid>
             </Grid>
-            <Button type={'submit'}
-                    disabled={formik.isSubmitting}
-                    variant={'contained'}
-                    fullWidth
-                    color={'primary'}>Создать задачу</Button>
+            <Box sx={{textAlign:'right'}}>
+                <Button type={'submit'}
+                        disabled={formik.isSubmitting}
+                        variant={'contained'}
+                        color={'primary'}>Создать
+                </Button>
+            </Box>
         </form>
     )
 }
