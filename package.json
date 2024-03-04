@@ -1,6 +1,7 @@
 {
   "name": "todo-future",
   "version": "0.1.0",
+  "homepage": "https://ncsoftt2.github.io/task-assistant",
   "private": true,
   "dependencies": {
     "@babel/preset-env": "^7.22.20",

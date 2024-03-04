@@ -1,4 +1,4 @@
-import {createBrowserRouter} from "react-router-dom";
+import {createHashRouter} from "react-router-dom";
 import {App} from "app/App";
 import TodoLists from "features/TodoLists/ui/TodoLists";
 import { ProtectedAuth } from "common/components/ProtectedAuth/ProtectedAuth";
@@ -17,7 +17,7 @@ export const RoutePath:Record<AppRouter, string> = {
     [AppRouter.NOT_FOUND]: '*',
 }
 
-export const router = createBrowserRouter([
+export const router = createHashRouter([
     {
         element: <App/>,
         children: [
