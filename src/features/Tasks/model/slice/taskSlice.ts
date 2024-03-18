@@ -1,4 +1,3 @@
-import {TaskPriority} from "common/enums";
 import {RequestStatusType} from "app/app.reducer";
 import {createSlice, isPending, isRejected, PayloadAction} from "@reduxjs/toolkit";
 import {fetchTasks} from "../thunk/fetchTasks";
@@ -22,15 +21,6 @@ const slice = createSlice({
     name: "task",
     initialState,
     reducers: {
-        sortTasksAC: (state, action: PayloadAction<{
-            tasks: TaskDomainType[],
-            priority: TaskPriority,
-            todoId: string
-        }>) => {
-            state[action.payload.todoId] = action.payload.priority > 1
-                ? [...action.payload.tasks].sort((a, b) => a.priority - b.priority)
-                : [...action.payload.tasks].sort((a, b) => b.priority - a.priority)
-        },
         changeTaskStatusAC: (state, action: PayloadAction<{
             todoId: string,
             taskId: string,

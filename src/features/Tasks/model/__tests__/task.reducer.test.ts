@@ -65,23 +65,23 @@ beforeEach(() => {
 describe('tasks', () => {
     test('add task', () => {
         const payload = {title,description:'description',priority: TaskPriority.Low,deadline:new Date()}
-        const endState = taskReducer(startState, tasksThunks.createTaskTC.fulfilled(newTaskState,'reqId', {id:'1',payload}))
+        const endState = taskReducer(startState, tasksThunks.createTask.fulfilled(newTaskState,'reqId', {id:'1',payload}))
         expect(endState['1'].length).toBe(3)
         expect(endState['1'][0].title).toBe(title)
     })
     test('remove task', () => {
         let payload = {todoId:"1",taskId:'2'};
-        const endState = taskReducer(startState, tasksThunks.deleteTaskTC.fulfilled(payload,'reqId',payload))
+        const endState = taskReducer(startState, tasksThunks.deleteTask.fulfilled(payload,'reqId',payload))
         expect(endState['1'].length).toBe(1)
     })
     test('change task title', () => {
         let payload = {taskId:'1', todoId:'1', model:newTaskState};
-        const endState = taskReducer(startState, tasksThunks.updateTaskTC.fulfilled(payload,'reqId',payload))
+        const endState = taskReducer(startState, tasksThunks.updateTask.fulfilled(payload,'reqId',payload))
         expect(endState['1'][0].title).toBe(title)
     })
     test('change task status', () => {
         let payload = {taskId:'1', todoId:'1', model:newTaskState};
-        const endState = taskReducer(startState, tasksThunks.updateTaskTC.fulfilled(payload,'reqId',payload))
+        const endState = taskReducer(startState, tasksThunks.updateTask.fulfilled(payload,'reqId',payload))
         expect(endState['1'][0].status).toBe(TaskStatus.Completed)
     })
     test('remove todo = remove task', () => {
@@ -105,7 +105,7 @@ describe('tasks', () => {
     })
     test('set tasks for todolist',() => {
         let payload = {id:"1",tasks:startStateTaskTypeAPI};
-        const action = tasksThunks.fetchTasksTC.fulfilled(payload,"1","1")
+        const action = tasksThunks.fetchTasks.fulfilled(payload,"1","1")
         const endState = taskReducer({['1']: [], ['2']: [],}, action)
         expect(endState['1'].length).toBe(2)
         expect(endState['2'].length).toBe(0)

@@ -1,5 +1,5 @@
-import {useCallback, useEffect, useState} from "react";
-import {TaskPriority, TaskStatus} from "common/enums";
+import {useCallback, useEffect} from "react";
+import { TaskStatus} from "common/enums";
 import {useActions} from "common/hooks/useActions";
 import {taskActions} from "../../../Tasks";
 import {todoListActions} from "../../index";
@@ -17,18 +17,13 @@ export const useTodoList = (id: string,filter:TodoFilterType,addedDate: Date) =>
         margin:'0px auto',
         wordBreak:'break-all',
     }
-    const [priority,setPriority] = useState<TaskPriority>(TaskPriority.Low)
-    const {fetchTasks,sortTasksAC} = useActions(taskActions)
+    const {fetchTasks} = useActions(taskActions)
     const {deleteTodoTC,changeTodoFilterAC,updateTodoTitleTC} = useActions(todoListActions)
     const handleDeleteTodoList = () => deleteTodoTC(id)
     const handleUpdateTodoListTitle = useCallback((newTitle:string) => {
         return updateTodoTitleTC({title:newTitle,todoId:id}).unwrap()
     },[])
     const handleChangeFilter = useCallback((filter:TodoFilterType) => changeTodoFilterAC({todoId:id,filter:filter}),[])
-    const handleChangePriority = (e: 1 | 5) => {
-        setPriority(prevState => prevState === 1 ? 5 : 1)
-        sortTasksAC({tasks:tasks, priority:priority, todoId:id})
-    }
     const filterTasks = (tasks:TaskDomainType[],filter:TodoFilterType):TaskDomainType[] => {
         switch (filter) {
             case "active":
@@ -48,10 +43,8 @@ export const useTodoList = (id: string,filter:TodoFilterType,addedDate: Date) =>
     return {
         handleDeleteTodoList,
         handleChangeFilter,
-        handleChangePriority,
         filteredTasks,
         tasks,
-        priority,
         todoTitleStyle,
         handleUpdateTodoListTitle,
         todoAddedDate

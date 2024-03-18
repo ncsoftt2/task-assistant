@@ -1,8 +1,6 @@
 import {FC, memo, useState} from "react";
 import {Box, Button, CircularProgress, List} from "@mui/material";
 import {Task} from "../../Tasks";
-import BoltIcon from '@mui/icons-material/Bolt';
-import FiberNewIcon from '@mui/icons-material/FiberNew';
 import ClearIcon from '@mui/icons-material/Clear';
 import {CreateTaskForm} from "features/Tasks/ui/CreateTask";
 import {TodoListReducerType} from "../model/slice/todoSlice";
@@ -21,10 +19,8 @@ export const TodoList: FC<PropsType> = memo(({todoList: {title, filter, id, enti
     const {
         handleDeleteTodoList,
         handleChangeFilter,
-        handleChangePriority,
         tasks,
         filteredTasks,
-        priority,
         todoTitleStyle,
         handleUpdateTodoListTitle,
         todoAddedDate
@@ -91,16 +87,8 @@ export const TodoList: FC<PropsType> = memo(({todoList: {title, filter, id, enti
                         )
                         : null
             }
-            {tasks.length > 0 && (
+            {tasks.length !== 0 && (
                 <Box sx={{display: 'flex', justifyContent: 'space-around', alignItems: 'center'}}>
-                    {filteredTasks.length > 1 &&
-                        <Button onClick={() => handleChangePriority(1)} sx={{padding: 0, minWidth: '20px'}}>
-                            {priority === 1
-                                ? <BoltIcon/>
-                                : <FiberNewIcon/>
-                            }
-                        </Button>
-                    }
                     <TodoListFilterButtons disabled={disabled}
                                            handleChangeFilter={handleChangeFilter}
                                            filter={filter}
